@@ -1,0 +1,11 @@
+{% extends 'interaction.html' %}
+{% block right_content %}
+  <ul class="QcolRul">
+  {% for i in interview %}
+    <li>
+      <span>{{ i.datetime }}</span>
+      <a href="{{ url_for('news', cate='interview', data=i.id) }}">{{ i.title[:30] + '...' }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}

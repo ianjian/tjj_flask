@@ -1,0 +1,10 @@
+{% extends "law_comprehension_list.html" %}
+{% block right_content %}
+
+    <ul class="QcolRul">
+      {% for f in law %}
+        <li><span>{{ f.datetime }}</span><a href="{{ url_for('news', cate='law', data=f.id) }}">{{ f.title[: 30] + '...' }}</a></li>
+      {% endfor %}
+      </ul>
+
+{% endblock %}

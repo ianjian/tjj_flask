@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1 ">
+  <title>江西省统计局-常见问题</title>
+  <link href="/static/css/default.css" rel="stylesheet" type="text/css">
+  <script src="/static/js/jquery-1.11.3.min.js"></script>
+
+  <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+</head>
+<body id="maincontainer">
+<!-- 头部 -->
+
+<!--<div style="height:215px; background:url(/resource/uploadfile/image/20190930/20190930111619398.jpg) no-repeat center top;"></div>-->
+
+
+<div class="QScenbox">
+  <div class="Qlogo fl"><img src="/static/img/Qlogo.png" alt=""></div>
+  <div class="Qsearch fr">
+    <input id="ss-k" name="ss-k" type="text" class="fl" value="请输入关键字"
+           onfocus="if (value =='请输入关键字'){value =''}this.style.color='#333' "
+           onblur="if (value ==''){value='请输入关键字'}this.style.color='#333'"
+           onkeyup="javascript:if(event.keyCode==13){siteSearch();}">
+    <span class="Qsou fr" onclick="siteSearch()"> </span>
+  </div>
+</div>
+<ul class="Qnav">
+  <li class=""><a href="{{ url_for('home') }}" class="Qa1">首页</a></li>
+  <li id="zwgk201803120100392355" class="Qcurrent"><a href="{{ url_for('home') }}" class="Qa2">政务公开</a>
+  </li>
+  <li id="tjsj201803120100294255"><a href="{{ url_for('home') }}" class="Qa3">统计数据</a></li>
+  <li id="wsbs201803120100172099"><a href="{{ url_for('home') }}" class="Qa4">网上办事</a></li>
+  <li id="hdjl201803120059532727"><a href="{{ url_for('home') }}" class="Qa5">互动交流</a></li>
+</ul>
+<script>
+    function siteSearch() {
+        var key = document.getElementById('ss-k').value;
+        if (key == '' || key == '请输入关键字') {
+            alert('请输入查询条件!');
+            return false;
+        }
+        //alert(key);
+        key = encodeURIComponent(key);
+        key = key.replace(/%/g, "@");
+        location = '/key_' + key + '/search.shtml';
+    }
+
+    function gowza() {
+        window.open("http://www.jxgtt.gov.cn/Column.shtml?p5=20000274");
+    }
+</script>
+<!-- 内容 -->
+<div class="Qcontent">
+  <div class="Qplace">
+    <div class="curPlace">
+      <a href="{{ url_for('home') }}">首页</a> &gt;&gt;
+      <a href="#">互动交流</a> &gt;&gt;
+      <a href="#">常见问题</a>
+    </div>
+  </div>
+  <div class="Qcolumn">
+    <!-- 无子栏目左侧 -->
+    <div class="QcolL fl">
+      <ul class="listUl">
+        <div class="Qli"><a href="javascript:void(0);">互动交流</a></div>
+
+        <li><a href="{{ url_for('report') }}" title="统计局统计违法举报信箱">统计局统计违法...</a></li>
+
+        <li><a href="{{ url_for('consult') }}" title="在线咨询">在线咨询</a></li>
+
+        <li><a href="{{ url_for('mail') }}" title="领导信箱">领导信箱</a></li>
+
+        <li><a href="{{ url_for('interview_list') }}" title="在线访谈">在线访谈</a></li>
+
+        <li><a href="{{ url_for('survey_theme') }}" title="网上调查">网上调查</a></li>
+
+        <li class=""><a href="{{ url_for('fqa') }}" title="常见问题">常见问题</a></li>
+
+      </ul>
+    </div>
+    <div class="QcolR fr">
+      {% block right_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+<!-- 底部 -->
+<div class="Qfooter">
+  <!-- 友情链接 -->
+  <div class="Qlink">
+
+  </div>
+  <!-- 版权 -->
+  <div class="QfotBot">
+
+  </div>
+</div>
+<script src="/static/js/easy.navigat.js"></script>
+<script>
+    $(function () {
+        $('.Qnav li').each(function (i) {
+            $(this).hover(function () {
+                $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                $('.Qcontent:eq(' + i + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            });
+        });
+
+        // 头部导航选中
+        var Aid = 'tjcs201803120101102293';
+        if (Aid != '') {
+            $('#' + Aid).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+            var index = $('#' + Aid).index();
+            $('.Qcontent:eq(' + index + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            $('.Qnav li').each(function (i) {
+                var navid = $(this).attr('id');
+                if (Aid == navid) {
+                    $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                }
+            });
+        }
+
+        $('.guanbi').click(function () {
+            $('.weibo').slideUp(300);
+        });
+    });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "leader_list.html" %}
+{% block right_content %}
+  <div class="QcolR fr">
+    <!-- 行政单位 -->
+    <div class="yjColumn">
+      <strong><a href="#" target="_blank"> 行政单位<!-- 行政单位--></a></strong>
+    </div>
+    <ul class="wzdhlist clearfix">
+      {% for i in cate1 %}
+      <li>
+        <a href="{{ url_for('news', cate='organization', data=i.org_id) }}" target="_blank">{{ i.org_title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    <!-- 行政单位 end -->
+    <div class="yjColumn">
+      <strong><a href="#" target="_blank"> 事业单位<!-- 事业单位--></a></strong>
+    </div>
+    <ul class="wzdhlist clearfix">
+      {% for j in cate2 %}
+      <li>
+        <a href="{{ url_for('news', cate='organization', data=j.org_id) }}" target="_blank">{{ j.org_title }}</a>
+      </li>
+      {% endfor %}
+
+    </ul>
+  </div>
+{% endblock %}

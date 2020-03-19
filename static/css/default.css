@@ -1,0 +1,2429 @@
+html {
+    width: 100%;
+}
+
+body {
+    font-size: 14px;
+    color: #545454;
+    font-family: 'Microsoft Yahei', 'Simsun', Arial, Helvetica, sans-serif;
+    background: #fff url(../img/bg.jpg) top center no-repeat;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #545454;
+    -webkit-transition: All 0.2s ease-in-out;
+    -moz-transition: All 0.2s ease-in-out;
+    -o-transition: All 0.2s ease-in-out;
+    transition: All 0.2s ease-in-out;
+}
+
+a:hover {
+    color: #f00;
+}
+
+img {
+    border: 0 none;
+}
+
+ul, li {
+    list-style: none;
+}
+
+em, i {
+    font-style: normal
+}
+
+.clear {
+    clear: both;
+}
+
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+em, i {
+    font-style: normal
+}
+
+.hide {
+    display: none
+}
+
+table {
+    border-collapse: collapse;
+    border: none;
+}
+
+input[type="button"] {
+    border: none;
+}
+
+a:hover {
+    color: #F00;
+}
+
+.Qheader {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #4d4d4d;
+    background: #fff;
+}
+
+.Qcenter {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.Qwelcome {
+    text-indent: 20px;
+}
+
+.Qtopul {
+    margin-right: 20px;
+}
+
+.Qtopul li {
+    float: left;
+    padding: 0 12px;
+    background: url(../img/Qli.png) no-repeat left 8px;
+}
+
+.Qtopul li:first-child {
+    background: none;
+}
+
+.Qtopul li a {
+    font-size: 12px;
+    color: #4d4d4d;
+}
+
+.QScenbox {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.Qlogo {
+    margin-top: 22px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.Qsearch {
+    width: 344px;
+    padding: 2px;
+    height: 36px;
+    line-height: 36px;
+    margin-top: 30px;
+    margin-right: 20px;
+    background: url(../img/Qsearch.png) no-repeat center;
+}
+
+.Qsearch input {
+    width: 286px;
+    height: 36px;
+    line-height: 36px;
+    outline: none;
+    border: none;
+    padding-left: 8px;
+    font-family: 'Microsoft Yahei';
+    font-size: 14px;
+    color: #999;
+}
+
+.Qsearch span {
+    width: 50px;
+    height: 38px;
+    cursor: pointer;
+}
+
+.Qnav {
+    width: 920px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+    padding: 0 40px;
+}
+
+.Qnav li {
+    float: left;
+    margin-left: 99px;
+    line-height: 50px;
+}
+
+.Qnav li:first-child {
+    margin-left: 0;
+}
+
+.Qnav li a {
+    display: inline-block;
+    text-indent: 32px;
+    font-size: 20px;
+    font-weight: bolder;
+    color: #092e7b;
+}
+
+.Qnav li .Qa1 {
+    background: url(../img/Qb1.png) no-repeat left 13px;
+}
+
+.Qnav li .Qa2 {
+    text-indent: 36px;
+    background: url(../img/Qb2.png) no-repeat left 14px;
+}
+
+.Qnav li .Qa3 {
+    text-indent: 30px;
+    background: url(../img/Qb3.png) no-repeat left 14px;
+}
+
+.Qnav li .Qa4 {
+    background: url(../img/Qb4.png) no-repeat left 14px;
+}
+
+.Qnav li .Qa5 {
+    text-indent: 30px;
+    background: url(../img/Qb5.png) no-repeat left 14px;
+}
+
+.Qnav li.Qcurrent {
+    border-top: 2px solid #bc2526;
+}
+
+.Qnav li.Qcurrent a {
+    color: #bc2526;
+}
+
+.Qnav li.Qcurrent a.Qa1 {
+    background: url(../img/Qr1.png) no-repeat left 13px;
+}
+
+.Qnav li.Qcurrent a.Qa2 {
+    background: url(../img/Qr2.png) no-repeat left 14px;
+}
+
+.Qnav li.Qcurrent a.Qa3 {
+    background: url(../img/Qr3.png) no-repeat left 14px;
+}
+
+.Qnav li.Qcurrent a.Qa4 {
+    background: url(../img/Qr4.png) no-repeat left 14px;
+}
+
+.Qnav li.Qcurrent a.Qa5 {
+    background: url(../img/Qr5.png) no-repeat left 14px;
+}
+
+.Qcontent {
+    width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    border-top: 2px solid #2b61b5;
+    background: #fff;
+    overflow: hidden;
+}
+
+.Qfrist {
+    height: 99px;
+    border-bottom: 1px dashed #898989;
+    overflow: hidden;
+}
+
+.Qfristdiv {
+    margin-top: 5px;
+}
+
+.Qhotnews {
+    width: 800px;
+    margin-right: 50px;
+    margin-top: 20px;
+}
+
+.Qhotnews h3 {
+    font-weight: normal;
+    line-height: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.Qhotnews h3 a {
+    font-size: 26px;
+    color: #333;
+}
+
+.QhotUl {
+    margin-left: 40px;
+    overflow: hidden;
+}
+
+.QhotUl li {
+    float: left;
+    margin-right: 36px;
+}
+
+.QhotUl li a {
+    color: #898989;
+}
+
+.Qcfrow {
+    margin-top: 21px;
+    margin-bottom: 40px;
+    min-height: 394px;
+    overflow: hidden;
+}
+
+.Qleft {
+    width: 620px;
+    overflow: hidden;
+    position: relative;
+}
+
+/**************图片轮播****************/
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 620px;
+    padding: 0;
+    margin: 0;
+}
+
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    display: none;
+    width: 620px;
+    height: 388px;
+    padding: 3px;
+    left: 0;
+    top: 0;
+}
+
+.rslides li:first-child {
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.rslides img {
+    display: block;
+    height: auto;
+    float: left;
+    width: 620px;
+    height: 388px;
+    border: 0;
+}
+
+.rslides p {
+    position: absolute;
+    left: 3px;
+    bottom: 3px;
+    z-index: 2;
+    width: 617px;
+    text-indent: 1em;
+    height: 58px;
+    line-height: 58px;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.rslides p a {
+    color: #fff;
+}
+
+/* 下标点样式start */
+.centered-btns_tabs {
+    text-align: center;
+    font-size: 0;
+    list-style-type: none;
+    position: absolute;
+    bottom: 23px;
+    right: 14px;
+    z-index: 10;
+}
+
+.centered-btns_tabs li {
+    display: inline-block;
+    margin: 0 5px;
+    *display: inline;
+    *zoom: 1;
+}
+
+.centered-btns_tabs a {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    *display: inline;
+    *zoom: 1;
+}
+
+.centered-btns_tabs .centered-btns_here a {
+    background: #f46e65;
+}
+
+/* 下标点样式end */
+
+.Qright {
+    width: 320px;
+}
+
+.QrightHead {
+    height: 44px;
+    line-height: 44px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.QrightHead span, .QrightHead .Qguo {
+    float: left;
+    padding: 0 30px;
+    color: #fff;
+    font-size: 16px;
+    background: #adc4ea;
+}
+
+.QrightHead span.Qactive {
+    background: url(../img/Qbox.png) no-repeat center;
+    color: #fff;
+    font-weight: bold;
+}
+
+
+/* 马春样式 开始 */
+.QrightHead span a.ccc {
+    position: relative;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* 马春样式 结束 */
+
+
+.QrightHead span a {
+    font-size: 14px;
+    font-weight: normal;
+    position: absolute;
+    right: 0;
+    color: #2b61b5;
+}
+
+.Qthrid {
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.Qbottom {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.QrightHead span.Qspan {
+    margin-right: 20px;
+}
+
+.QrightHead .Qp2 {
+    float: left;
+    margin-right: 10px;
+}
+
+.QrightHead .Qp2 a {
+    color: #333;
+}
+
+.QrightHead p.Qte a {
+    color: #2b61b5;
+}
+
+.QrightHdiv .Qtab {
+    overflow: hidden;
+}
+
+.QnewsUl {
+    width: 100%;
+}
+
+.QnewsUl li {
+    line-height: 28.5px;
+    text-indent: 12px;
+    background: url(../img/Qlibg.jpg) no-repeat left center;
+}
+
+.QnewsUl li span, .QnewsBold li span {
+    float: right;
+    font-size: 12px;
+    color: #a1a1a1;
+}
+
+.QnewsBold {
+    min-height: 305px;
+}
+
+.QnewsBold li {
+    line-height: 34px;
+    text-indent: 12px;
+    background: url(../img/Qliiocn.png) no-repeat left center;
+}
+
+.QnewsBold li a {
+}
+
+.Qpic {
+    width: 480px;
+    height: 290px;
+    margin-top: 16px;
+    border: 1px solid #dbdbdb;
+    background: #f4f4f4;
+}
+
+.Qzwgl, .Qjggk {
+    min-height: 121px;
+    background: #ebf1fb;
+}
+
+.Qnotic {
+    margin-right: 10px;
+    background: url(../img/Qzw.png) no-repeat left center;
+}
+
+.Qnotic p {
+    width: 73px;
+    height: 59px;
+    padding: 62px 15px 0;
+    margin-right: 14px;
+    font-size: 16px;
+    color: #fff;
+    background: url(../img/Qzw1.png) no-repeat 30px 22px;
+}
+
+.QzwUl {
+    width: 223px;
+    margin: 16px 0;
+    overflow: hidden;
+}
+
+.QzwUl li {
+    float: left;
+    min-width: 111px;
+    line-height: 30px;
+    text-indent: 10px;
+    background: url(../img/Qzw2.png) no-repeat left center;
+}
+
+.Qflow {
+    overflow: hidden;
+}
+
+.Qflow li {
+    float: left;
+    height: 106px;
+    width: 134px;
+    margin-top: 8px;
+    text-align: center;
+    background: url(../img/Qzw3.jpg) no-repeat left center;
+}
+
+.Qflow li a {
+    display: inline-block;
+    height: 26px;
+    padding-top: 80px;
+    width: 134px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+#Qzwa1 {
+    background: url(../img/Qzw4.png) no-repeat 49px 23px;
+}
+
+#Qzwa2 {
+    background: url(../img/Qzw5.png) no-repeat 39px 24px;
+}
+
+#Qzwa1:hover {
+    background-position: 49px 21px;
+}
+
+#Qzwa2:hover {
+    background-position: 39px 22px;
+}
+
+.QjgglUl {
+    overflow: hidden;
+}
+
+.QjgglUl li {
+    float: left;
+    width: 106px;
+    height: 86px;
+    margin-top: 18px;
+    text-align: center;
+    border-right: 1px solid #b9cae5;
+}
+
+.QjgglUl li a {
+    display: inline-block;
+    width: 106px;
+    height: 18px;
+    padding-top: 68px;
+    font-weight: bold;
+    color: #2b61b5;
+}
+
+#jga1 {
+    background: url(../img/Qzw6.png) no-repeat 25px 9px;
+}
+
+#jga2 {
+    background: url(../img/Qzw7.png) no-repeat 30px 11px;
+}
+
+#jga3 {
+    background: url(../img/Qzw8.png) no-repeat 31px 11px;
+}
+
+#jga1:hover {
+    background-position: 25px 11px;
+}
+
+#jga2:hover {
+    background-position: 30px 13px;
+}
+
+#jga3:hover {
+    background-position: 31px 13px;
+}
+
+#marquee1 {
+    width: 960px;
+    height: 69px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 40px;
+}
+
+#marquee1 ul li {
+    float: left;
+    margin-right: 20px;
+}
+
+#marquee1 ul li img {
+    display: block;
+    border: 1px solid #e6e6e6;
+}
+
+.QserUl {
+    overflow: hidden;
+}
+
+.QserUl li {
+    float: left;
+    text-indent: 10px;
+    margin-left: 24px;
+    background: url(../img/Qblue.png) no-repeat left center;
+}
+
+.QserUl li a {
+    color: #2b61b5;
+}
+
+.QTdiv {
+    margin-top: 20px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.QTdiv p {
+    width: 304px;
+    height: 56px;
+    line-height: 56px;
+    text-indent: 128px;
+}
+
+.QTdiv p.QTdiv1 {
+    background: url(../img/Qser1.png) no-repeat center;
+}
+
+.QTdiv p.QTdiv2 {
+    background: url(../img/Qser2.png) no-repeat center;
+}
+
+.QTdiv p a {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.QDdiv {
+    overflow: hidden;
+    width: 620px;
+    height: 118px;
+    background: #eaeef1;
+}
+
+.QDdivul {
+    overflow: hidden;
+    padding: 15px 0;
+}
+
+.QDdivul li {
+    float: left;
+    width: 123px;
+    height: 88px;
+    border-right: 1px solid #d9e1e7;
+    text-align: center;
+    cursor: pointer;
+}
+
+#Qd1 a {
+    background: url(../img/Qs1.jpg) no-repeat top center;
+}
+
+#Qd2 a {
+    background: url(../img/Qs2.jpg) no-repeat top center;
+}
+
+#Qd3 a {
+    background: url(../img/Qs3.jpg) no-repeat top center;
+}
+
+#Qd4 a {
+    background: url(../img/Qs4.jpg) no-repeat top center;
+}
+
+#Qd5 a {
+    background: url(../img/Qs5.jpg) no-repeat top center;
+}
+
+.QDdivul li a {
+    display: inline-block;
+    width: 123px;
+    height: 18px;
+    padding-top: 70px;
+    font-size: 16px;
+    color: #515254;
+}
+
+.Qhddiv {
+    margin-top: 20px;
+}
+
+.hdUl {
+    overflow: hidden;
+}
+
+.hdUl li {
+    float: left;
+    width: 154px;
+    height: 86px;
+    line-height: 86px;
+    margin-bottom: 14px;
+    margin-right: 12px;
+    background: #eaeeef;
+}
+
+.hdUl li.odd {
+    margin-right: 0;
+}
+
+.hdUl li a {
+    display: inline-block;
+    width: 154px;
+    height: 86px;
+    color: #525252;
+    text-indent: 68px;
+}
+
+#hd1 {
+    background: url(../img/Qh1.png) no-repeat 25px 27px;
+}
+
+#hd2 {
+    background: url(../img/Qh2.png) no-repeat 25px 33px;
+}
+
+#hd3 {
+    background: url(../img/Qh3.png) no-repeat 25px 28px;
+}
+
+#hd4 {
+    background: url(../img/Qh4.png) no-repeat 25px 31px;
+}
+
+#hd1:hover {
+    background-position: 25px 29px;
+}
+
+#hd2:hover {
+    background-position: 25px 35px;
+}
+
+#hd3:hover {
+    background-position: 25px 30px;
+}
+
+#hd4:hover {
+    background-position: 25px 33px;
+}
+
+.Qfooter {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 201px;
+}
+
+.Qlink {
+    height: 60px;
+    line-height: 60px;
+    border-top: 1px solid #e4e4e4;
+    background: #eaeaea;
+}
+
+.Qlink span {
+    display: inline-block;
+    margin-left: 120px;
+    font-weight: bold;
+    color: #3f3f3f;
+}
+
+.Qlink select {
+    width: 150px;
+    height: 27px;
+    padding: 0 0 0 6px;
+    margin-left: 25px;
+    font-family: 'Microsoft Yahei';
+    color: #757575;
+    border: none;
+    border: solid 1px #afafaf;
+    outline: none;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #fff url(../img/Qselect.jpg) no-repeat 130px center;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.QfotBot {
+    margin-top: 20px;
+}
+
+.QfotBotdiv p {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    line-height: 30px;
+}
+
+/********************统计数据页*********************/
+.Qtotal {
+    padding: 20px 20px 40px;
+}
+
+.totalBox {
+    width: 677px;
+    min-height: 0;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.totalBox:first-child {
+    margin-top: 0;
+}
+
+.Qwidth {
+    width: 396px;
+}
+
+.Qpic2 {
+    width: 258px;
+    height: 165px;
+    border: 1px solid #dbdbdb;
+    background: #f4f4f4;
+}
+
+.totalDiv {
+    width: 328px;
+}
+
+.Qtotaldiv1, .Qtotaldiv2 {
+    width: 262px;
+    min-height: 270px;
+    margin-bottom: 18px;
+}
+
+.Qtotaldiv1 ul li {
+    font-size: 0;
+    margin-bottom: 15px;
+}
+
+.Qtotaldiv2 .QrightHead {
+    margin-bottom: 0;
+}
+
+.QulList {
+    min-height: 280px;
+    border: 1px solid #e6e6e6;
+    border-top: none;
+    padding: 0 10px;
+}
+
+.QulList li {
+    border-bottom: 1px solid #ebebeb;
+    height: 55px;
+    line-height: 55px;
+}
+
+.QulList li a {
+    display: inline-block;
+    height: 55px;
+    text-indent: 42px;
+    font-size: 16px;
+    color: #333;
+}
+
+#Ql1 {
+    background: url(../img/Qt5.png) no-repeat left center;
+}
+
+#Ql2 {
+    background: url(../img/Qt6.png) no-repeat left center;
+}
+
+#Ql3 {
+    background: url(../img/Qt7.png) no-repeat left center;
+}
+
+#Ql4 {
+    background: url(../img/Qt8.png) no-repeat left center;
+}
+
+#Ql5 {
+    background: url(../img/Qt9.png) no-repeat left center;
+}
+
+.Qtotaldiv3 {
+    width: 260px;
+    height: 292px;
+    border: 1px solid #e6e6e6;
+}
+
+.Qtotaldiv3 .Qtotaltop3 {
+    height: 48px;
+    line-height: 48px;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 0 16px 0 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #2b61b5;
+    background: #f6f6f6 url(../img/Qt10.jpg) no-repeat center;
+    overflow: hidden;
+}
+
+.Qtotaldiv3 .Qtotaltop3 a {
+    float: right;
+    font-size: 14px;
+    font-weight: normal;
+    color: #2b61b5;
+}
+
+.Qtotaldiv3 .QtotalList {
+    padding: 20px;
+    width: auto;
+}
+
+/********************通用栏目页*********************/
+.Qplace {
+    width: 960px;
+    margin: 10px auto 20px;
+    border-bottom: 1px solid #e6e6e6;
+    height: 34px;
+    line-height: 34px;
+    background: url(../img/Qplace.png) no-repeat left center;
+}
+
+.Qplace .curPlace {
+    float: left;
+    border-bottom: 1px solid #2b61b5;
+}
+
+.Qplace a {
+    display: inline-block;
+    text-indent: 22px;
+    padding-right: 8px;
+    color: #333;
+}
+
+.Qcolumn {
+    width: 960px;
+    min-height: 680px;
+    margin: 0 auto 40px;
+    overflow: hidden;
+}
+
+.QcolL {
+    width: 220px;
+}
+
+.QcolL li, .QcolL .Qli {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #e2edff;
+    margin-bottom: 1px;
+}
+
+.QcolL li {
+    text-align: left;
+    text-indent: 54px;
+}
+
+.QcolL a {
+    color: #2b61b5;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.QcolL .Qli {
+    background: #2b61b5;
+    margin-bottom: 0;
+}
+
+.QcolL li.ColumnCur {
+    background: #e2edff url(../img/list-1.png) 34px center no-repeat;
+}
+
+.QcolL .Qli a {
+    color: #fff;
+}
+
+.QcolR {
+    width: 720px;
+    overflow: hidden;
+}
+
+.QcolRul {
+    min-height: 612px;
+}
+
+.QcolRul li {
+    line-height: 36px;
+    text-indent: 15px;
+    background: url(../img/Qlibg.jpg) no-repeat 4px center;
+}
+
+.QcolRul li a {
+    font-size: 16px;
+}
+
+.QcolRul li span {
+    float: right;
+    color: #a1a1a1;
+}
+
+.Qtoggle {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 10px;
+    text-align: center;
+    background: #eaeef1;
+}
+
+/********************文章页*********************/
+.Qtitle {
+    width: 100%;
+    height: 66px;
+    padding: 30px 0 40px 0;
+    background: #f0f6ff;
+}
+
+.Qtitle h2 {
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #2b61b5;
+    line-height: 34px;
+}
+
+.Qtitle p {
+    line-height: 34px;
+    text-align: center;
+}
+
+.Qpage {
+    margin: 0 auto;
+    min-height: 600px;
+    padding: 20px 60px;
+    font-size: 16px;
+    text-align: justify;
+    line-height: 34px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.Qlast {
+    margin: 0 auto 40px;
+    padding: 0 60px;
+    overflow: hidden;
+}
+
+.Qlastp {
+    margin-top: 20px;
+    color: #333;
+}
+
+.Qlastp a {
+    display: inline-block;
+    margin-left: 6px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: #333;
+    background: url(../img/Qsize1.png) no-repeat center;
+}
+
+.Qlastp a.Qa {
+    color: #fff;
+    background: url(../img/Qsize2.png) no-repeat center;
+}
+
+.Qlastul {
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.Qlastul li {
+    float: left;
+    width: 100px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: #333;
+    cursor: pointer;
+}
+
+#Qli1 {
+    background: url(../img/Qclose.png) no-repeat center;
+    margin-right: 12px;
+}
+
+#Qli2 {
+    background: url(../img/Qtop.png) no-repeat center;
+}
+
+/**政务公开**/
+.WzwgkL {
+    float: left;
+    width: 261px;
+}
+
+.imagsSlide {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    min-height: 192px;
+}
+
+.WzwgkL .rslides {
+    width: 100%;
+}
+
+.WzwgkL .rslides li {
+    width: 100%;
+    height: 192px;
+    padding: 0;
+}
+
+.WzwgkL .rslides img {
+    width: 100%;
+    height: 192px;
+}
+
+.WzwgkL .rslides p {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 34px;
+    line-height: 34px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.WzwgkL .rslides p a {
+    display: block;
+    width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.WzwgkL .centered-btns_tabs {
+    right: 9px;
+    bottom: 11px;
+}
+
+.WzwgkR {
+    margin-left: 283px;
+}
+
+.WzwgkR .QnewsBold li a {
+    font-weight: normal;
+}
+
+.WzwgkR .QrightHdiv {
+    min-height: 150px;
+}
+
+.imgLink {
+    width: 100%;
+    margin: 14px 0 20px 0;
+}
+
+.imgLink p {
+    width: 328px;
+    height: 96px;
+}
+
+.imgLink i {
+    width: 328px;
+    height: 96px;
+}
+
+.imgLink p:first-child {
+    background: url(../img/Wzwgk_10.jpg) no-repeat;
+}
+
+.map {
+    background: url(../img/Wzwgk_10ma.jpg) no-repeat;
+}
+
+.imgLink p {
+    background: url(../img/Wzwgk_10ma.jpg) no-repeat;
+}
+
+.imgLink span {
+    font-size: 18px;
+    margin: 18px 0 0 10px;
+    display: block;
+    color: #333333;
+    font-weight: bold;
+    border-left: 5px solid #333333;
+    text-indent: 6px;
+}
+
+.WzwgkR .Qzwgl, .WzwgkR .Qjggk {
+    width: 328px;
+}
+
+.WzwgkR .Qnotic {
+    margin-right: 0;
+}
+
+.WzwgkR .Qnotic p, .WzwgkR .Qnotic p a {
+    width: 94px;
+    text-align: center;
+    margin-right: 0;
+    padding: 62px 0 0;
+    color: #fff;
+}
+
+.WzwgkR .Qnotic p a:hover {
+    color: #fff;
+}
+
+.WzwgkR .QzwUl {
+    width: 234px;
+    margin: 2px 0 0;
+}
+
+.WzwgkR .QzwUl li {
+    text-indent: 21px;
+    background-position: 11px center;
+    line-height: 38px;
+}
+
+/**领导介绍**/
+.Wldjs .Qbottom {
+    margin-bottom: 0
+}
+
+.WldjsList {
+    border: 1px solid #e6e6e6;
+    padding: 12px 0 7px;
+}
+
+.WldjsList ul {
+    float: left;
+}
+
+.WldjsList li {
+    float: left;
+    width: 100%;
+    line-height: 34px;
+    color: #333333;
+}
+
+.WldjsList .oddLi {
+    background: #ecf7ff;
+}
+
+.WldjsList li a {
+    float: left;
+    width: 58px;
+    text-indent: 16px;
+    color: #2b61b5;
+}
+
+.WldjsList li span {
+    margin: 0 20px;
+}
+
+.WjgzzList {
+    margin-top: 4px;
+}
+
+.WjgzzList ul {
+    float: left;
+}
+
+.WjgzzList li {
+    width: 127px;
+    height: 60px;
+    line-height: 60px;
+    background: #53a4dd;
+    margin-top: 8px;
+}
+
+.WjgzzList a {
+    float: left;
+    width: 100%;
+    height: 100%;
+    text-indent: 49px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.WjgzzList .jbxxIcon {
+    text-indent: 62px;
+}
+
+.zyzzIcon {
+    background: url(../img/Wzwgk_38.png) 7px center no-repeat;
+}
+
+.jgszIcon {
+    background: url(../img/Wzwgk_41.png) 11px center no-repeat;
+}
+
+.qlqdIcon {
+    background: url(../img/Wzwgk_65.png) 11px center no-repeat;
+}
+
+.zrqdIcon {
+    background: url(../img/Wzwgk_68.png) 13px center no-repeat;
+}
+
+.zyzzIcon:hover {
+    background-position: 4px center;
+}
+
+.jgszIcon:hover, .qlqdIcon:hover {
+    background-position: 8px center;
+}
+
+.zrqdIcon:hover {
+    background-position: 10px center;
+}
+
+.WmoreLink {
+    width: 100%;
+}
+
+.WmoreLink p {
+    margin-top: 17px;
+    width: 100%;
+    height: 88px;
+    line-height: 88px;
+    text-align: center;
+}
+
+.WmoreLink .rsxxBj {
+    background: url(../img/Wzwgk_84.jpg) no-repeat;
+}
+
+.WmoreLink .tjghBj {
+    background: url(../img/Wzwgk_69.jpg) no-repeat;
+}
+
+.WmoreLink .rsxxBj {
+    background: url(../img/Wzwgk_84.jpg) no-repeat;
+}
+
+.WmoreLink .tjghBj {
+    background: url(../img/Wzwgk_69.jpg) no-repeat;
+}
+
+.WmoreLink span {
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+}
+
+/**法律法规与解读**/
+.Wzcfgjd, .Wjxsq {
+    width: 100%;
+    margin-top: 17px;
+}
+
+.Whead {
+    height: 44px;
+    line-height: 44px;
+    margin-bottom: 8px;
+}
+
+.Whead span, .Whead .Qguo {
+    float: left;
+    padding: 0 30px;
+    color: #2b61b5;
+    font-size: 16px;
+    background: #e2edff;
+    cursor: pointer;
+}
+
+.Whead a {
+    float: right;
+    font-size: 14px;
+    color: #2b61b5;
+}
+
+.Whead .Wactive {
+    position: relative;
+    background: #2b61b5;
+    color: #fff;
+}
+
+.Wactive .Wlbj {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 10px;
+    height: 11px;
+    background: url(../img/Wzwgk_07.png) no-repeat;
+}
+
+.Wactive .Wrbj {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 11px;
+    background: url(../img/Wzwgk_03.png) no-repeat;
+}
+
+.WzcfgjdList {
+    margin-top: 4px;
+}
+
+.WzcfgjdList ul {
+    float: left;
+}
+
+.WzcfgjdList li {
+    float: left;
+    width: 214px;
+    height: 115px;
+    margin-left: 17px;
+    text-align: center;
+    background: #eaeef1
+}
+
+.tjflfgIcon {
+    background: url(../img/Wzwgk_47.png) no-repeat center 20px;
+}
+
+.tjgzIcon {
+    background: url(../img/Wzwgk_52.png) no-repeat center 20px;
+}
+
+.gfxwjIcon {
+    background: url(../img/Wzwgk_44.png) no-repeat center 20px;
+}
+
+.xgflfgIcon {
+    background: url(../img/Wzwgk_49.png) no-repeat center 20px;
+}
+
+.zcjdIcon {
+    background: url(../img/Wzwgk_55.png) no-repeat center 20px;
+}
+
+.WzcfgjdList li:first-child {
+    margin-left: 0;
+}
+
+.WzcfgjdList a {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+.WzcfgjdList a:hover {
+    background-position: center 23px;
+}
+
+.WzcfgjdList p {
+    font-size: 16px;
+    margin-top: 80px;
+}
+
+/**江西省情**/
+.WjxsqList {
+    width: 100%;
+    background: #e2edff;
+}
+
+.WjxsqList ul {
+    float: left;
+}
+
+.WjxsqList li {
+    float: left;
+    height: 139px;
+    padding-left: 71px;
+}
+
+.WjxsqList li:first-child {
+    padding-left: 38px;
+}
+
+.WjxsqList img {
+    display: block;
+    margin: 28px auto 21px;
+}
+
+/**政务公开结束**/
+.Wtjcs, .WjgzzList, .Wwsdc, .Wzxft, .Wzxzx {
+    width: 100%;
+}
+
+.Wwsdc {
+    min-height: 192px;
+}
+
+.Wtjcs {
+    margin-bottom: 16px;
+}
+
+.Wtjcs .Qbottom {
+    margin-bottom: 0;
+}
+
+.Wtjcs .QrightHdiv {
+    border: 1px solid #e6e6e6;
+    border-top: none;
+}
+
+.Wtjcs .QnewsUl {
+    min-height: 306px;
+}
+
+.Wtjcs .QnewsUl li {
+    background-position: 10px center;
+    text-indent: 22px;
+}
+
+.Wtjcs .QnewsUl span {
+    margin-right: 13px;
+}
+
+/**在线访谈**/
+.WzxftL, .WwsbsL {
+    float: left;
+    width: 685px;
+}
+
+.WzxftR, .WwsbsR {
+    margin-left: 698px;
+}
+
+.WzxftList {
+    margin-top: 14px;
+    width: 100%;
+    min-height: 195px
+}
+
+.WzxftList dl {
+    height: 174px;
+    margin-bottom: 15px;
+}
+
+.WzxftList dt {
+    float: left;
+    width: 240px;
+    height: 174px;
+}
+
+.WzxftList img {
+    width: 100%;
+    height: 100%;
+}
+
+.WzxftList dd {
+    margin: 6px 0 0 280px;
+}
+
+.WftTit {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.WftTit a {
+    color: #141414;
+}
+
+.WzxftList dd p {
+    line-height: 30px;
+}
+
+.Wwqhg {
+    min-height: 160px;
+}
+
+.Wwqhg .Whead {
+    height: 30px;
+    line-height: 30px;
+}
+
+.Wwqhg ul {
+    text-align: justify;
+}
+
+.Wwqhg .nobjLi, .WythfwList .nobjLi {
+    height: 0;
+    font-size: 0;
+}
+
+.Wwqhg li {
+    width: 222px;
+    display: inline-block;
+    text-indent: 15px;
+    line-height: 30px;
+}
+
+.Wwqhg li a {
+    display: block;
+    background: url(../img/Wzwgk_28.png) 4px center no-repeat;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/**领导信箱**/
+.WzxftR .WjgzzList li {
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.ldxxIcon {
+    background: url(../img/Wzxft_06.png) 10px center no-repeat;
+}
+
+.zxzxIcon {
+    background: url(../img/Wzxft_03.png) 10px center no-repeat;
+}
+
+.jbxxIcon {
+    background: url(../img/Wzxft_11.png) 13px center no-repeat;
+}
+
+.ldxxIcon:hover, .zxzxIcon:hover {
+    background-position: 7px center;
+}
+
+.jbxxIcon:hover {
+    background-position: 10px center;
+}
+
+.WjgzzList .lastLi {
+    width: 100%;
+}
+
+/**在线咨询**/
+.Wzxzx {
+    min-height: 285px;
+}
+
+.WzxzxList {
+    width: 100%;
+}
+
+.WzxzxQW {
+    width: 50%;
+    float: left;
+    margin-top: 6px;
+}
+
+.WzxTime {
+    color: #787878;
+}
+
+.WzxzxQW p {
+    margin-top: 9px;
+    padding-left: 34px;
+    line-height: 24px;
+}
+
+.Wques {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background: url(../img/Wzxft_15.jpg) 10px 5px no-repeat;
+}
+
+.Wansw {
+    background: url(../img/Wzxft_18.jpg) 10px 5px no-repeat;
+}
+
+.Wansw a {
+    color: #ff0000;
+}
+
+/**网上调查**/
+.Wwsdc {
+    margin-top: 7px;
+}
+
+.myzj_ul {
+    line-height: 38px;
+}
+
+.myul li {
+    margin-top: 11px;
+    background: #f1f1f1 url(../img/Wzxft_05.png) no-repeat 0 0;
+}
+
+.myul li a {
+    display: block;
+    padding-left: 60px;
+    height: 38px;
+    width: 144px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.myul span {
+    float: right;
+    margin-right: 7px
+}
+
+.myul .jxLi span {
+    color: #53a4dd;
+}
+
+/**在线访谈结束**/
+/**网上办事**/
+.Wtjks, .Wswdcrz, .Wswdcsp {
+    margin-bottom: 16px;
+}
+
+.Wswdcrz, .Wswdcsp, .Wdftjgl { /*  min-height: 255px;  */
+    min-height: 239px;
+}
+
+.wsbsLinks p {
+    margin-bottom: 8px;
+}
+
+.WtjksList li {
+    float: left;
+    margin-left: 9px;
+}
+
+.WtjksList li:first-child {
+    margin-left: 0;
+}
+
+.WtjksList a {
+    float: left;
+    width: 162px;
+    height: 72px;
+    line-height: 72px;
+    font-size: 16px;
+    text-indent: 70px;
+    color: #fff;
+}
+
+.WtjksList a:hover {
+    background-position: 13px center;
+}
+
+.ksxxIcon {
+    background: #f6ba46 url(../img/Wwsbs_09.png) 16px center no-repeat;
+}
+
+.bgxzIcon {
+    background: #8fca4a url(../img/Wwsbs_11.png) 16px center no-repeat;
+}
+
+.wsbmIcon {
+    background: #41c3e4 url(../img/Wwsbs_14.png) 16px center no-repeat;
+}
+
+.cjcxIcon {
+    background: #fc7676 url(../img/Wwsbs_06.png) 16px center no-repeat;
+}
+
+.Wythfw {
+    margin-top: 19px;
+}
+
+.WythfwList {
+    height: 367px;
+}
+
+.WythfwList ul {
+    text-align: justify;
+}
+
+.WythfwList li {
+    display: inline-block;
+    width: 128px;
+    height: 120px;
+    text-align: center;
+    background: #e2edff;
+}
+
+.bsznIcon {
+    background: url(../img/Wwsbs_27.png) no-repeat center 20px;
+}
+
+.zxsbIcon {
+    background: url(../img/Wwsbs_24.png) no-repeat center 20px;
+}
+
+.rbgxzIcon {
+    background: url(../img/Wwsbs_32.png) no-repeat center 20px;
+}
+
+.jgcxIcon {
+    background: url(../img/Wwsbs_35.png) no-repeat center 20px;
+}
+
+.tjzdxzIcon {
+    background: url(../img/Wwsbs_40.png) no-repeat center 20px;
+}
+
+.tjbbxzIcon {
+    background: url(../img/Wwsbs_42.png) no-repeat center 20px;
+}
+
+.WythfwList a {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+.WythfwList a:hover {
+    background-position: center 23px;
+}
+
+.WythfwList p {
+    font-size: 16px;
+    margin-top: 90px;
+}
+
+.WwsbsR .WmoreLink p {
+    margin-top: 13px;
+}
+
+.Wdftjgl .QrightHead, .Wswdcsp .QrightHead, .Wswdcrz .QrightHead {
+    height: 24px;
+    line-height: 24px;
+}
+
+/**微博、微信**/
+.weibo {
+    width: 131px;
+    padding-bottom: 3px;
+    position: absolute;
+    top: 209px;
+    background: #fff;
+    right: -139px;
+    border: 1px solid #cecece;
+    border-top: 1px solid #225da3;
+}
+
+.erweima {
+    padding: 15px 10px 7px 10px;
+    width: 90px;
+    margin: 8px auto 10px;
+    border: 1px solid #dbdbdb;
+}
+
+.erweima:first-child {
+    padding: 23px 10px 7px 10px;
+}
+
+.erweima p {
+    line-height: 18px;
+}
+
+.weibo img, .weibo a {
+    display: block;
+    margin: 0 auto 4px;
+}
+
+.guanbi {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 9px;
+    top: 5px;
+    cursor: pointer;
+}
+
+/**网上调查、咨询反馈**/
+
+.btn_bluearrow, .btn_bluearrow2 {
+    background: #0084c9;
+    color: #fff;
+    border-radius: 3px;
+    border: 1px solid #e3e3e3;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 10px 0;
+    margin-top: 10px;
+    float: right;
+}
+
+.btn_bluearrow {
+    margin-right: 18px;
+}
+
+.btn_bluearrow:hover, .btn_bluearrow2:hover {
+    color: #fff;
+}
+
+#surveyTable td {
+    text-indent: 10px;
+    border-right: 1px solid #cdcede;
+    border-bottom: 1px solid #cdcede;
+}
+
+.Wwsdc_list .referlist th {
+    font-weight: bold;
+    color: #3c86eb;
+    border: 1px solid #bfd2d9;
+    background: #f2f6f7;
+    border-top: none;
+}
+
+.Wwsdc_list table {
+    width: 702px;
+    margin: 10px auto 0;
+    border: 1px solid #64a8fc;
+    border-collapse: collapse;
+}
+
+.Wwsdc_list table.referlist td {
+    background: #fff;
+    border: 1px solid #bfd2d9;
+}
+
+.Wwsdc_list table.referlist td.tite1 {
+    text-align: center;
+    border-left: none;
+}
+
+.Wwsdc_list table.referlist .title2 {
+    padding: 0px 11px;
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+    color: #094488;
+}
+
+.Wwsdc_list table.referlist td.title2 a {
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+    color: #094488;
+}
+
+.Wwsdc_list table.referlist td.title2 a:hover {
+    color: #F00;
+}
+
+.nytzhj {
+    width: 100%;
+    margin: 5px auto 0;
+    line-height: 32px;
+}
+
+.nytzhj button {
+    line-height: 21px;
+}
+
+.nytzhj table {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.sMainClass td {
+    text-indent: 10px;
+}
+
+.sDesClass {
+    border: 1px solid #bfd2d9;
+}
+
+.sDesClass td {
+    background: #f2f6f7;
+}
+
+/**在线咨询**/
+.zxfkCont {
+    width: 708px;
+}
+
+.ma_14zi6 td input[type="text"] {
+    height: 22px;
+    border: 1px solid #cdcede;
+}
+
+.ma_14zi6 td select {
+    border: 1px solid #cdcede;
+}
+
+.ma_14zi6 td textarea {
+    border: 1px solid #cdcede;
+    width: 552px
+}
+
+.List_tab td {
+    text-align: center;
+    border-right: 1px solid #cdcede;
+    border-bottom: 1px solid #cdcede;
+}
+
+.ma_14zi6 .btn_bluearrow {
+    float: left;
+}
+
+.kb {
+    height: 10px;
+    background-image: none;
+}
+
+.ly a {
+    font-size: 14px;
+    color: #0c90cc;
+    font-weight: bold;
+}
+
+.ma_14zi1 {
+    font-size: 14px;
+    color: #a46508;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ma_14zi1 a {
+    font-size: 14px;
+    color: #a46508;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ma_14zi2 {
+    font-size: 16px;
+    color: #cd0100;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ma_14zi3 {
+    font-size: 14px;
+    color: #4b4b4b;
+    text-decoration: none;
+    line-height: 26px;
+}
+
+.ma_14zi4 {
+    font-size: 12px;
+    color: #4b4b4b;
+    text-decoration: none;
+}
+
+.ma_14zi4 a {
+    font-size: 12px;
+    color: #4b4b4b;
+    text-decoration: none;
+}
+
+.ma_14zi3 a {
+    font-size: 14px;
+    color: #4b4b4b;
+    text-decoration: none;
+    line-height: 26px;
+}
+
+.ma_14zi3 a:hover {
+    font-size: 14px;
+    color: #c46108;
+    text-decoration: none;
+    line-height: 26px;
+}
+
+.strong-ui-pager {
+    font-size: 14px;
+}
+
+.ma_14zi6 td {
+    border: 1px solid #cdcede;
+    padding: 5px 0px 5px 10px;
+    height: 30px;
+}
+
+.ma_14zi6 {
+    border-collapse: collapse;
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+}
+
+.ma_14zi7 {
+    font-size: 13px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ma_14zi7 a {
+    font-size: 13px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ma_14zi7 a:hover {
+    font-size: 13px;
+    color: #960202;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.STYLE2 {
+    color: #FF0000;
+    vertical-align: -2px;
+}
+
+.newsmain {
+    padding-top: 0;
+}
+
+.STYLE1 {
+    color: #0074d2
+}
+
+#side {
+    min-height: 741px;
+    height: 741px;
+}
+
+/**rss订阅**/
+.readText {
+    margin-top: 20px;
+    line-height: 34px;
+    text-indent: 28px;
+}
+
+.dysmCont .Qtitle {
+    padding: 0;
+}
+
+.dysmCont .Qtitle h2 {
+    line-height: 62px;
+}
+
+
+/**翻页**/
+#pager-go {
+    height: 22px;
+    line-height: 15px;
+    *line-height: 16px;
+    width: 40px;
+    vertical-align: middle;
+    background: #2b61b5;
+    border: 1px solid #2b61b5;
+    cursor: pointer;
+    color: #fff;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+#pager-index {
+    height: 20px;
+    padding: 0;
+    width: 48px;
+    border: 1px solid #707070;
+    line-height: 20px;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+@media screen and (min-width: 0\0
+) {
+    /* IE9 , IE10 ,IE11 rule sets go here */
+    #pager-go {
+        line-height: 22px;
+    }
+}
+
+/**领导介绍**/
+.QdivBox {
+    overflow: hidden;
+    padding: 16px 0;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.QleftD {
+    float: left;
+    width: 128px;
+    margin-right: 20px;
+    padding: 62px 0;
+    border: 1px solid #ddd;
+}
+
+.QleftD img {
+    display: inline-block;
+    margin: 0 1px;
+    border: 1px solid #d2d2d2;
+}
+
+.QleftD p {
+    text-align: center;
+    color: #343233;
+    line-height: 20px;
+}
+
+.QleftD p.QleftDp a {
+    font-size: 16px;
+    color: #e00000;
+}
+
+.QrightD {
+    margin-left: 148px;
+}
+
+.Qpbg {
+    text-indent: 10px;
+    width: 100%;
+    height: 28px;
+    line-height: 28px;
+    color: #2b61b5;
+    font-weight: bold;
+    background: #e2edff;
+}
+
+.Qptext {
+    line-height: 26px;
+    min-height: 26px;
+    color: #323232;
+    text-indent: 28px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+.Qtext {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin-right: 70px;
+    color: #323230;
+    line-height: 30px;
+}
+
+.wpage {
+    padding: 20px 18px;
+}
+
+
+/**机构设置**/
+.yjColumn {
+    height: 35px;
+    background: #d5ecfa;
+    text-indent: 10px;
+    width: 717px;
+    margin-top: 10px;
+    line-height: 36px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+.wzdhlist li {
+    float: left;
+    padding: 0 26px;
+    border: 1px solid #ddd;
+    border-top: none;
+    width: 306px;
+    height: auto;
+    line-height: 32px;
+    text-align: center;
+    margin-right: -1px;
+}
+
+.Qarticle {
+    min-height: 680px;
+}
+
+
+/**首页调整**/
+.dttzDIv .QrightHdiv, .yqgzDIv .QrightHdiv {
+    position: relative;
+}
+
+.dttzDIv .moreC, .yqgzDIv .moreC {
+    position: absolute;
+    font-size: 14px;
+    top: -41px;
+    right: 0;
+    color: #2b61b5;
+}
+
+.Qpic {
+    position: relative;
+}
+
+.chartDiv {
+    width: 480px;
+    height: 290px;
+}
+
+.textDiv {
+    position: absolute;
+    bottom: 9px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.more {
+    float: right;
+    font-size: 14px;
+    color: #2b61b5;
+}
+
+/**数据统计**/
+.ejzb {
+    width: 100%;
+    background: #f0f6ff;
+    text-align: left;
+    text-indent: 20px;
+    margin-bottom: 10px;
+}
+
+.yOrM {
+    width: 100%;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.yOrM p {
+    display: inline-block;
+    padding: 0 14px;
+}
+
+/**场景导航**/
+.cjdhBody {
+    background: url(../img/20180330233447495.jpg) no-repeat center top;
+}
+
+.cjdhBody .Qlink {
+    display: none;
+}
+
+.cjdhBody .imgc {
+    display: block;
+    margin: 0 auto 104px;
+}
+
+.cjdhBody .Qfooter {
+    background: #fff;
+    min-height: 140px
+}
+
+.cjdhBody .QfotBot {
+    padding-top: 20px;
+}
+
+/**网站导航**/
+.yjColumn {
+    float: left;
+    font-size: 16px;
+    height: 36px;
+    background: #f0f6ff;
+    text-indent: 20px;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 36px;
+    font-weight: bold;
+}
+
+.navlist {
+    float: left;
+    padding: 16px 0;
+}
+
+.navlist li {
+    float: left;
+    width: 192px;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/**马春0326**/
+.zh_click {
+    color: #4d4d4d;
+}
+
+.zh_click a {
+    color: #4d4d4d;
+}
+
+.zh_click a:hover {
+    color: #4d4d4d;
+}

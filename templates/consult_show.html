@@ -1,0 +1,51 @@
+{% extends 'interview_list.html' %}
+{% block right_content %}
+    <div class="QcolR zxfkCont fr">
+
+        <a href="{{ url_for('consult') }}" class="btn_bluearrow2">我要留言</a>
+        <table style="margin-top:10px;font-size:14px;" width="708" cellspacing="0" cellpadding="0">
+
+
+            <tbody>
+            <tr>
+                <td style="background-color:#f2f6f7; border:1px solid #c0d2d9;" width="15%" height="40">
+                    <span style="float:right;">用户昵称：</span></td>
+                <td style="border:1px solid #c0d2d9; border-left:none; text-indent:10px;"> {{ con.asker }}</td>
+                <td style="border:1px solid #c0d2d9; border-left:none;  background-color:#f2f6f7;" width="15%">
+                    <span style="float:right;">发表时间： </span></td>
+                <td style="border:1px solid #c0d2d9; border-left:none; text-indent:10px;">{{ con.ask_time }}</td>
+            </tr>
+            <tr>
+                <td style="background-color:#f2f6f7; border:1px solid #c0d2d9;  border-top:none;" height="90">
+                    <span style="float:right;">咨询内容：</span></td>
+                <td colspan="3" style=" border:1px solid #c0d2d9; border-left:none;  border-top:none; text-indent:2em;  padding-top:0px; line-height:200%; padding:8px; text-align:justify;"
+                    valign="top" height="90">您好，我在兼职猫网页上看到统计局社情民意调查中心招聘周末兼职，请问信息是否属实？
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="margin-top:10px;font-size:14px;" width="708" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+                <td style="background-color:#f2f6f7; border:1px solid #c0d2d9;" width="15%" height="90">
+                    <span style="float:right;">回复内容：</span>
+                </td>
+                <td colspan="3" style="border:1px solid #c0d2d9; border-left:none;   text-indent:2em; line-height:200%; padding:8px; text-align:justify;" valign="top" height="90">{{ con.answer }}
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color:#f2f6f7; border:1px solid #c0d2d9;  border-top:none;" height="40">
+                    <span style="float:right;">回复人：</span>
+                </td>
+                <td style="border:1px solid #c0d2d9; border-left:none;  border-top:none; text-indent:10px;">江西省统计局
+                </td>
+                <td style="border:1px solid #c0d2d9; border-left:none;  background-color:#f2f6f7;  border-top:none;" width="15%">
+                    <span style="float:right;">回复时间：</span>
+                </td>
+                <td style="border:1px solid #c0d2d9; border-left:none; text-indent:10px;  border-top:none;">{{ con.ans_time }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

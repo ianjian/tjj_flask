@@ -1,0 +1,25 @@
+{% extends "leader_list.html" %}
+{% block right_content %}
+  <div class="QcolR fr">
+
+  {% for i in leader %}
+
+    <div class="QdivBox" id="{{ i.id }}">
+      <div class="QleftD">
+        <!-- <img src="/resource/uploadfile/image/20180318/20180318050507443.jpg" width="130" height="162" alt=""> -->
+        <p class="QleftDp"><a href="javascript:void(0);">{{ i.name }}</a></p>
+        <p>{{ i.title }}</p>
+      </div>
+      <div class="QrightD">
+        <p class="Qpbg">领导简介</p>
+        <div class="Qptext">
+          {{ i.intro }}
+        </div>
+        <p class="Qptext"></p>
+      </div>
+    </div>
+
+  {% endfor %}
+
+  </div>
+{% endblock %}

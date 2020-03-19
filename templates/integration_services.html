@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1 ">
+  <title>江西省统计局-有关文件</title>
+  <link href="/static/css/default.css" rel="stylesheet" type="text/css">
+  <script src="/static/js/jquery-1.11.3.min.js"></script>
+
+  <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
+</head>
+<body id="maincontainer">
+<!-- 头部 -->
+
+<!--<div style="height:215px; background:url(/resource/uploadfile/image/20190930/20190930111619398.jpg) no-repeat center top;"></div>-->
+
+
+<div class="QScenbox">
+  <div class="Qlogo fl"><img src="/static/img/Qlogo.png" alt=""></div>
+  <div class="Qsearch fr">
+    <input id="ss-k" name="ss-k" type="text" class="fl" value="请输入关键字"
+           onfocus="if (value =='请输入关键字'){value =''}this.style.color='#333' "
+           onblur="if (value ==''){value='请输入关键字'}this.style.color='#333'"
+           onkeyup="javascript:if(event.keyCode==13){siteSearch();}">
+    <span class="Qsou fr" onclick="siteSearch()"> </span>
+  </div>
+</div>
+<ul class="Qnav">
+  <li class=""><a href="/" class="Qa1">首页</a></li>
+  <li id="zwgk201803120100392355" class=""><a href="/id_zwgk201803120100392355/Index.shtml" class="Qa2">政务公开</a></li>
+  <li id="tjsj201803120100294255" class="Qcurrent"><a href="/id_tjsj201803120100294255/Index.shtml" class="Qa3">统计数据</a>
+  </li>
+  <li id="wsbs201803120100172099"><a href="/id_wsbs201803120100172099/Index.shtml" class="Qa4">网上办事</a></li>
+  <li id="hdjl201803120059532727"><a href="/id_hdjl201803120059532727/Index.shtml" class="Qa5">互动交流</a></li>
+</ul>
+<script>
+    function siteSearch() {
+        var key = document.getElementById('ss-k').value;
+        if (key == '' || key == '请输入关键字') {
+            alert('请输入查询条件!');
+            return false;
+        }
+        //alert(key);
+        key = encodeURIComponent(key);
+        key = key.replace(/%/g, "@");
+        location = '/key_' + key + '/search.shtml';
+    }
+
+    function gowza() {
+        window.open("http://www.jxgtt.gov.cn/Column.shtml?p5=20000274");
+    }
+</script>
+
+<!-- 内容 -->
+<div class="Qcontent">
+  <div class="Qplace">
+    <div class="curPlace">
+      <a href="/index.shtml">首页</a> &gt;&gt; <a href="/id_wsbs201803120100172099/column.shtml">网上办事</a> &gt;&gt; <a
+            href="/id_dftjdcxmgl201803120103320056/column.shtml">地方统计调查项目管理</a> &gt;&gt; <a
+            href="/id_ygwj201803120133265315/column.shtml">有关文件</a>
+    </div>
+  </div>
+  <div class="Qcolumn">
+    <!-- 无子栏目左侧 -->
+    <div class="QcolL fl">
+      <ul class="listUl">
+        <div class="Qli"><a href="javascript:void(0);">地方统计调查项目管理</a></div>
+
+        <li class="ColumnCur"><a href="/id_ygwj201803120133265315/column.shtml" title="有关文件">有关文件</a></li>
+        <li><a href="/id_bscx201803120133187534/column.shtml" title="审批程序">审批程序</a></li>
+        <li><a href="/id_bgxz201803120133118068/column.shtml" title="表格下载">表格下载</a></li>
+        <li><a href="/id_spgg201803120133031108/column.shtml" title="审批公告">审批公告</a></li>
+        <li><a href="/id_spgg201803120133031108/column.shtml" title="统计制度下载">统计制度下载</a></li>
+        <li><a href="/id_spgg201803120133031108/column.shtml" title="统计报表下载">统计报表下载</a></li> <!-- 统计公报下载 -->
+      </ul>
+    </div>
+    <div class="QcolR fr">
+      <ul class="QcolRul">
+
+        <li><span>2019-10-31</span><a href="/id_8a84cc8369146e33016ab009ed8a5f4b/news.shtml">国家统计局令：部门统计调查项目管理办法(自2017年10月1日起施行)</a>
+        </li>
+
+        <li><span>2019-05-13</span><a href="/id_8a84cc8369146e33016ab006773a5f2a/news.shtml">国务院办公厅关于加强和完善部门统计工作意见的通知(国办发〔2014〕6...</a>
+        </li>
+
+        <li><span>2019-05-13</span><a href="/id_8a84cc8369146e33016ab002a97a5ef3/news.shtml">中华人民共和国统计法实施条例（2017年8月1日起施行）</a>
+        </li>
+
+        <li><span>2019-05-13</span><a href="/id_8a84cc8369146e33016aaffc082d5ea2/news.shtml">中华人民共和国统计法（2010年1月日起施行）</a>
+        </li>
+
+        <li><span>2018-05-10</span><a href="/id_4028f89e6234d5c2016263188ac70247/news.shtml">关于印发《江西省统计调查项目管理工作规程（试行）》的通知</a>
+        </li>
+
+      </ul>
+{#      <div class="Qtoggle">#}
+{#        <div class="strong-ui-pager">#}
+{#          首页 &nbsp;&nbsp;#}
+{#          上一页 &nbsp;&nbsp;#}
+{#          下一页 &nbsp;&nbsp;#}
+{#          末页&nbsp;#}
+{#          <span>1/1</span>&nbsp;#}
+{#          <input id="pager-index" size="2" type="text" onkeypress="javascript:if(event.keyCode==13){pagerGo();}">#}
+{#          <button type="button" id="pager-go" onclick="pagerGo();">Go</button>#}
+{#          <script type="text/javascript">#}
+{#              var curpage = parseInt(1);#}
+{#              var totalpage = parseInt(1);#}
+{##}
+{#              function pagerGo() {#}
+{#                  var nav = document.getElementById("pager-index").value;#}
+{#                  nav = Math.round(nav);#}
+{#                  nav = isNaN(nav) ? 1 : nav;#}
+{#                  nav = (nav <= 1) ? 1 : nav;#}
+{#                  nav = (nav >= totalpage) ? totalpage : nav;#}
+{#                  var url = "/id_ygwj201803120133265315/page_##/column.shtml";#}
+{#                  location = url.replace("##", nav);#}
+{#              }#}
+{#          </script>#}
+{#        </div>#}
+{#      </div>#}
+
+    </div>
+  </div>
+</div>
+<!-- 底部 -->
+<div class="Qfooter">
+
+</div>
+<script src="/static/js/easy.navigat.js"></script>
+<script>
+    $(function () {
+        $('.Qnav li').each(function (i) {
+            $(this).hover(function () {
+                $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                $('.Qcontent:eq(' + i + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            });
+        });
+
+        // 头部导航选中
+        var Aid = 'ygwj201803120133265315';
+        if (Aid != '') {
+            $('#' + Aid).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+            var index = $('#' + Aid).index();
+            $('.Qcontent:eq(' + index + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            $('.Qnav li').each(function (i) {
+                var navid = $(this).attr('id');
+                if (Aid == navid) {
+                    $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                }
+            });
+        }
+
+        $('.guanbi').click(function () {
+            $('.weibo').slideUp(300);
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    $(function () {
+
+        //二级导航栏目定位
+        $('.listUl li').each(function (i) {
+            var websiteText = $('.curPlace a:last').text();  //获取二级导航位置的字符串
+            var subText = $('.listUl li a').eq(i).attr('title');//获取每个li的字符串
+            if (subText == websiteText) {
+                $('.listUl li').eq(i).addClass('ColumnCur').siblings().removeClass('ColumnCur');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

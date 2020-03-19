@@ -1,0 +1,27 @@
+{% extends 'interaction.html' %}
+{% block right_content %}
+
+  <table width="100%" cellpadding="0" id="surveyTable" cellspacing="0"
+         style="font-size:12px;margin:30px auto 0 auto;border-left:1px solid #cdcede;border-right:1px solid #cdcede;">
+    <tbody>
+    <tr style="background-color:#F3F3F3;">
+      <th height="46" style="width:390px;border:1px solid #cdcede"><strong>主题</strong></th>
+      <th style="width:78px;border:1px solid #cdcede"><strong>开始时间</strong></th>
+      <th style="width:78px;border:1px solid #cdcede"><strong>结束时间</strong></th>
+      <th style="border:1px solid #cdcede"><strong>状态</strong></th>
+    </tr>
+
+    {% for q in theme %}
+      <tr>
+        <td height="40" align="left">
+          <a href="#" target="_blank">{{ q.title }}</a>
+        </td>
+        <td style="text-indent:4px;">{{ q.start }}</td>
+        <td align="center" style="text-indent:4px;">{{ q.finish }}</td>
+        <td align="center">{{ q.state }}</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+{% endblock %}

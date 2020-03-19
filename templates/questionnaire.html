@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1 ">
+    <title>江西省统计局</title>
+    <link href="../static/css/default.css" rel="stylesheet" type="text/css">
+    <script src="../static/js/jquery-1.11.3.min.js"></script>
+
+</head>
+<body id="maincontainer">
+<!-- 头部 -->
+<script src="../static/js/lang.js"></script>
+
+<!--<div style="height:215px; background:url(/resource/uploadfile/image/20190930/20190930111619398.jpg) no-repeat center top;"></div>-->
+
+
+<div class="QScenbox">
+    <div class="Qlogo fl"><img src="../static/img/Qlogo.png" alt=""></div>
+    <div class="Qsearch fr">
+        <input id="ss-k" name="ss-k" type="text" class="fl" value="请输入关键字"
+               onfocus="if (value =='请输入关键字'){value =''}this.style.color='#333' "
+               onblur="if (value ==''){value='请输入关键字'}this.style.color='#333'"
+               onkeyup="javascript:if(event.keyCode==13){siteSearch();}">
+        <span class="Qsou fr" onclick="siteSearch()"> </span>
+    </div>
+</div>
+<ul class="Qnav">
+    <li class="Qcurrent"><a href="/" class="Qa1">首页</a></li>
+    <li id="zwgk201803120100392355"><a href="/id_zwgk201803120100392355/Index.shtml" class="Qa2">政务公开</a></li>
+    <li id="tjsj201803120100294255"><a href="/id_tjsj201803120100294255/Index.shtml" class="Qa3">统计数据</a></li>
+    <li id="wsbs201803120100172099"><a href="/id_wsbs201803120100172099/Index.shtml" class="Qa4">网上办事</a></li>
+    <li id="hdjl201803120059532727" style="margin-right: 0;"><a href="/id_hdjl201803120059532727/Index.shtml"
+                                                                  class="Qa5">互动交流</a></li>
+</ul>
+<script>
+    function siteSearch() {
+        var key = document.getElementById('ss-k').value;
+        if (key == '' || key == '请输入关键字') {
+            alert('请输入查询条件!');
+            return false;
+        }
+        //alert(key);
+        key = encodeURIComponent(key);
+        key = key.replace(/%/g, "@");
+        location = '/key_' + key + '/search.shtml';
+    }
+
+    function gowza() {
+        window.open("http://www.jxgtt.gov.cn/Column.shtml?p5=20000274");
+    }
+</script>
+
+<!-- 内容 -->
+<div class="Qcontent">
+    <div class="Qplace">
+        <div class="curPlace">
+            <a href="/index.shtml">首页</a> &gt;&gt; <a href="/id_hdjl201803120059532727/column.shtml">互动交流</a> &gt;&gt;
+            <a href="/id_wsdc201803120101254971/column.shtml">网上调查</a>
+        </div>
+    </div>
+    <div class="Qcolumn">
+        <!-- 互动左侧 -->
+        <div class="QcolL fl">
+            <ul class="listUl">
+                <div class="Qli"><a href="javascript:void(0);"><!-- 互动交流 -->互动交流</a></div>
+
+                <li class=""><a href="/id_TJWFJBXX2018030516545668/referform.shtml" title="统计局统计违法举报信箱">统计局统计违法...</a>
+                </li>
+
+                <li class=""><a href="/id_ZXZ2018030214305410/referform.shtml" title="在线咨询">在线咨询</a></li>
+
+                <li class=""><a href="/id_JCXX2018030516542858/referform.shtml" title="领导信箱">领导信箱</a></li>
+
+                <li class=""><a href="/id_zxft201803120101332703/column.shtml" title="在线访谈">在线访谈</a></li>
+
+                <li class="ColumnCur"><a href="/id_wsdc201803120101254971/column.shtml" title="网上调查">网上调查</a></li>
+
+                <li class=""><a href="/id_tjcs201803120101102293/column.shtml" title="常见问题">常见问题</a></li>
+
+
+            </ul>
+        </div>
+        <div class="QcolR fr">
+            <form action="abstract" id="surveyForm" name="surveyForm">
+                <div class="nytzhj">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr style="margin-top:0;">
+                            <td style="line-height:32px;margin-top:0;">
+
+                                <script>var surRadioArray = new Array();
+                                var surCheckArray = new Array();
+                                var surTextArray = new Array();</script>
+                                <table class="sMainClass">
+                                    <tbody>
+                                    <tr>
+                                        <td><input type="hidden" id="surveyFormId" name="surveyFormId"
+                                                   value="2020011714522824">
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="sQuestitonTitleClass">1.春节期间的民俗活动会不会参加？</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <script>surRadioArray[surRadioArray.length] = '8a84cc836ee526b7016fb244d3e72019'</script>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb24584452021"
+                                                                                          name="8a84cc836ee526b7016fb244d3e72019"
+                                                                                          value="8a84cc836ee526b7016fb24584452021">都会参加
+                                                        </li>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb245c5e12026"
+                                                                                          name="8a84cc836ee526b7016fb244d3e72019"
+                                                                                          value="8a84cc836ee526b7016fb245c5e12026">没兴趣
+                                                        </li>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb245a0bb2024"
+                                                                                          name="8a84cc836ee526b7016fb244d3e72019"
+                                                                                          value="8a84cc836ee526b7016fb245a0bb2024">大部分会
+                                                        </li>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="sQuestitonTitleClass">2.您现在还在家吃年夜饭吗？</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <script>surRadioArray[surRadioArray.length] = '8a84cc836ee526b7016fb23e04751fa7'</script>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb24110111fee"
+                                                                                          name="8a84cc836ee526b7016fb23e04751fa7"
+                                                                                          value="8a84cc836ee526b7016fb24110111fee">去饭店
+                                                        </li>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb24052601fd8"
+                                                                                          name="8a84cc836ee526b7016fb23e04751fa7"
+                                                                                          value="8a84cc836ee526b7016fb24052601fd8">当然，自己做的有年味
+                                                        </li>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <table>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="sQuestitonTitleClass">3.春节期间，您主要的娱乐方式？</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <script>surRadioArray[surRadioArray.length] = '8a84cc836ee526b7016fb24224541ffb'</script>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb24308a92004"
+                                                                                          name="8a84cc836ee526b7016fb24224541ffb"
+                                                                                          value="8a84cc836ee526b7016fb24308a92004">带着家人旅游
+                                                        </li>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb2437ff1200b"
+                                                                                          name="8a84cc836ee526b7016fb24224541ffb"
+                                                                                          value="8a84cc836ee526b7016fb2437ff1200b">宅在家里胡吃海喝
+                                                        </li>
+                                                        <li class="sOptionLiClass"><input type="radio"
+                                                                                          id="8a84cc836ee526b7016fb24290ce2000"
+                                                                                          name="8a84cc836ee526b7016fb24224541ffb"
+                                                                                          value="8a84cc836ee526b7016fb24290ce2000">走亲访友
+                                                        </li>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" height="48" align="center">验证码:
+                                <input style="height:20px;vertical-align:middle;" class="input" maxlength="4"
+                                       type="text" size="5" id="jcaptcha" name="jcaptcha" value="">
+                                <img style="height:24px; vertical-align:middle;" src="/captcha.jpg" id="captcha"
+                                     onclick="flashCaptcha();"></td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <td height="48" align="center">
+                                <div class="may" style="padding-top:10px; "> <!-- 问卷提交按钮开始 -->
+                                    <input type="button" id="subbuttom" value="提交"
+                                           style="width:60px; height:30px; border:1px solid #ccc;"
+                                           onclick="submitSurveyForm()">
+                                    <input type="button" id="subbuttom" value="结果"
+                                           style="width:60px; height:30px; border:1px solid #ccc;"
+                                           onclick="toSurveyStat()">
+                                    <!-- 问卷提交按钮结束 -->
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+<div class="Qfooter">
+    <!-- 友情链接 -->
+    <div class="Qlink">
+
+    </div>
+    <!-- 版权 -->
+    <div class="QfotBot">
+
+    </div>
+</div>
+<script src="../static/js/easy.navigat.js"></script>
+<script>
+    $(function () {
+        $('.Qnav li').each(function (i) {
+            $(this).hover(function () {
+                $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                $('.Qcontent:eq(' + i + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            });
+        });
+
+        // 头部导航选中
+        var Aid = '2020011714522824';
+        if (Aid != '') {
+            $('#' + Aid).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+            var index = $('#' + Aid).index();
+            $('.Qcontent:eq(' + index + ')').removeClass('hide').siblings('.Qcontent').addClass('hide');
+            $('.Qnav li').each(function (i) {
+                var navid = $(this).attr('id');
+                if (Aid == navid) {
+                    $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+                }
+            });
+        }
+
+        $('.guanbi').click(function () {
+            $('.weibo').slideUp(300);
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('.Qnav li:last').css('marginRight', '0px');
+        $('.Qnav li').mouseover(function () {
+            if (!$(this).hasClass('Qcurrent')) {
+                $(this).addClass('Qcurrent').siblings().removeClass('Qcurrent');
+            }
+        });
+
+        $('.QcolL li').mouseover(function () {
+            if (!$(this).hasClass('ColumnCur')) {
+                $(this).addClass('ColumnCur').siblings().removeClass('ColumnCur');
+            }
+        });
+
+    });
+</script>
+<script>
+    //网上调查相关脚本开始
+
+    //投票结果查看触发事件
+    function toSurveyStat() {
+        var url = window.location.href;
+        var url = url.split("/");
+        var surveyStatId = "";
+        for (var i = 0; i < url.length; i++) {
+            if (url[i].indexOf("id_") != -1) {
+                surveyStatId = url[i].substring(3);
+                i = 10000;
+            }
+        }
+        if (surveyStatId == "") {
+            alert("调查结果未公布，请耐心等待。")
+        } else {
+            location = "/id_" + surveyStatId + "/SurveyStat.shtml"
+        }
+
+    }
+
+    //验证码刷新脚本
+    function flashCaptcha() {
+        var captcha = document.getElementById('captcha');
+        captcha.src = "/captcha.jpg?" + Math.random();
+    }
+
+    //提交网上调查表单
+    function submitSurveyForm() {
+        var paramStr = $("#surveyForm").serialize();
+        var jcaptcha = document.getElementById('jcaptcha').value;
+        if (jcaptcha == '') {
+            alert("验证码不能为空！");
+            return false;
+        }
+        if (surveyFormCheck()) {
+            //ajax获取当前资源的子资源
+            $.ajax({
+                type: "post",
+                url: "/survey_form.shtml",
+                data: paramStr,
+                async: false,
+                success: function (msg) {
+                    if (msg == 'success') {
+                        alert('提交成功!');
+                        document.location = document.location + '?flash=' + (new Date()).getTime();
+                    } else if (msg == 'captcha-error') {
+                        alert('提交失败,验证码不正确!');
+                        flashCaptcha();
+                    } else if (msg == 'iperror') {
+                        alert('提交失败,同一IP不允许重复提交!');
+                        flashCaptcha();
+                    } else if (msg == 'ischangdu') {
+                        alert('提交失败,填写内容长度过长!');
+                        flashCaptcha();
+
+                    } else if (msg == 'noStart') {
+                        alert('提交失败,该投票还未开始!');
+                        flashCaptcha();
+                    } else if (msg == 'isEnd') {
+                        alert('提交失败,该投票已结束!');
+                        flashCaptcha();
+                    } else {
+                        alert('提交失败!');
+                        flashCaptcha();
+                    }
+                },
+                error: function (e) {
+                    alert('提交失败!');
+                    flashCaptcha();
+                }
+            });
+        }
+    }
+
+    //验证表单，验证问题是否都做了选择
+    function surveyFormCheck() {
+        //单选项验证
+        if (surRadioArray && surRadioArray.length > 0) {
+            for (var i = 0; i < surRadioArray.length; i++) {
+                var surRadioObjs = document.getElementsByName(surRadioArray[i]);
+                if (surRadioObjs.length > 0) {
+                    var flag = false;
+                    for (var k = 0; k < surRadioObjs.length; k++) {
+                        if (surRadioObjs[k].checked) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag) {
+                        alert('请填写完问卷后,再提交问卷!');
+                        return false;
+                    }
+                }
+            }
+        }
+        //复选项验证
+        if (surCheckArray && surCheckArray.length > 0) {
+            for (var i = 0; i < surCheckArray.length; i++) {
+                var surCheckStr = surCheckArray[i];
+                var surCheckStrs = surCheckStr.split('@');
+                var flag = false;
+                for (var k = 0; k < surCheckStrs.length; k++) {
+                    if (document.getElementById(surCheckStrs[k]).checked) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag) {
+                    alert('请填写完问卷后,再提交问卷!');
+                    return false;
+                }
+            }
+        }
+
+
+        //文本项验证
+        if (surTextArray && surTextArray.length > 0) {
+            for (var i = 0; i < surTextArray.length; i++) {
+                var surTextStr = surTextArray[i];
+                var surTextStrs = surTextStr.split('@');
+                for (var k = 0; k < surTextStrs.length; k++) {
+                    if (document.getElementById(surTextStrs[k]).value == '') {
+                        alert('请填写完问卷后,再提交问卷!');
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    //网上调查相关脚本结束
+</script>
+
+</body>
+</html>
