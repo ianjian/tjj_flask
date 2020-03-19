@@ -25,8 +25,8 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
@@ -138,7 +138,7 @@ class t_file(db.Model):  # 规范性文件
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    standard_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
 
 
 @listens_for(t_file, 'after_delete')
@@ -155,7 +155,7 @@ class t_jx_data(db.Model):  # 本省数据
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    data_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
     graph = db.Column(db.String(), )
 
 
@@ -173,7 +173,7 @@ class t_cn_data(db.Model):  # 全国数据
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    data_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
     graph = db.Column(db.String(), )
 
 
@@ -191,7 +191,7 @@ class t_global_data(db.Model):  # 国际数据
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    data_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
     graph = db.Column(db.String(), )
 
 
@@ -205,10 +205,10 @@ def del_file(mapper, connection, target):
 
 
 class t_org_qualificaton(db.Model):  # 涉外机构资格认证
-    org_qua_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    org_qua_title = db.Column(db.String(), )
-    org_qua_content = db.Column(db.Text(), )
-    org_qua_file = db.Column(db.String(), )
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    title = db.Column(db.String(), )
+    content = db.Column(db.Text(), )
+    file = db.Column(db.String(), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(), )
 
@@ -412,7 +412,20 @@ class fileInput(FileUploadInput):
 admin_ = admin.Admin(app, name=u"统计局管理系统", template_mode="bootstrap3")
 
 
-class FileView(ModelView):
+
+
+class add_ckeditor(ModelView):
+    """
+        加富文本
+    """
+    form_overrides = dict(
+        content=CKEditorField,
+    )
+    create_template = 'edit.html'
+    edit_template = 'edit.html'
+
+
+class FileView(add_ckeditor):
     """
         加文件框
     """
@@ -420,28 +433,6 @@ class FileView(ModelView):
 
     column_labels = {
         'file': u'文件路径',
-    }
-
-    form_overrides = {
-        'file': FileUploadField,
-    }
-
-    form_args = {
-        'statistic_file': {
-            'base_path': file_path,
-            'allow_overwrite': False
-        },
-    }
-
-
-class add_ckeditor(FileView):
-    """
-        加富文本
-    """
-    form_overrides = dict(
-        content=CKEditorField,
-    )
-    column_labels = {
         'id': u'序号',
         'title': u'标题',
         'content': u'正文',
@@ -457,44 +448,51 @@ class add_ckeditor(FileView):
         'ask_time': u'提问时间',
         'answer': u'回答',
         'ans_time': u'回答时间',
+        'graph': u'图表',
     }
-    create_template = 'edit.html'
-    edit_template = 'edit.html'
 
+    form_overrides = dict(content=CKEditorField, file=FileUploadField)
+
+    form_args = {
+        'statistic_file': {
+            'base_path': file_path,
+            'allow_overwrite': False
+        },
+    }
 
 admin_.add_views(  # 政务公开页面的管理
-    add_ckeditor(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
-    add_ckeditor(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
-    add_ckeditor(t_leader, db.session, name=u"领导介绍", category=u"政务公开", endpoint="leader"),
-    add_ckeditor(t_organization, db.session, name=u"组织结构", category=u"政务公开", endpoint="organazation"),
+    FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
+    FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
+    FileView(t_leader, db.session, name=u"领导介绍", category=u"政务公开", endpoint="leader"),
+    FileView(t_organization, db.session, name=u"组织结构", category=u"政务公开", endpoint="organazation"),
     #     add_ckeditor(t_topic, db.session, name=u"专题聚焦", category=u"政务公开", endpoint="topic"),
-    add_ckeditor(t_fund, db.session, name=u"财政资金", category=u"政务公开", endpoint="fund"),
-    add_ckeditor(t_law, db.session, name=u"法律法规", category=u"政务公开", endpoint="law"),
-    add_ckeditor(t_policy, db.session, name=u"政策解读", category=u"政务公开", endpoint="policy"),
-    add_ckeditor(t_tax, db.session, name=u"减税降费", category=u"政务公开", endpoint="tax"),
+    FileView(t_fund, db.session, name=u"财政资金", category=u"政务公开", endpoint="fund"),
+    FileView(t_law, db.session, name=u"法律法规", category=u"政务公开", endpoint="law"),
+    FileView(t_policy, db.session, name=u"政策解读", category=u"政务公开", endpoint="policy"),
+    FileView(t_tax, db.session, name=u"减税降费", category=u"政务公开", endpoint="tax"),
 )
 
 admin_.add_views(  # 统计数据页面的管理
-    add_ckeditor(t_jx_data, db.session, name=u"本省数据", category=u"统计数据", endpoint="jx_data"),  # 新闻、文件、图表
-    add_ckeditor(t_cn_data, db.session, name=u"全国数据", category=u"统计数据", endpoint="cn_data"),
-    add_ckeditor(t_global_data, db.session, name=u"国际数据", category=u"统计数据", endpoint="global_data"),
-    add_ckeditor(t_system, db.session, name=u"统计制度", category=u"统计数据", endpoint="system"),
-    add_ckeditor(t_jx_statistics, db.session, name=u"江西省统计公报", category=u"统计数据", endpoint="jx_statistics"),  # pdf
-    add_ckeditor(t_jx_survey, db.session, name=u"江西省普查公报", category=u"统计数据", endpoint="jx_survey"),  # pdf
-    add_ckeditor(t_cn_statistics, db.session, name=u"国家统计公报", category=u"统计数据", endpoint="cn_statistics"),  # pdf
+    FileView(t_jx_data, db.session, name=u"本省数据", category=u"统计数据", endpoint="jx_data"),  # 新闻、文件、图表
+    FileView(t_cn_data, db.session, name=u"全国数据", category=u"统计数据", endpoint="cn_data"),
+    FileView(t_global_data, db.session, name=u"国际数据", category=u"统计数据", endpoint="global_data"),
+    FileView(t_system, db.session, name=u"统计制度", category=u"统计数据", endpoint="system"),
+    FileView(t_jx_statistics, db.session, name=u"江西省统计公报", category=u"统计数据", endpoint="jx_statistics"),  # pdf
+    FileView(t_jx_survey, db.session, name=u"江西省普查公报", category=u"统计数据", endpoint="jx_survey"),  # pdf
+    FileView(t_cn_statistics, db.session, name=u"国家统计公报", category=u"统计数据", endpoint="cn_statistics"),  # pdf
 )
 
 admin_.add_views(  # 网上办事页面的管理
-    add_ckeditor(t_org_qualificaton, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
-    add_ckeditor(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
-    add_ckeditor(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
+    FileView(t_org_qualificaton, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
+    FileView(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
+    FileView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
 )
 
 admin_.add_views(  # 互动交流页面的管理
-    add_ckeditor(t_interview, db.session, name=u"在线访谈", category=u"互动交流", endpoint="interview"),  #
-    add_ckeditor(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
-    add_ckeditor(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
-    add_ckeditor(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
+    FileView(t_interview, db.session, name=u"在线访谈", category=u"互动交流", endpoint="interview"),  #
+    FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
+    FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
+    FileView(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
     #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊

@@ -1,0 +1,98 @@
+{% extends 'interaction.html' %}
+{% block right_content %}
+    <div class="QcolR fr">
+        <!--公开信息搜索 开始 -->
+        <div align="left" style="margin:10px auto 4px;width:680px;height:90px; padding-top:10px; padding-bottom:10px;
+    line-height:25px;background-color:#F4F3F7; border:1px solid #cfcecf; font-weight:bold;">
+            <div style="margin-left:50px;height:32px;font-size:14px;">
+                信件查询： &nbsp;
+                <input type="text" value="请输入咨询信息编号" style="border:1px solid #cfcecf;height:23px;" id="searchReferCode"
+                       name="searchReferCode" onfocus="if(value == '请输入咨询信息编号'){value = ''}"
+                       onblur="if(value == ''){value = '请输入咨询信息编号'}">&nbsp;&nbsp;
+                <input name="Submit" type="button" value=" 查询 " onclick="searchUnopen()" style="border-radius:3px;color:#fff;border:0px;width:
+
+63px;height: 25px;margin-top: 3px;background: #3c86eb;"> &nbsp;&nbsp;
+                <input onclick="javascript:Reset()" value=" 重置 " id="Reset" type="reset" style="border-radius:3px;color:#fff;border:0px;width:
+
+63px;height: 25px;margin-top: 3px;background: #3c86eb;">
+            </div>
+            <div style="margin-left:50px;height:32px;font-size:14px; font-weight:bold;">
+                信件查询： &nbsp;
+                <input type="text" value="请输入咨询信息编号" style="border:1px solid #cfcecf; height:23px;" id="referCode"
+                       name="referCode" onfocus="if(value == '请输入咨询信息编号'){value = ''}"
+                       onblur="if(value == ''){value = '请输入咨询信息编号'}">&nbsp;&nbsp;
+                <input type="text" value="请输入查询密码" style="border:1px solid #cfcecf; height:23px;" id="referPhone"
+                       name="referPhone" onfocus="if
+
+(value == '请输入查询密码'){value = ''}" onblur="if(value == ''){value = '请输入查询密码'}">&nbsp;&nbsp;
+                <input name="Submit" type="button" value=" 查询 " onclick="chaxun()" style="border-radius:3px;color:#fff;border:0px;width:
+
+63px;height: 25px;margin-top: 3px;background: #3c86eb;"> &nbsp;&nbsp;
+                <input onclick="javascript:Reset2()" value=" 重置 " id="Reset" type="reset" style="border-radius:3px;color:#fff;border:0px;width:
+
+63px;height: 25px;margin-top: 3px;background: #3c86eb;">
+                <p style="color:red;margin-top:7px;">当您要查询的信息为非公开信息时，请填写查询密码（即您填写的联系电话）</p>
+            </div>
+        </div>
+        <!--公开信息搜索 结束 -->
+        <a href="{{ url_for('report') }}" class="btn_bluearrow">我要留言</a>
+        <table width="680" class="List_tab" cellpadding="0" cellspacing="0"
+               style="font-size:12px;margin:0 auto;border-left:1px solid #cdcede;">
+            <tbody>
+            <tr height="10">
+            </tr>
+            <tr style="background-color:#F3F3F3;">
+                <th height="46" style="width:106px;border: 1px solid #cdcede;"><strong>类型</strong></th>
+                <th style="width:374px;border: 1px solid #cdcede;"><strong>主题</strong></th>
+                <th style="width:100px;border: 1px solid #cdcede;"><strong>办理情况</strong></th>
+                <th style="border: 1px solid #cdcede;"><strong>来信时间</strong></th>
+            </tr>
+            {% for c in report_list %}
+                <tr>
+                    <td height="40" align="left">统计违法举报信箱</td>
+                    <td style="text-align:left; padding-left:8px;"><a
+                            href="{{ url_for('consult_show', id=c.id) }}"
+                            target="_blank">{{ c.theme }}</a></td>
+                    {% if c.answer %}
+                        <td align="center">已处理</td>
+                    {% else %}
+                        <td align="center">未处理</td>
+                    {% endif %}
+                    <td align="center">{{ c.ask_time }}</td>
+                </tr>
+            {% endfor %}
+
+
+
+            {#      <tr>#}
+            {#        <td height="36" colspan="19" align="center">#}
+            {#          <div class="strong-ui-pager">#}
+            {#            首页 &nbsp;&nbsp;#}
+            {#            上一页 &nbsp;&nbsp;#}
+            {#            <a href="/id_ZXZ2018030214305410/page_2/ReferSearch.shtml">下一页</a> &nbsp;&nbsp;#}
+            {#            <a href="/id_ZXZ2018030214305410/page_94/ReferSearch.shtml">末页</a>&nbsp;#}
+            {#            <span>1/94</span>&nbsp;#}
+            {#            <input id="pager-index" size="2" type="text" onkeypress="javascript:if(event.keyCode==13){pagerGo();}">#}
+            {#            <button type="button" id="pager-go" onclick="pagerGo();">Go</button>#}
+            {#            <script type="text/javascript">#}
+            {#                var curpage = parseInt(1);#}
+            {#                var totalpage = parseInt(94);#}
+            {##}
+            {#                function pagerGo() {#}
+            {#                    var nav = document.getElementById("pager-index").value;#}
+            {#                    nav = Math.round(nav);#}
+            {#                    nav = isNaN(nav) ? 1 : nav;#}
+            {#                    nav = (nav <= 1) ? 1 : nav;#}
+            {#                    nav = (nav >= totalpage) ? totalpage : nav;#}
+            {#                    var url = "/id_ZXZ2018030214305410/page_##/ReferSearch.shtml";#}
+            {#                    location = url.replace("##", nav);#}
+            {#                }#}
+            {#            </script>#}
+            {#          </div>#}
+            {#        </td>#}
+            {#      </tr>#}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

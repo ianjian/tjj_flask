@@ -55,6 +55,32 @@ def get_all_consult():
         lst.append(temp)
     return lst
 
+def get_all_report():
+    lst = []
+    query = app.t_report_letter.query.all()
+    for i in query:
+        temp = {
+            'id': i.id,
+            'theme': i.theme,
+            'answer': i.answer,
+            'ask_time': i.ask_time,
+        }
+        lst.append(temp)
+    return lst
+
+def get_all_mail():
+    lst = []
+    query = app.t_mail.query.all()
+    for i in query:
+        temp = {
+            'id': i.id,
+            'theme': i.theme,
+            'answer': i.answer,
+            'ask_time': i.ask_time,
+        }
+        lst.append(temp)
+    return lst
+
 
 def get_5_jx_data():
     lst = []
@@ -65,7 +91,7 @@ def get_5_jx_data():
             'title': i.title,
             'content': i.content,
             'datetime': i.datetime,
-            'file': i.data_file,
+            'file': i.file,
             'img': i.graph,
         }
         lst.append(temp)
@@ -100,7 +126,7 @@ def get_five_work():
     lst = []
     query = app.t_work.query.all()[0: 5]
     for i in query:
-        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }                          
         lst.append(temp)
     return lst
 
@@ -135,8 +161,7 @@ def get_eight_leader():
     lst = []
     query = app.t_leader.query.all()[0: 8]
     for i in query:
-        temp = {'id': i.id, 'name': i.name, 'title': i.leader_title, 'content': i.intro,
-                'img': i.leader_image}
+        temp = {'id': i.id, 'name': i.name, 'title': i.leader_title, 'content': i.intro}
         lst.append(temp)
     return lst
 
@@ -145,7 +170,7 @@ def get_ten_fqa():
     fqa = []
     query = app.t_fqa.query.all()[:10]
     for i in query:
-        temp = {'id': i.id, 'title': i.title, 'content': i.fqa_content, 'datetime': str(i.fqa_datetime)[: 10]}
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': str(i.datetime)[: 10]}
         fqa.append(temp)
     return fqa
 
@@ -155,7 +180,7 @@ def get_12_work():
     query = app.t_work.query.all()[:12]
     for i in query:
         temp = {'id': i.id, 'title': i.title, 'content': i.content,
-                'datetime': str(i.work_datetime)[: 10]}
+                'datetime': str(i.datetime)[: 10]}
         work12.append(temp)
     return work12
 
@@ -203,7 +228,7 @@ def get_9_int():
     query = app.t_interview.query.all()[:9]
     for i in query:
         temp = {'id': i.id, 'title': i.title, 'content': i.content,
-                'datetime': str(i.int_datetime)[: 10]}
+                'datetime': str(i.datetime)[: 10]}
         int9.append(temp)
     return int9
 
@@ -212,8 +237,8 @@ def get_all_file():
     int9 = []
     query = app.t_file.query.all()
     for i in query:
-        temp = {'id': i.file_id, 'title': i.file_title, 'content': i.file_content,
-                'datetime': str(i.file_datetime)[: 10], 'path': i.file_path}
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'path': i.file}
         int9.append(temp)
     return int9
 
