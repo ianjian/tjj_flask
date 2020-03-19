@@ -313,7 +313,7 @@ def add_2_mail(account, is_encrypt, asker, phone, email, theme, question):
 
 def get_all_statistics():
     int9 = []
-    query = app.t_system.query.all()
+    query = app.t_jx_statistics.query.all()
     for i in query:
         temp = {'id': i.id, 'title': i.title, 'content': i.content,
                 'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'statistic'}
@@ -376,6 +376,15 @@ def get_1_mail(id):
     return lst
 
 
+def get_1_report_letter(id):
+    lst = {}
+    query = app.t_report_letter.query.filter_by(id=id)
+    for i in query:
+        lst = {'id': i.id, 'asker': i.asker, 'ask_time': i.ask_time,
+               'question': i.question, 'answer': i.answer, 'ans_time': i.ans_time}
+    return lst
+
+
 def get_4_consult():
     lst = []
     query = app.t_consult.query.all()[:4]
@@ -395,6 +404,21 @@ def get_1_interview(data):
 
 def add_2_consult(account, is_encrypt, asker, phone, email, theme, question):
     add = app.t_consult(
+        account=account[3:],
+        is_encrypt=is_encrypt,
+        asker=asker,
+        phone=phone,
+        email=email,
+        theme=theme,
+        question=question,
+        ask_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+    )
+    db.session.add(add)
+    db.session.commit()
+
+
+def add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question):
+    add = app.t_report_letter(
         account=account[3:],
         is_encrypt=is_encrypt,
         asker=asker,

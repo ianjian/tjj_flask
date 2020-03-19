@@ -509,10 +509,11 @@ def mail_list():
     mail_list = dn.get_all_mail()
     return render_template('mail_list.html', mail_list=mail_list)
 
+
 @app.route('/report_list/')
 def report_list():
-    report_list = dn.get_all_report()
-    return render_template('mail_list.html', report_list=report_list)
+    report_list = dn.get_all_report()  # 举报信
+    return render_template('report_letter_list.html', report_list=report_list)
 
 @app.route('/consult_show/<id>')
 def consult_show(id):
@@ -524,6 +525,11 @@ def consult_show(id):
 def mail_show(id):
     con = dn.get_1_mail(id)
     return render_template('mail_show.html', con=con)
+
+@app.route('/report_letter_show/<id>')
+def report_letter_show(id):
+    con = dn.get_1_report_letter(id)
+    return render_template('report_letter_show.html', con=con)
 
 @app.route('/survey_theme/')
 def survey_theme():
@@ -668,6 +674,18 @@ def subConsult():
     theme = request.form["theme"]
     question = request.form["question"]
     dn.add_2_consult(account, is_encrypt, asker, phone, email, theme, question)
+    return ''
+
+@app.route('/subReportLetter/', methods=['get', 'post'])
+def subReportLetter():
+    account = request.form["account"]
+    is_encrypt = request.form["is_encrypt"]
+    asker = request.form["asker"]
+    phone = request.form["phone"]
+    email = request.form["email"]
+    theme = request.form["theme"]
+    question = request.form["question"]
+    dn.add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question)
     return ''
 
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])

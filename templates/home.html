@@ -272,16 +272,15 @@
       </div>
       <div class="QDdiv">
         <ul class="QDdivul">
-          <li id="Qd1"><a href="/id_bscx201803120133187534/column.shtml" target="_blank"><!-- 办事程序 -->审批程序</a>
+          <li id="Qd1"><a href="{{ url_for('integration', cate='procedure') }}" target="_blank"><!-- 办事程序 -->审批程序</a>
           </li>
           <li id="Qd2"><a href="http://www.jxstj.gov.cn/id_tjzd201803120105027398/column.shtml"
-                          target="_blank">
-            <!-- 文件下载 -->文件下载</a></li>
-          <li id="Qd3"><a href="/id_bgxz201803120133118068/column.shtml" target="_blank"><!-- 表格下载 -->表格下载</a>
+                          target="_blank">文件下载</a></li>
+          <li id="Qd3"><a href="{{ url_for('integration', cate='table') }}" target="_blank"><!-- 表格下载 -->表格下载</a>
           </li>
-          <li id="Qd4"><a href="/id_spgg201803120133031108/column.shtml" target="_blank"><!-- 审批公告 -->审批公告</a>
+          <li id="Qd4"><a href="{{ url_for('integration', cate='notice') }}" target="_blank"><!-- 审批公告 -->审批公告</a>
           </li>
-          <li id="Qd5" style="border-right: none;"><a href="/id_ygwj201803120133265315/column.shtml" target="_blank">有关文件</a>
+          <li id="Qd5" style="border-right: none;"><a href="{{ url_for('integration', cate='relatives') }}" target="_blank">有关文件</a>
           </li>
         </ul>
       </div>
