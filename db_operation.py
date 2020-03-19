@@ -1,5 +1,6 @@
 import time
 import app
+from app import db
 
 
 def get_circumstances(title):
@@ -55,6 +56,7 @@ def get_all_consult():
         lst.append(temp)
     return lst
 
+
 def get_all_report():
     lst = []
     query = app.t_report_letter.query.all()
@@ -67,6 +69,7 @@ def get_all_report():
         }
         lst.append(temp)
     return lst
+
 
 def get_all_mail():
     lst = []
@@ -126,7 +129,7 @@ def get_five_work():
     lst = []
     query = app.t_work.query.all()[0: 5]
     for i in query:
-        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }                          
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }
         lst.append(temp)
     return lst
 
@@ -223,12 +226,97 @@ def get_leader_intro():
         leader.append(temp)
     return leader
 
+
 def get_9_int():
     int9 = []
     query = app.t_interview.query.all()[:9]
     for i in query:
         temp = {'id': i.id, 'title': i.title, 'content': i.content,
                 'datetime': str(i.datetime)[: 10]}
+        int9.append(temp)
+    return int9
+
+
+def get_all_relatives():
+    int9 = []
+    query = app.t_proj_manage.query.filter_by(cate='有关文件')
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'relatives'}
+        int9.append(temp)
+    return int9
+
+
+def get_all_procedure():
+    int9 = []
+    query = app.t_proj_manage.query.filter_by(cate='审批程序')
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'procedure'}
+        int9.append(temp)
+    return int9
+
+
+def get_all_table():
+    int9 = []
+    query = app.t_proj_manage.query.filter_by(cate='表格下载')
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'table'}
+        int9.append(temp)
+    return int9
+
+
+def get_all_notice():
+    int9 = []
+    query = app.t_proj_manage.query.filter_by(cate='审批公告')
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'notice'}
+        int9.append(temp)
+    return int9
+
+
+def get_all_sys():
+    int9 = []
+    query = app.t_system.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'sys'}
+        int9.append(temp)
+    return int9
+
+
+def get_1_sys(id):
+    temp = {}
+    query = app.t_system.query.filter_by(id=id)
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'cate': 'sys'}
+    return temp
+
+
+def add_2_mail(account, is_encrypt, asker, phone, email, theme, question):
+    add = app.t_mail(
+        account=account[3:],
+        is_encrypt=is_encrypt,
+        asker=asker,
+        phone=phone,
+        email=email,
+        theme=theme,
+        question=question,
+        ask_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+    )
+    db.session.add(add)
+    db.session.commit()
+
+
+def get_all_statistics():
+    int9 = []
+    query = app.t_system.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'statistic'}
         int9.append(temp)
     return int9
 
@@ -279,6 +367,14 @@ def get_1_consult(id):
                'question': i.question, 'answer': i.answer, 'ans_time': i.ans_time}
     return lst
 
+def get_1_mail(id):
+    lst = {}
+    query = app.t_mail.query.filter_by(id=id)
+    for i in query:
+        lst = {'id': i.id, 'asker': i.asker, 'ask_time': i.ask_time,
+               'question': i.question, 'answer': i.answer, 'ans_time': i.ans_time}
+    return lst
+
 
 def get_4_consult():
     lst = []
@@ -296,3 +392,17 @@ def get_1_interview(data):
     for i in query:
         lst = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime}
     return lst
+
+def add_2_consult(account, is_encrypt, asker, phone, email, theme, question):
+    add = app.t_consult(
+        account=account[3:],
+        is_encrypt=is_encrypt,
+        asker=asker,
+        phone=phone,
+        email=email,
+        theme=theme,
+        question=question,
+        ask_time=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+    )
+    db.session.add(add)
+    db.session.commit()

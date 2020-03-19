@@ -8,7 +8,7 @@
     <ul class="wzdhlist clearfix">
       {% for i in cate1 %}
       <li>
-        <a href="{{ url_for('news', cate='organization', data=i.org_id) }}" target="_blank">{{ i.org_title }}</a>
+        <a href="{{ url_for('news', cate='organization', data=i.id) }}" target="_blank">{{ i.title }}</a>
       </li>
       {% endfor %}
     </ul>
@@ -19,7 +19,7 @@
     <ul class="wzdhlist clearfix">
       {% for j in cate2 %}
       <li>
-        <a href="{{ url_for('news', cate='organization', data=j.org_id) }}" target="_blank">{{ j.org_title }}</a>
+        <a href="{{ url_for('news', cate='organization', data=j.id) }}" target="_blank">{{ j.title }}</a>
       </li>
       {% endfor %}
 

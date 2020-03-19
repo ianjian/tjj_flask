@@ -69,7 +69,9 @@
     <div class="Qpage" id="contents">
       {{ data.content }}
     </div>
-
+    {% if data.file %}
+      <div><a href="/file/{{ data.file }}" download="{{ data.file }}"></a></div>
+    {% endif %}
   </div>
   <div class="Qlast">
     <p class="Qlastp fl">

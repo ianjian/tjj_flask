@@ -126,18 +126,29 @@
         <textarea class="textarea" id="referContent" name="referContent" cols="70" rows="10" wrap="virtual"></textarea>
       </td>
     </tr>
-    <tr bgcolor="#F3F3F3">
-      <td align="right" valign="middle" class="titlecol" style="padding-right:2px;">验证码：</td>
-      <td class="inputcol">
-        <img style="vertical-align:middle;" src="/captcha.jpg" id="captcha" onclick="flashCaptcha();">
-        <input align="absmiddle" class="input" type="text" size="5" id="jcaptcha" name="jcaptcha" value="">
-      </td>
-    </tr>
     <tr bgcolor="#FFFFFF">
       <td height="38" bgcolor="#FFFFFF" class="titlecol">&nbsp;</td>
       <td bgcolor="#FFFFFF" class="inputcol">
         <input type="button" value="提交" class="btn_bluearrow" onclick="subForm();">&nbsp;
-        <input type="reset" value="重填" class="btn_bluearrow"></td>
+        <script type="text/javascript">
+            function subForm() {
+                $.post('/subConsult/',
+                    {
+                        "account": $("#referSortId").val(),
+                        "is_encrypt": $("#referOpen:checked").val(),
+                        "asker": $("#referUser").val(),
+                        "phone": $("#referPhone").val(),
+                        "email": $("#referEmail").val(),
+                        "theme": $("#referTitle").val(),
+                        "question": $("#referContent").val(),
+                    },
+                    function () {
+                        window.location = '/consult_list/';s
+                    }
+                )
+            }
+        </script>
+{#        <input type="reset" value="重填" class="btn_bluearrow"></td>#}
     </tr>
 
     </tbody>

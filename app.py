@@ -15,7 +15,6 @@ from flask_ckeditor import CKEditor, CKEditorField
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
 
-import time
 import os
 import os.path as op
 
@@ -226,7 +225,7 @@ class t_proj_exam(db.Model):  # 涉外调查项目审批
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
-    proj_exam_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(), )
 
@@ -244,7 +243,7 @@ class t_proj_manage(db.Model):  # 地方统计调查项目管理
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
-    proj_manage_file = db.Column(db.String(), )
+    file = db.Column(db.String(), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(), )
 
@@ -335,7 +334,7 @@ class t_interview(db.Model):  # 在线访谈
 
 class t_consult(db.Model):  # 在线咨询
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    account = db.Column(db.Integer, )
+    account = db.Column(db.String(), )
     is_encrypt = db.Column(db.Integer, )
     asker = db.Column(db.String(), )
     phone = db.Column(db.String(), )
@@ -349,7 +348,7 @@ class t_consult(db.Model):  # 在线咨询
 
 class t_report_letter(db.Model):  # 举报信箱
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    account = db.Column(db.Integer, )
+    account = db.Column(db.String(), )
     is_encrypt = db.Column(db.Integer, )
     asker = db.Column(db.String(), )
     phone = db.Column(db.String(), )
@@ -363,7 +362,7 @@ class t_report_letter(db.Model):  # 举报信箱
 
 class t_mail(db.Model):  # 领导信箱
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    account = db.Column(db.Integer, )
+    account = db.Column(db.String(), )
     is_encrypt = db.Column(db.Integer, )
     asker = db.Column(db.String(), )
     phone = db.Column(db.String(), )
@@ -505,11 +504,26 @@ def consult_list():
     return render_template('consult_list.html', consult_list=consult_list)
 
 
+@app.route('/mail_list/')
+def mail_list():
+    mail_list = dn.get_all_mail()
+    return render_template('mail_list.html', mail_list=mail_list)
+
+@app.route('/report_list/')
+def report_list():
+    report_list = dn.get_all_report()
+    return render_template('mail_list.html', report_list=report_list)
+
 @app.route('/consult_show/<id>')
 def consult_show(id):
     con = dn.get_1_consult(id)
     return render_template('consult_show.html', con=con)
 
+
+@app.route('/mail_show/<id>')
+def mail_show(id):
+    con = dn.get_1_mail(id)
+    return render_template('mail_show.html', con=con)
 
 @app.route('/survey_theme/')
 def survey_theme():
@@ -572,6 +586,23 @@ def law_comprehension(cate):
 def main_responsibility():
     return render_template("main_responsibility.html")
 
+@app.route('/integration/<cate>')
+def integration(cate):   # 一体化服务
+    data = []
+    if cate == 'realtives':  # 有关文件
+        data = dn.get_all_relatives()
+    elif cate == 'procedure':  # 审批程序
+        data = dn.get_all_procedure()
+    elif cate == 'table':  # 表格下载
+        data = dn.get_all_table()
+    elif cate == 'notice':  # 审批公告
+        data = dn.get_all_notice()
+    elif cate == 'sys':  # 统计制度下载
+        data = dn.get_all_sys()
+    elif cate == 'report':  # 统计报表下载
+        data = dn.get_all_statistics()
+    return render_template('integration_services.html', data=data)
+
 
 @app.route("/work_list/")
 def work_list():
@@ -581,9 +612,9 @@ def work_list():
 
 @app.route("/organization_list/")
 def organization_list():
-    query1 = t_organization.query.filter_by(org_cate="行政单位")
+    query1 = t_organization.query.filter_by(cate="行政单位")
     cate1 = t_organization.to_json(query1)
-    query2 = t_organization.query.filter_by(org_cate="事业单位")
+    query2 = t_organization.query.filter_by(cate="事业单位")
     cate2 = t_organization.to_json(query2)
     return render_template("organization_list.html", cate1=cate1, cate2=cate2)
 
@@ -615,6 +646,29 @@ def report():
 def mail():
     return render_template('mail.html')
 
+@app.route('/subMail/', methods=['get', 'post'])
+def subMail():
+    mailAccount = request.form["mailAccount"]
+    mailIsEncrypt = request.form["mailIsEncrypt"]
+    mailAsker = request.form["mailAsker"]
+    mailPhone = request.form["mailPhone"]
+    mailEmail = request.form["mailEmail"]
+    mailTheme = request.form["mailTheme"]
+    mailQuestion = request.form["mailQuestion"]
+    dn.add_2_mail(mailAccount, mailIsEncrypt, mailAsker, mailPhone, mailEmail, mailTheme, mailQuestion)
+    return ''
+
+@app.route('/subConsult/', methods=['get', 'post'])
+def subConsult():
+    account = request.form["account"]
+    is_encrypt = request.form["is_encrypt"]
+    asker = request.form["asker"]
+    phone = request.form["phone"]
+    email = request.form["email"]
+    theme = request.form["theme"]
+    question = request.form["question"]
+    dn.add_2_consult(account, is_encrypt, asker, phone, email, theme, question)
+    return ''
 
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
 def news(cate, data):
@@ -630,6 +684,8 @@ def news(cate, data):
         return_data = dn.get_one_fqa(data)
     elif cate == 'interview':
         return_data = dn.get_1_interview(data)
+    elif cate == 'sys':
+        return_data = dn.get_1_sys(data)
     return render_template("news.html", data=return_data)
 
 

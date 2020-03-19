@@ -58,16 +58,18 @@
       </a>
     </div>
     <div class="Qhotnews fr">
-      <h3><a href="/id_8a84cc836bdf3c5d016cbcbf624e7672/news.shtml"
-             target="_blank">宁吉喆在江西调研指导，要求新时代统计调查人要饮水思源、...</a>
+      <h3><a href="{{ url_for('news', cate='work', data=work12[0].id) }}"
+             target="_blank">{{ work12[0].title[:27] + '...' }}</a>
       </h3>
       <ul class="QhotUl">
-        <li style="display: none;"><a href="/id_8a84cc836bdf3c5d016cbcbf624e7672/news.shtml" target="_blank">[宁吉喆在江西调研指导，要求新时代统计调查人要饮...]</a>
+        <li style="display: none;"><a href="{{ url_for('news', cate='work', data=work12[0].id) }}"
+                                      target="_blank">{{ work12[0].title }}</a>
         </li>
-        <li><a href="/id_8a84cc836560a1d301661a6777eb413a/news.shtml" target="_blank">[省委副书记、代省长易炼红到省统计局调研并强调：...]</a>
+        <li><a href="{{ url_for('news', cate='work', data=work12[1].id) }}"
+               target="_blank">[ {{ work12[1].title[:23] + '...' }} ]</a>
         </li>
-        <li><a href="/id_8a84cc836ee526b701702f0309ac1a63/news.shtml" target="_blank">[省统计局认真做好新冠肺炎疫情防控
-          加强疫情期...]</a>
+        <li><a href="{{ url_for('news', cate='work', data=work12[2].id) }}"
+               target="_blank">[ {{ work12[2].title[:23] + '...' }}] </a>
         </li>
       </ul>
       <script>
@@ -195,46 +197,10 @@
       <div class="QrightHdiv">
         <div class="Qtab">
           <ul class="QnewsBold fl" style="width: 100%;">
-
-            <li><span>01-09</span><a href="/resource/uploadfile/file/20200109/20200109144459997.pdf"
-                                     target="_blank">2019年11月各设区市、各直管县主要经济指标</a>
-            </li>
-
-            <li><span>12-26</span><a href="/resource/uploadfile/file/20191226/20191226155219895.pdf"
-                                     target="_blank">2019年11月全省主要经济指标</a>
-            </li>
-
-            <li><span>11-28</span><a href="/resource/uploadfile/file/20191128/20191128123604109.pdf"
-                                     target="_blank">2019年10月各设区市、各直管县主要经济指标</a>
-            </li>
-
-            <li><span>11-28</span><a href="/resource/uploadfile/file/20191128/20191128122807894.pdf"
-                                     target="_blank">2019年10月全省主要经济指标</a>
-            </li>
-
-            <li><span>11-01</span><a href="/resource/uploadfile/file/20191128/20191128122500855.pdf"
-                                     target="_blank">2019年9月各设区市、各直管县主要经济指标</a>
-            </li>
-
-            <li><span>10-25</span>
-              <a href="http://www.jxstj.gov.cn/resource/uploadfile/file/20191025/20191025102024702.pdf"
-                 target="_blank">2019年9月全省主要经济指标</a>
-            </li>
-
-            <li><span>09-25</span>
-              <a href="http://www.jxstj.gov.cn/resource/uploadfile/file/20190925/20190925105523766.pdf"
-                 target="_blank">2019年8月各设区市、各直管县主要经济指标</a>
-            </li>
-
-            <li><span>09-25</span>
-              <a href="http://www.jxstj.gov.cn/resource/uploadfile/file/20190925/20190925105050963.pdf"
-                 target="_blank">2019年8月全省主要经济指标</a>
-            </li>
-
-            <li><span>08-22</span>
-              <a href="http://www.jxstj.gov.cn/resource/uploadfile/file/20190822/20190822164727228.pdf"
-                 target="_blank">2019年7月各设区市、各直管县主要经济指标</a>
-            </li>
+            {% for t in int9 %}
+              <li><span>{{ t.datetime }}</span><a href="{{ url_for('news', cate='interview', data=t.id) }}"
+                                             target="_blank">{{ t.title[:23] + '...' }}</a>
+            {% endfor %}
 
           </ul>
 
@@ -315,7 +281,8 @@
           </li>
           <li id="Qd4"><a href="/id_spgg201803120133031108/column.shtml" target="_blank"><!-- 审批公告 -->审批公告</a>
           </li>
-          <li id="Qd5" style="border-right: none;"><a href="/id_ygwj201803120133265315/column.shtml" target="_blank">有关文件</a></li>
+          <li id="Qd5" style="border-right: none;"><a href="/id_ygwj201803120133265315/column.shtml" target="_blank">有关文件</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -535,13 +502,13 @@
     <!-- 统计制度 -->
     <div class="totalBox" style="margin-top: 19px;">
       <div class="QrightHead Qbottom">
-        <span class="Qspan Qactive"><!-- 统计制度 --><a class="ccc" href="#"
-                                                    target="_blank">统计制度</a></span>
+        <span class="Qspan Qactive">
+          <a class="ccc" href="{{ url_for('integration', cate='sys') }}" target="_blank">统计制度</a></span>
       </div>
 
       <ul class="QnewsUl fl">
         {% for s in system5 %}
-          <li><span>{{ s.datetime }}</span><a href="/id_8a84cc836ee526b7016ef3cbc64f4294/news.shtml"
+          <li><span>{{ s.datetime }}</span><a href="{{ url_for('news', cate='sys', data=s.id) }}"
                                               target="_blank">{{ s.title[:30] + '...' }}</a>
           </li>
         {% endfor %}
@@ -608,17 +575,6 @@
           <li><span>12-12</span><a href="/id_8a84cc836ee526b7016ef814787457bc/news.shtml" target="_blank">统计执法监督检查办法（中华人民共和国国家统计局令第28号）</a>
           </li>
 
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278c10b450472/news.shtml" target="_blank">涉外调查机构资格认定状态查询公告</a>
-          </li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278ba664b0455/news.shtml" target="_blank">涉外调查许可申请表</a>
-          </li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278bccf810464/news.shtml" target="_blank">涉外调查许可申请表（境外组织填写）范本</a>
-          </li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278c226860477/news.shtml" target="_blank">关于印发江西省统计局行政许可办事程序的通知</a>
-          </li>
 
         </ul>
       </div>
@@ -629,8 +585,6 @@
           <li><span>12-12</span><a href="/id_8a84cc836ee526b7016ef814787457bc/news.shtml" target="_blank">统计执法监督检查办法（中华人民共和国国家统计局令第28号）</a>
           </li>
 
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278c226860477/news.shtml" target="_blank">关于印发江西省统计局行政许可办事程序的通知</a>
-          </li>
 
         </ul>
       </div>
@@ -647,15 +601,6 @@
           <li><span>04-27</span><a href="/id_4028f89e6273b426016278ba664b0455/news.shtml" target="_blank">涉外调查许可申请表</a>
           </li>
 
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278bccf810464/news.shtml" target="_blank">涉外调查许可申请表（境外组织填写）范本</a>
-          </li>
-
-          <li><span>08-26</span><a href="/id_4028f89e6273b426016278bc0034045f/news.shtml"
-                                   target="_blank">涉外调查许可申请表范本</a></li>
-
-          <li><span>08-26</span><a href="/id_4028f89e6273b426016278bb417e045a/news.shtml" target="_blank">涉外调查许可申请表（境外组织填写）</a>
-          </li>
-
         </ul>
       </div>
       <!-- 网上审批 -->
@@ -664,9 +609,6 @@
 
           <li><span>02-27</span><a href="/id_4028f89e6273b426016278b3c7d50439/news.shtml" target="_blank">2017年取得《涉外调查许可证》机构名单</a>
           </li>
-
-          <li><span>05-09</span><a href="/id_4028f89e6273b426016278be4a500468/news.shtml"
-                                   target="_blank">涉外调查机构资格认定审批公告</a></li>
 
         </ul>
       </div>
@@ -686,9 +628,6 @@
           <li><span>02-27</span><a href="/id_4028f89e6273b426016278b74589044a/news.shtml" target="_blank">2017年取得《涉外调查许可证》机构名单</a>
           </li>
 
-          <li><span>05-09</span><a href="/id_4028f89e6273b426016278b90ae2044f/news.shtml"
-                                   target="_blank">涉外调查机构资格认定审批公告</a></li>
-
         </ul>
       </div>
     </div>
@@ -705,8 +644,6 @@
         <p class="Qp2"><a href="/id_swdcxmsp201803120103425407/column.shtml" target="_blank">全部/</a></p>
         <p class="Qp2"><a href="/id_ygwj201803120132314287/column.shtml" target="_blank"><!-- 有关文件 -->有关文件 /</a>
         </p>
-        <!-- <p class="Qp2"><a href="http://www.jxzwfww.gov.cn/jxzw/czbm/index.do?webId=1&orgCode=3600000029" target="_blank">-->
-        <!-- 审批程序 --> <!--审批程序 /</a></p>-->
         <p class="Qp2 Qte"><a href="/id_bgxz201803120132063842/column.shtml" target="_blank"><!-- 表格下载 -->表格下载
           /</a></p>
         <p class="Qp2"><a href="/id_wssp201803120132004573/column.shtml" target="_blank"><!-- 网上审批 -->网上审批 /</a>
@@ -715,7 +652,6 @@
         </p>
         <p class="Qp2"><a href="/id_spgg201803120131424428/column.shtml" target="_blank"><!-- 审批公告 -->审批公告 /</a>
         </p>
-        <p><a href="/id_jdjb201803120131299412/column.shtml" target="_blank"><!-- 监督举报 -->监督举报</a></p>
       </div>
       <!-- 全部 -->
       <div class="QrightHdiv hide">
@@ -724,17 +660,6 @@
           <li><span>12-12</span><a href="/id_8a84cc836ee526b7016ef81e6c78581e/news.shtml" target="_blank">统计执法监督检查办法（中华人民共和国国家统计局令第28号）</a>
           </li>
 
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278cd5e7704a9/news.shtml"
-                                   target="_blank">监督举报</a></li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6234d5c201626317435b0239/news.shtml" target="_blank">涉外调查项目审批公告</a>
-          </li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278c686da0483/news.shtml"
-                                   target="_blank">涉外调查项目审批状态查询公告</a></li>
-
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278c96a760499/news.shtml" target="_blank">涉外社会调查项目审批申请表范本</a>
-          </li>
 
         </ul>
       </div>
@@ -745,26 +670,15 @@
           <li><span>12-12</span><a href="/id_8a84cc836ee526b7016ef81e6c78581e/news.shtml" target="_blank">统计执法监督检查办法（中华人民共和国国家统计局令第28号）</a>
           </li>
 
-          <li><span>04-27</span><a href="/id_4028f89e6273b426016278cb1ca4049e/news.shtml" target="_blank">关于印发江西省统计局行政许可办事程序的通知</a>
-          </li>
 
         </ul>
       </div>
-      <!-- 办事程序 -->
-      <!-- <div class="QrightHdiv hide">
-           <ul class="QnewsUl">
-
-           </ul>
-       </div>-->
       <!-- 表格下载 -->
       <div class="QrightHdiv">
         <ul class="QnewsUl">
 
           <li><span>04-27</span><a href="/id_4028f89e6273b426016278c96a760499/news.shtml" target="_blank">涉外社会调查项目审批申请表范本</a>
           </li>
-
-          <li><span>07-27</span><a href="/id_4028f89e6273b426016278cc06c104a3/news.shtml"
-                                   target="_blank">涉外社会调查项目审批申请表</a></li>
 
         </ul>
       </div>
@@ -823,17 +737,7 @@
           <li><span>01-16</span><a href="/id_8a84cc836ee526b7016fac208e630258/news.shtml" target="_blank">2019年7-12月国家统计局江西调查总队地方统计调查项目审批目录</a>
           </li>
 
-          <li><span>01-16</span><a href="/id_8a84cc836ee526b7016fac1f8f2e024f/news.shtml" target="_blank">2019年1-6月国家统计局江西调查总队地方统计调查项目审批目录</a>
-          </li>
 
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f129d9b0f47bb/news.shtml" target="_blank">已审批的省直部门统计调查项目（统计报表制度）公告（截止2019年12月...</a>
-          </li>
-
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f129c424a47b5/news.shtml" target="_blank">江西省市县脱贫攻坚工作成效统计调查项目主要内容</a>
-          </li>
-
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f1296d8924773/news.shtml" target="_blank">关于《江西省市县脱贫攻坚工作成效统计调查项目》的批复</a>
-          </li>
 
         </ul>
       </div>
@@ -844,28 +748,10 @@
           <li><span>10-31</span><a href="/id_8a84cc8369146e33016ab009ed8a5f4b/news.shtml" target="_blank">国家统计局令：部门统计调查项目管理办法(自2017年10月1日起施行)</a>
           </li>
 
-          <li><span>05-13</span><a href="/id_8a84cc8369146e33016ab006773a5f2a/news.shtml" target="_blank">国务院办公厅关于加强和完善部门统计工作意见的通知(国办发〔2014〕6...</a>
-          </li>
 
-          <li><span>05-13</span><a href="/id_8a84cc8369146e33016ab002a97a5ef3/news.shtml" target="_blank">中华人民共和国统计法实施条例（2017年8月1日起施行）</a>
-          </li>
-
-          <li><span>05-13</span><a href="/id_8a84cc8369146e33016aaffc082d5ea2/news.shtml" target="_blank">中华人民共和国统计法（2010年1月日起施行）</a>
-          </li>
-
-          <li><span>05-10</span><a href="/id_4028f89e6234d5c2016263188ac70247/news.shtml" target="_blank">关于印发《江西省统计调查项目管理工作规程（试行）》的通知</a>
-          </li>
 
         </ul>
       </div>
-      <!-- 办事程序 -->
-      <!--<div class="QrightHdiv hide">
-          <ul class="QnewsUl">
-
-                  <li><span>06-03</span><a href="/id_8a84cc8369146e33016b1c77b1c00597/news.shtml" target="_blank">江西省省直部门统计调查项目申请审批须知与办事程序（2019年修订）</a></li>
-
-          </ul>
-      </div>-->
       <!-- 表格下载 -->
       <div class="QrightHdiv hide">
         <ul class="QnewsUl">
@@ -873,17 +759,7 @@
           <li><span>10-17</span><a href="/id_8a84cc836bdf3c5d016dd7a2600f4599/news.shtml" target="_blank">示例：财政部国库司
             防范和惩治政府采购信息统计造假、弄虚作假责任制规定...</a></li>
 
-          <li><span>06-03</span><a href="/id_8a84cc8369146e33016b1c7afc7c05b0/news.shtml" target="_blank">部门统计调查制度主要内容的模板、范例（2019）</a>
-          </li>
 
-          <li><span>04-02</span><a href="/id_8a84cc8369146e330169dc545fe23c05/news.shtml" target="_blank">江西省部门新增统计调查项目审批申请书（2019）</a>
-          </li>
-
-          <li><span>03-22</span><a href="/id_4028f89e6234d5c2016263185b740243/news.shtml" target="_blank">江西省部门修订统计调查项目审批申请书(2019)</a>
-          </li>
-
-          <li><span>10-16</span><a href="/id_4028f89e6273b426016278d68e5304c8/news.shtml" target="_blank">修订统计调查项目申请书（国家统计局制定）</a>
-          </li>
 
         </ul>
       </div>
@@ -894,17 +770,6 @@
           <li><span>01-16</span><a href="/id_8a84cc836ee526b7016fac208e630258/news.shtml" target="_blank">2019年7-12月国家统计局江西调查总队地方统计调查项目审批目录</a>
           </li>
 
-          <li><span>01-16</span><a href="/id_8a84cc836ee526b7016fac1f8f2e024f/news.shtml" target="_blank">2019年1-6月国家统计局江西调查总队地方统计调查项目审批目录</a>
-          </li>
-
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f129d9b0f47bb/news.shtml" target="_blank">已审批的省直部门统计调查项目（统计报表制度）公告（截止2019年12月...</a>
-          </li>
-
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f129c424a47b5/news.shtml" target="_blank">江西省市县脱贫攻坚工作成效统计调查项目主要内容</a>
-          </li>
-
-          <li><span>12-17</span><a href="/id_8a84cc836ee526b7016f1296d8924773/news.shtml" target="_blank">关于《江西省市县脱贫攻坚工作成效统计调查项目》的批复</a>
-          </li>
 
         </ul>
       </div>
@@ -920,33 +785,31 @@
       <div class="WythfwList">
         <ul>
           <li>
-            <a class="bsznIcon" href="/id_ygwj201803120133265315/column.shtml" target="_blank"><p>
-              <!-- 办事指南 -->有关文件</p>
+            <a class="bsznIcon" href="{{ url_for('integration', cate='relatives') }}" target="_blank"><p>
+              有关文件</p>
             </a>
           </li>
           <li>
-            <a class="zxsbIcon" href="/id_bscx201803120133187534/column.shtml" target="_blank"><p>
-              <!-- 在线申报 -->审批程序</p>
+            <a class="zxsbIcon" href="{{ url_for('integration', cate='procedure') }}" target="_blank"><p>
+              审批程序</p>
             </a>
           </li>
           <li>
-            <a class="rbgxzIcon" href="/id_bgxz201803120133118068/column.shtml" target="_blank"><p>
-              <!-- 表格下载 -->表格下载</p>
+            <a class="rbgxzIcon" href="{{ url_for('integration', cate='table') }}" target="_blank"><p>
+              表格下载</p>
             </a>
           </li>
           <li>
-            <a class="jgcxIcon" href="/id_spgg201803120133031108/column.shtml" target="_blank"><p>
-              <!-- 结果查询 -->审批公告</p>
+            <a class="jgcxIcon" href="{{ url_for('integration', cate='notice') }}" target="_blank"><p>
+              审批公告</p>
             </a>
           </li>
           <li>
-            <a class="tjzdxzIcon" href="/id_tjzdxz201804131554246600/column.shtml" target="_blank"><p>
-              <!-- 统计制度下载 -->
+            <a class="tjzdxzIcon" href="{{ url_for('integration', cate='sys') }}" target="_blank"><p>
               统计制度下载</p></a>
           </li>
           <li>
-            <a class="tjbbxzIcon" href="/id_tjbbxz201804131555030817/column.shtml" target="_blank"><p>
-              <!-- 统计报表下载 -->
+            <a class="tjbbxzIcon" href="{{ url_for('integration', cate='report') }}" target="_blank"><p>
               统计报表下载</p></a>
           </li>
           <li class="nobjLi"></li>
