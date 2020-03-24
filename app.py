@@ -203,7 +203,7 @@ def del_file(mapper, connection, target):
             pass
 
 
-class t_org_qualificaton(db.Model):  # 涉外机构资格认证
+class t_org_qualification(db.Model):  # 涉外机构资格认证
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(), )
     content = db.Column(db.Text(), )
@@ -212,7 +212,7 @@ class t_org_qualificaton(db.Model):  # 涉外机构资格认证
     cate = db.Column(db.String(), )
 
 
-@listens_for(t_org_qualificaton, 'after_delete')
+@listens_for(t_org_qualification, 'after_delete')
 def del_file(mapper, connection, target):
     if target.path:
         try:
@@ -411,8 +411,6 @@ class fileInput(FileUploadInput):
 admin_ = admin.Admin(app, name=u"统计局管理系统", template_mode="bootstrap3")
 
 
-
-
 class add_ckeditor(ModelView):
     """
         加富文本
@@ -448,16 +446,18 @@ class FileView(add_ckeditor):
         'answer': u'回答',
         'ans_time': u'回答时间',
         'graph': u'图表',
+        'cate': u'分类',
     }
 
     form_overrides = dict(content=CKEditorField, file=FileUploadField)
 
     form_args = {
-        'statistic_file': {
+        'file': {
             'base_path': file_path,
             'allow_overwrite': False
         },
     }
+
 
 admin_.add_views(  # 政务公开页面的管理
     FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
@@ -482,7 +482,7 @@ admin_.add_views(  # 统计数据页面的管理
 )
 
 admin_.add_views(  # 网上办事页面的管理
-    FileView(t_org_qualificaton, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
+    FileView(t_org_qualification, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
     FileView(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
     FileView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
 )
@@ -515,6 +515,7 @@ def report_list():
     report_list = dn.get_all_report()  # 举报信
     return render_template('report_letter_list.html', report_list=report_list)
 
+
 @app.route('/consult_show/<id>')
 def consult_show(id):
     con = dn.get_1_consult(id)
@@ -526,10 +527,12 @@ def mail_show(id):
     con = dn.get_1_mail(id)
     return render_template('mail_show.html', con=con)
 
+
 @app.route('/report_letter_show/<id>')
 def report_letter_show(id):
     con = dn.get_1_report_letter(id)
     return render_template('report_letter_show.html', con=con)
+
 
 @app.route('/survey_theme/')
 def survey_theme():
@@ -571,8 +574,30 @@ def home():
     jx_data5 = dn.get_5_jx_data()
     system5 = dn.get_5_system()
     consult4 = dn.get_4_consult()
+    qua5 = dn.get_5_qua()
+    qua_tab5 = dn.get_5_qua_tab()
+    qua_exam5 = dn.get_5_qua_exam()
+    qua_state5 = dn.get_5_qua_state()
+    qua_real5 = dn.get_5_qua_real()
+    qua_noti = dn.get_5_qua_noti()
+    exam5 = dn.get_5_exam()
+    exam_tab5 = dn.get_5_exam_table()
+    exam_exam5 = dn.get_5_exam_exam()
+    exam_state5 = dn.get_5_exam_state()
+    exam_real5 = dn.get_5_exam_real()
+    exam_noti = dn.get_5_exam_noti()
+    mana5 = dn.get_5_mana()
+    mana_tab5 = dn.get_5_mana_table()
+    mana_real5 = dn.get_5_mana_real()
+    mana_noti = dn.get_5_mana_noti()
     return render_template("home.html", work=work, fund=fund, leader=leader, fqa=fqa, work12=work12, theme3=theme3,
-                           int9=int9, jx_data5=jx_data5, system5=system5, consult4=consult4)
+                           int9=int9, jx_data5=jx_data5, system5=system5, consult4=consult4,
+                           qua5=qua5, qua_tab5=qua_tab5, qua_exam5=qua_exam5, qua_state5=qua_state5,
+                           qua_real5=qua_real5, qua_noti=qua_noti,
+                           exam5=exam5, exam_tab5=exam_tab5, exam_exam5=exam_exam5, exam_state5=exam_state5,
+                           exam_real5=exam_real5, exam_noti=exam_noti,
+                           mana5=mana5, mana_tab5=mana_tab5, mana_real5=mana_real5, mana_noti=mana_noti,
+                           )
 
 
 @app.route('/law_comprehension/<cate>', methods=['get', 'post'])
@@ -592,8 +617,9 @@ def law_comprehension(cate):
 def main_responsibility():
     return render_template("main_responsibility.html")
 
+
 @app.route('/integration/<cate>')
-def integration(cate):   # 一体化服务
+def integration(cate):  # 一体化服务
     data = []
     if cate == 'realtives':  # 有关文件
         data = dn.get_all_relatives()
@@ -652,6 +678,7 @@ def report():
 def mail():
     return render_template('mail.html')
 
+
 @app.route('/subMail/', methods=['get', 'post'])
 def subMail():
     mailAccount = request.form["mailAccount"]
@@ -663,6 +690,7 @@ def subMail():
     mailQuestion = request.form["mailQuestion"]
     dn.add_2_mail(mailAccount, mailIsEncrypt, mailAsker, mailPhone, mailEmail, mailTheme, mailQuestion)
     return ''
+
 
 @app.route('/subConsult/', methods=['get', 'post'])
 def subConsult():
@@ -676,6 +704,7 @@ def subConsult():
     dn.add_2_consult(account, is_encrypt, asker, phone, email, theme, question)
     return ''
 
+
 @app.route('/subReportLetter/', methods=['get', 'post'])
 def subReportLetter():
     account = request.form["account"]
@@ -687,6 +716,7 @@ def subReportLetter():
     question = request.form["question"]
     dn.add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question)
     return ''
+
 
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
 def news(cate, data):

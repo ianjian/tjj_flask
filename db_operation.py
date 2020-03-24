@@ -430,3 +430,165 @@ def add_2_report_letter(account, is_encrypt, asker, phone, email, theme, questio
     )
     db.session.add(add)
     db.session.commit()
+
+def get_5_qua():
+    lst = []
+    query = app.t_org_qualification.query.all()[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_qua_tab():
+    lst = []
+    query = app.t_org_qualification.query.filter_by(cate=u'表格下载')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_qua_exam():
+    lst = []
+    query = app.t_org_qualification.query.filter_by(cate=u'网上审批')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_qua_state():
+    lst = []
+    query = app.t_org_qualification.query.filter_by(cate=u'状态查询')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_qua_real():
+    lst = []
+    query = app.t_org_qualification.query.filter_by(cate=u'有关文件')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_qua_noti():
+    lst = []
+    query = app.t_org_qualification.query.filter_by(cate=u'审批公告')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam():
+    lst = []
+    query = app.t_proj_exam.query.all()[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam_table():
+    lst = []
+    query = app.t_proj_exam.query.filter_by(cate=u'表格下载')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam_exam():
+    lst = []
+    query = app.t_proj_exam.query.filter_by(cate=u'网上审批')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam_state():
+    lst = []
+    query = app.t_proj_exam.query.filter_by(cate=u'状态查询')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam_real():
+    lst = []
+    query = app.t_proj_exam.query.filter_by(cate=u'有关文件')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_exam_noti():
+    lst = []
+    query = app.t_proj_exam.query.filter_by(cate=u'审批公告')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana():
+    lst = []
+    query = app.t_proj_manage.query.all()[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana_table():
+    lst = []
+    query = app.t_proj_manage.query.filter_by(cate=u'表格下载')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana_exam():
+    lst = []
+    query = app.t_proj_manage.query.filter_by(cate=u'网上审批')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana_state():
+    lst = []
+    query = app.t_proj_manage.query.filter_by(cate=u'状态查询')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana_real():
+    lst = []
+    query = app.t_proj_manage.query.filter_by(cate=u'有关文件')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
+
+def get_5_mana_noti():
+    lst = []
+    query = app.t_proj_manage.query.filter_by(cate=u'审批公告')[:5]
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+        lst.append(temp)
+    return lst
