@@ -592,3 +592,11 @@ def get_5_mana_noti():
                 'file': i.file, 'cate': i.cate, }
         lst.append(temp)
     return lst
+
+def get_1_jx_data(id):
+    temp = []
+    query = app.t_proj_manage.query.filter_by(id=id)
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': i.cate, }
+    return temp

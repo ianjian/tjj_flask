@@ -11,6 +11,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import FileUploadField
 from flask_admin.form import FileUploadInput
 
+from flask_babelex import Babel
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
@@ -23,19 +24,89 @@ import db_operation as dn
 app = Flask(__name__)
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
+babel = Babel(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
 app.config['FLASK_ADMIN_SWATCH'] = 'Lumen'
+app.config['BABEL_DEFAULT_LOCALE'] = 'zh_hans_CN'
 
 file_path = op.join(op.dirname(__file__), 'files')
 try:
     os.mkdir(file_path)
 except OSError:
     pass
+
+class t_user(db.Model):  # 加用户表
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = db.Column(db.String, )
+    phone = db.Column(db.String, )
+    pwd = db.Column(db.String, )
+    role = db.Column(db.String, )
+
+    @property
+    def is_authenticated(self):  # flask_login的方法
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
+    # Required for administrative interface
+    def __unicode__(self):
+        return self.username
+
+class LoginForm(form.Form):  # 登陆表单
+    name = fields.StringField(
+        validators=[validators.required()],
+        render_kw={"placeholder": u"姓名"},
+    )
+    phone = fields.StringField(
+        validators=[validators.required()],
+        render_kw={"placeholder": u"手机号"},
+    )
+    password = fields.PasswordField(
+        validators=[validators.required()],
+        render_kw={"placeholder": u"密码"},
+    )
+
+    def validate_login(self, field):
+        user = self.get_user()
+        print(user.password)
+
+        if user is None:
+            raise validators.ValidationError('Invalid user')
+
+        if user.phone != self.phone.data:
+            raise validators.ValidationError('Invalid phone number')
+
+        # we're comparing the plaintext pw with the the hash from the db
+        if not check_password_hash(user.password, self.password.data):
+            raise validators.ValidationError('Invalid password')
+
+
+
+def init_login():
+    login_manager = login.LoginManager()
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return db.session.query(t_user).get(int(user_id))
+
+class UserAdmin(ModelView):
+    def is_accessible(self):
+        return login.current_user.role == 'userAdmin'
 
 
 class t_work(db.Model):
@@ -400,15 +471,51 @@ class t_fqa(db.Model):  # 常见问题
     datetime = db.Column(db.DateTime(), )
 
 
+
+
+
+
+
+@listens_for(t_user.pwd, "set", retval=True)
+def hash_user_password(target, value, oldvalue, initiator):
+    if value != oldvalue:
+        return generate_password_hash(value)
+    return value
+
+
+class MyAdminIndexView(admin.AdminIndexView):
+
+    @admin.expose("/")
+    def home(self):
+        if not login.current_user.is_authenticated:
+            print('not login.current_user.is_authenticated')
+            return redirect(url_for(".login_view"))  # url_for 函数名
+        return super(MyAdminIndexView, self).index()
+
+    @admin.expose("/login/", methods=("GET", "POST"))  # 登录表单
+    def login_view(self):
+        print(request.form)
+        form = LoginForm(request.form)
+        print(form)
+        if helpers.validate_form_on_submit(form):  # 验证
+            user = form.get_user()
+            login.login_user(user)
+        if login.current_user.is_authenticated:  # 验证成功
+            return redirect(url_for(".home"))
+        return render_template('admin/login.html', form=form)
+
+    @admin.expose('/logout/')
+    def logout_view(self):
+        login.logout_user()
+        return redirect(url_for('.home'))
+
+
 class fileInput(FileUploadInput):
     FileUploadInput.data_template = ('<div>'
                                      ' <input style="border:0" %(text)s>&nbsp;&nbsp;&nbsp;&nbsp;'
                                      ' <input type="checkbox" name="%(marker)s">Delete</input>'
                                      '</div>'
                                      '<input %(file)s>')
-
-
-admin_ = admin.Admin(app, name=u"统计局管理系统", template_mode="bootstrap3")
 
 
 class add_ckeditor(ModelView):
@@ -456,46 +563,10 @@ class FileView(add_ckeditor):
             'base_path': file_path,
             'allow_overwrite': False
         },
+        # 'cate': {
+        #     'validators': [validators.AnyOf(['flask', 'chocolate'])]
+        # },
     }
-
-
-admin_.add_views(  # 政务公开页面的管理
-    FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
-    FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
-    FileView(t_leader, db.session, name=u"领导介绍", category=u"政务公开", endpoint="leader"),
-    FileView(t_organization, db.session, name=u"组织结构", category=u"政务公开", endpoint="organazation"),
-    #     add_ckeditor(t_topic, db.session, name=u"专题聚焦", category=u"政务公开", endpoint="topic"),
-    FileView(t_fund, db.session, name=u"财政资金", category=u"政务公开", endpoint="fund"),
-    FileView(t_law, db.session, name=u"法律法规", category=u"政务公开", endpoint="law"),
-    FileView(t_policy, db.session, name=u"政策解读", category=u"政务公开", endpoint="policy"),
-    FileView(t_tax, db.session, name=u"减税降费", category=u"政务公开", endpoint="tax"),
-)
-
-admin_.add_views(  # 统计数据页面的管理
-    FileView(t_jx_data, db.session, name=u"本省数据", category=u"统计数据", endpoint="jx_data"),  # 新闻、文件、图表
-    FileView(t_cn_data, db.session, name=u"全国数据", category=u"统计数据", endpoint="cn_data"),
-    FileView(t_global_data, db.session, name=u"国际数据", category=u"统计数据", endpoint="global_data"),
-    FileView(t_system, db.session, name=u"统计制度", category=u"统计数据", endpoint="system"),
-    FileView(t_jx_statistics, db.session, name=u"江西省统计公报", category=u"统计数据", endpoint="jx_statistics"),  # pdf
-    FileView(t_jx_survey, db.session, name=u"江西省普查公报", category=u"统计数据", endpoint="jx_survey"),  # pdf
-    FileView(t_cn_statistics, db.session, name=u"国家统计公报", category=u"统计数据", endpoint="cn_statistics"),  # pdf
-)
-
-admin_.add_views(  # 网上办事页面的管理
-    FileView(t_org_qualification, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
-    FileView(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
-    FileView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
-)
-
-admin_.add_views(  # 互动交流页面的管理
-    FileView(t_interview, db.session, name=u"在线访谈", category=u"互动交流", endpoint="interview"),  #
-    FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
-    FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
-    FileView(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
-    #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
-    #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
-    #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
-)
 
 
 @app.route('/consult_list/')
@@ -718,6 +789,34 @@ def subReportLetter():
     return ''
 
 
+@app.route('/search/', methods=['get', 'post'])
+def search():
+    search_key = request.form["ss-k"]
+    ans_list = []
+    if search_key:
+        ans_list.append(t_work.query.filter(t_work.content.like("%" + search_key + "%")))
+        ans_list.append(t_circumstances.query.filter(t_circumstances.content.like("%" + search_key + "%")))
+        ans_list.append(t_topic.query.filter(t_topic.content.like("%" + search_key + "%")))
+        ans_list.append(t_fund.query.filter(t_fund.content.like("%" + search_key + "%")))
+        ans_list.append(t_law.query.filter(t_law.content.like("%" + search_key + "%")))
+        ans_list.append(t_policy.query.filter(t_policy.content.like("%" + search_key + "%")))
+        ans_list.append(t_tax.query.filter(t_tax.content.like("%" + search_key + "%")))
+        ans_list.append(t_file.query.filter(t_file.content.like("%" + search_key + "%")))
+        ans_list.append(t_jx_data.query.filter(t_jx_data.content.like("%" + search_key + "%")))
+        ans_list.append(t_cn_data.query.filter(t_cn_data.content.like("%" + search_key + "%")))
+        ans_list.append(t_global_data.query.filter(t_global_data.content.like("%" + search_key + "%")))
+        ans_list.append(t_org_qualification.query.filter(t_org_qualification.content.like("%" + search_key + "%")))
+        ans_list.append(t_proj_exam.query.filter(t_proj_exam.content.like("%" + search_key + "%")))
+        ans_list.append(t_proj_manage.query.filter(t_proj_manage.content.like("%" + search_key + "%")))
+        ans_list.append(t_system.query.filter(t_system.content.like("%" + search_key + "%")))
+        ans_list.append(t_jx_statistics.query.filter(t_jx_statistics.content.like("%" + search_key + "%")))
+        ans_list.append(t_jx_survey.query.filter(t_jx_survey.content.like("%" + search_key + "%")))
+        ans_list.append(t_cn_statistics.query.filter(t_cn_statistics.content.like("%" + search_key + "%")))
+        ans_list.append(t_interview.query.filter(t_interview.content.like("%" + search_key + "%")))
+        ans_list.append(t_fqa.query.filter(t_fqa.content.like("%" + search_key + "%")))
+    return render_template('search_list.html', data=ans_list)
+
+
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
 def news(cate, data):
     return_data = {}
@@ -734,8 +833,57 @@ def news(cate, data):
         return_data = dn.get_1_interview(data)
     elif cate == 'sys':
         return_data = dn.get_1_sys(data)
+    elif cate == 'jx_data':
+        return_data = dn.get_1_jx_data(data)
     return render_template("news.html", data=return_data)
 
+
+init_login()
+admin = admin.Admin(
+    app,
+    name=u"统计局管理系统",
+    index_view=MyAdminIndexView(),
+    base_template='my_master.html',
+    template_mode="bootstrap3"
+)
+admin.add_view(UserAdmin(t_user, db.session, name=u"用户管理"))
+admin.add_views(  # 政务公开页面的管理
+    FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
+    FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
+    FileView(t_leader, db.session, name=u"领导介绍", category=u"政务公开", endpoint="leader"),
+    FileView(t_organization, db.session, name=u"组织结构", category=u"政务公开", endpoint="organazation"),
+    #     add_ckeditor(t_topic, db.session, name=u"专题聚焦", category=u"政务公开", endpoint="topic"),
+    FileView(t_fund, db.session, name=u"财政资金", category=u"政务公开", endpoint="fund"),
+    FileView(t_law, db.session, name=u"法律法规", category=u"政务公开", endpoint="law"),
+    FileView(t_policy, db.session, name=u"政策解读", category=u"政务公开", endpoint="policy"),
+    FileView(t_tax, db.session, name=u"减税降费", category=u"政务公开", endpoint="tax"),
+)
+
+admin.add_views(  # 统计数据页面的管理
+    FileView(t_jx_data, db.session, name=u"本省数据", category=u"统计数据", endpoint="jx_data"),  # 新闻、文件、图表
+    FileView(t_cn_data, db.session, name=u"全国数据", category=u"统计数据", endpoint="cn_data"),
+    FileView(t_global_data, db.session, name=u"国际数据", category=u"统计数据", endpoint="global_data"),
+    FileView(t_system, db.session, name=u"统计制度", category=u"统计数据", endpoint="system"),
+    FileView(t_jx_statistics, db.session, name=u"江西省统计公报", category=u"统计数据", endpoint="jx_statistics"),  # pdf
+    FileView(t_jx_survey, db.session, name=u"江西省普查公报", category=u"统计数据", endpoint="jx_survey"),  # pdf
+    FileView(t_cn_statistics, db.session, name=u"国家统计公报", category=u"统计数据", endpoint="cn_statistics"),  # pdf
+)
+
+admin.add_views(  # 网上办事页面的管理
+    FileView(t_org_qualification, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),  #
+    FileView(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
+    FileView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
+)
+
+admin.add_views(  # 互动交流页面的管理
+    FileView(t_interview, db.session, name=u"在线访谈", category=u"互动交流", endpoint="interview"),  #
+    FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
+    FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
+    FileView(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
+    #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
+    #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
+    #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
+)
 
 if __name__ == '__main__':
     app.run(
