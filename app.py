@@ -69,15 +69,21 @@ class t_user(db.Model):  # 加用户表
 class LoginForm(form.Form):  # 登陆表单
     name = fields.StringField(
         validators=[validators.required()],
-        render_kw={"placeholder": u"姓名"},
+        render_kw={
+            "placeholder": u"姓名",
+        },
     )
     phone = fields.StringField(
         validators=[validators.required()],
-        render_kw={"placeholder": u"手机号"},
+        render_kw={
+            "placeholder": u"手机号",
+        },
     )
     password = fields.PasswordField(
         validators=[validators.required()],
-        render_kw={"placeholder": u"密码"},
+        render_kw={
+            "placeholder": u"密码",
+        },
     )
 
     def validate_login(self, field):
@@ -94,6 +100,8 @@ class LoginForm(form.Form):  # 登陆表单
         if not check_password_hash(user.password, self.password.data):
             raise validators.ValidationError('Invalid password')
 
+    def get_user(self):
+        return db.session.query(t_user).filter_by(name=self.name.data).first()
 
 
 def init_login():
@@ -102,11 +110,44 @@ def init_login():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return db.session.query(t_user).get(int(user_id))
+        return db.session.query(t_user).get(user_id)
 
 class UserAdmin(ModelView):
+    column_labels = {
+        'name': u'用户名',
+        'phone': u'手机号',
+        'pwd': u'密码',
+        'role': u'管理角色',
+    }
     def is_accessible(self):
-        return login.current_user.role == 'userAdmin'
+        return login.current_user.role == u'用户管理员'
+
+
+class MyAdminIndexView(admin.AdminIndexView):
+
+    @admin.expose("/")
+    def home(self):
+        if not login.current_user.is_authenticated:
+            print('not login.current_user.is_authenticated')
+            return redirect(url_for(".login_view"))  # url_for 函数名
+        return super(MyAdminIndexView, self).index()
+
+    @admin.expose("/login/", methods=("GET", "POST"))  # 登录表单
+    def login_view(self):
+        form = LoginForm(request.form)
+        if request.method == 'GET':
+            return render_template('admin/login.html', form=form)
+        if helpers.validate_form_on_submit(form):  # 验证
+            user = form.get_user()
+            login.login_user(user)
+        if login.current_user.is_authenticated:  # 验证成功
+            return redirect(url_for(".home"))
+        return super(MyAdminIndexView, self).index()
+
+    @admin.expose('/logout/')
+    def logout_view(self):
+        login.logout_user()
+        return redirect(url_for('.home'))
 
 
 class t_work(db.Model):
@@ -471,11 +512,6 @@ class t_fqa(db.Model):  # 常见问题
     datetime = db.Column(db.DateTime(), )
 
 
-
-
-
-
-
 @listens_for(t_user.pwd, "set", retval=True)
 def hash_user_password(target, value, oldvalue, initiator):
     if value != oldvalue:
@@ -483,31 +519,7 @@ def hash_user_password(target, value, oldvalue, initiator):
     return value
 
 
-class MyAdminIndexView(admin.AdminIndexView):
 
-    @admin.expose("/")
-    def home(self):
-        if not login.current_user.is_authenticated:
-            print('not login.current_user.is_authenticated')
-            return redirect(url_for(".login_view"))  # url_for 函数名
-        return super(MyAdminIndexView, self).index()
-
-    @admin.expose("/login/", methods=("GET", "POST"))  # 登录表单
-    def login_view(self):
-        print(request.form)
-        form = LoginForm(request.form)
-        print(form)
-        if helpers.validate_form_on_submit(form):  # 验证
-            user = form.get_user()
-            login.login_user(user)
-        if login.current_user.is_authenticated:  # 验证成功
-            return redirect(url_for(".home"))
-        return render_template('admin/login.html', form=form)
-
-    @admin.expose('/logout/')
-    def logout_view(self):
-        login.logout_user()
-        return redirect(url_for('.home'))
 
 
 class fileInput(FileUploadInput):
@@ -567,6 +579,9 @@ class FileView(add_ckeditor):
         #     'validators': [validators.AnyOf(['flask', 'chocolate'])]
         # },
     }
+
+    def is_accessible(self):
+        return login.current_user.role == u'管理员'
 
 
 @app.route('/consult_list/')
@@ -789,8 +804,8 @@ def subReportLetter():
     return ''
 
 
-@app.route('/search/', methods=['get', 'post'])
-def search():
+@app.route('/search_list/', methods=['get', 'post'])
+def search_list():
     search_key = request.form["ss-k"]
     ans_list = []
     if search_key:

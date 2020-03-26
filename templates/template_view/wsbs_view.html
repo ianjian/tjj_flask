@@ -1,10 +1,316 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends 'base_view.html' %}
+{% block wsbs_view %}
+  <div class="Qcontent Qtotal hide">
+    <div class="WwsbsL clearfix">
+      <div class="Wtjks clearfix">
+      </div>
+      <div class="Wswdcrz">
+        <div class="Whead Qbottom">
+        <span class="Wactive">
+          <i style="cursor:pointer;"
+             onclick="window.open('/id_swdcjgzgrz201803120103518569/column.shtml')">涉外调查机构资格认证</i>
+          <em class="Wlbj"></em><em class="Wrbj"></em></span>
+        </div>
+        <div class="QrightHead">
+          <p class="Qp2"><a href="/id_swdcjgzgrz201803120103518569/column.shtml" target="_blank">全部/</a></p>
+          <p class="Qp2"><a href="/id_ygwj201803120130262472/column.shtml" target="_blank"><!-- 有关文件 -->有关文件 /</a>
+          </p>
+          <!--<p class="Qp2"><a href="http://www.jxzwfww.gov.cn/jxzw/czbm/index.do?webId=1&orgCode=3600000029" target="_blank">-->
+          <!-- 审批程序 --><!--审批程序 /</a></p>-->
+          <p class="Qp2"><a href="/id_bgxz201803120130085093/column.shtml" target="_blank"><!-- 表格下载 -->表格下载 /</a>
+          </p>
+          <p class="Qp2"><a href="/id_wssp201803120130005619/column.shtml" target="_blank"><!-- 网上审批 -->网上审批 /</a>
+          </p>
+          <p class="Qp2 Qte"><a href="/id_ztcx201803120129501815/column.shtml" target="_blank"><!-- 状态查询 -->状态查询
+            /</a></p>
+          <p class="Qp2"><a href="/id_spgg201803120129405870/column.shtml" target="_blank"><!-- 审批公告 -->审批公告</a>
+          </p>
+        </div>
+        <!-- 全部 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for q5 in qua5 %}
+              <li>
+                <span>{{ q5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=q5.id) }}"
+                   target="_blank">{{ q5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
 
-</body>
-</html>
+          </ul>
+        </div>
+        <!-- 有关文件 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for qr5 in qua_real5 %}
+              <li>
+                <span>{{ qr5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=qr5.id) }}"
+                   target="_blank">{{ qr5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 表格下载 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for qt5 in qua_tab5 %}
+              <li>
+                <span>{{ qt5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=qt5.id) }}"
+                   target="_blank">{{ qt5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 网上审批 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for qe5 in qua_exam5 %}
+              <li>
+                <span>{{ qe5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=qe5.id) }}"
+                   target="_blank">{{ qe5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 状态查询 -->
+        <div class="QrightHdiv">
+          <ul class="QnewsUl">
+            {% for qs5 in qua_state5 %}
+              <li>
+                <span>{{ qs5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=qs5.id) }}"
+                   target="_blank">{{ qs5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 审批公告 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for qn5 in qua_noti %}
+              <li>
+                <span>{{ qn5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=qn5.id) }}"
+                   target="_blank">{{ qn5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <!-- 涉外调查项目审批 -->
+      <div class="Wswdcsp">
+        <div class="Whead Qbottom">
+        <span class="Wactive"><!-- 涉外调查项目审批 --><i
+                style="cursor:pointer;"
+                onclick="window.open('/id_swdcxmsp201803120103425407/column.shtml')">涉外调查项目审批</i><em
+                class="Wlbj"></em><em
+                class="Wrbj"></em></span>
+        </div>
+        <div class="QrightHead">
+          <p class="Qp2">
+            <a href="/id_swdcxmsp201803120103425407/column.shtml" target="_blank">全部/</a>
+          </p>
+          <p class="Qp2">
+            <a href="/id_ygwj201803120132314287/column.shtml" target="_blank">有关文件 /</a>
+          </p>
+          <p class="Qp2 Qte">
+            <a href="/id_bgxz201803120132063842/column.shtml" target="_blank">表格下载/</a>
+          </p>
+          <p class="Qp2">
+            <a href="/id_wssp201803120132004573/column.shtml" target="_blank">网上审批 /</a>
+          </p>
+          <p class="Qp2">
+            <a href="/id_ztcx201803120131545478/column.shtml" target="_blank">状态查询 /</a>
+          </p>
+          <p class="Qp2">
+            <a href="/id_spgg201803120131424428/column.shtml" target="_blank">审批公告 </a>
+          </p>
+        </div>
+        <!-- 全部 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for e5 in exam5 %}
+              <li>
+                <span>{{ e5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=e5.id) }}"
+                   target="_blank">{{ e5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 有关文件 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for er5 in exam_real5 %}
+              <li>
+                <span>{{ er5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=er5.id) }}"
+                   target="_blank">{{ er5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 表格下载 -->
+        <div class="QrightHdiv">
+          <ul class="QnewsUl">
+            {% for et5 in exam_tab5 %}
+              <li>
+                <span>{{ et5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=et5.id) }}"
+                   target="_blank">{{ et5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 网上审批 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for ee5 in exam_exam5 %}
+              <li>
+                <span>{{ ee5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=ee5.id) }}"
+                   target="_blank">{{ ee5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 状态查询 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for es5 in exam_state5 %}
+              <li>
+                <span>{{ es5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=es5.id) }}"
+                   target="_blank">{{ es5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 审批公告 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for en5 in exam_noti %}
+              <li>
+                <span>{{ en5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=en5.id) }}"
+                   target="_blank">{{ en5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+      </div>
+      <!-- 地方统计调查项目管理 -->
+      <div class="Wdftjgl">
+        <div class="Whead Qbottom">
+        <span class="Wactive"><!-- 地方统计调查项目管理 --><i
+                style="cursor:pointer;"
+                onclick="window.open('/id_dftjdcxmgl201803120103320056/column.shtml')">地方统计调查项目管理</i><em
+                class="Wlbj"></em><em class="Wrbj"></em></span>
+        </div>
+        <div class="QrightHead">
+          <p class="Qp2 Qte"><a href="/id_dftjdcxmgl201803120103320056/column.shtml" target="_blank">全部/</a></p>
+          <p class="Qp2"><a href="/id_ygwj201803120133265315/column.shtml" target="_blank"><!-- 有关文件 -->有关文件 /</a>
+          </p>
+          <p class="Qp2"><a href="/id_bgxz201803120133118068/column.shtml" target="_blank"><!-- 表格下载 -->表格下载 /</a>
+          </p>
+          <p class="Qp2"><a href="/id_spgg201803120133031108/column.shtml" target="_blank"><!-- 审批公告 -->审批公告</a>
+          </p>
+        </div>
+        <!-- 全部 -->
+        <div class="QrightHdiv">
+          <ul class="QnewsUl">
+            {% for m5 in mana5 %}
+              <li>
+                <span>{{ m5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=m5.id) }}"
+                   target="_blank">{{ m5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 有关文件 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for mt5 in mana_tab5 %}
+              <li>
+                <span>{{ mt5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=mt5.id) }}"
+                   target="_blank">{{ mt5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 表格下载 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for mr5 in mana_real5 %}
+              <li>
+                <span>{{ mr5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=mr5.id) }}"
+                   target="_blank">{{ mr5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- 审批公告 -->
+        <div class="QrightHdiv hide">
+          <ul class="QnewsUl">
+            {% for mn5 in mana_noti %}
+              <li>
+                <span>{{ mn5.datetime }}</span>
+                <a href="{{ url_for('news', cate='qualification', data=mn5.id) }}"
+                   target="_blank">{{ mn5.title[:28] + '...' }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="WwsbsR clearfix">
+      <!-- 一体化服务 -->
+      <div class="Wythfw">
+        <div class="Whead Qbottom">
+        <span style="cursor:default;" class="Wactive">一体化服务<em style="cursor: default;" class="Wlbj"></em><em
+                class="Wrbj"></em></span>
+        </div>
+        <div class="WythfwList">
+          <ul>
+            <li>
+              <a class="bsznIcon" href="{{ url_for('integration', cate='relatives') }}" target="_blank"><p>
+                有关文件</p>
+              </a>
+            </li>
+            <li>
+              <a class="zxsbIcon" href="{{ url_for('integration', cate='procedure') }}" target="_blank"><p>
+                审批程序</p>
+              </a>
+            </li>
+            <li>
+              <a class="rbgxzIcon" href="{{ url_for('integration', cate='table') }}" target="_blank"><p>
+                表格下载</p>
+              </a>
+            </li>
+            <li>
+              <a class="jgcxIcon" href="{{ url_for('integration', cate='notice') }}" target="_blank"><p>
+                审批公告</p>
+              </a>
+            </li>
+            <li>
+              <a class="tjzdxzIcon" href="{{ url_for('integration', cate='sys') }}" target="_blank"><p>
+                统计制度下载</p></a>
+            </li>
+            <li>
+              <a class="tjbbxzIcon" href="{{ url_for('integration', cate='report') }}" target="_blank"><p>
+                统计报表下载</p></a>
+            </li>
+            <li class="nobjLi"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

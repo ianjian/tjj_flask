@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2020-03-20 01:41:21
+Date: 2020-03-27 02:47:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -219,7 +219,7 @@ CREATE TABLE `t_jx_data` (
 -- ----------------------------
 -- Records of t_jx_data
 -- ----------------------------
-INSERT INTO t_jx_data VALUES ('1', '2019年12月各设区市、各直管县主要经济指标', null, '2020-03-13 09:48:37', null, null);
+INSERT INTO t_jx_data VALUES ('1', '2019年12月各设区市、各直管县主要经济指标', '', '2020-03-13 09:48:37', '006haolIgy1g7ir15t4w4j30u00u0k0b.jpg', null);
 INSERT INTO t_jx_data VALUES ('2', '2019年12月全省主要经济指标', null, '2020-03-13 09:48:41', null, null);
 INSERT INTO t_jx_data VALUES ('3', '2019年11月各设区市、各直管县主要经济指标', null, '2020-03-13 09:48:43', null, null);
 INSERT INTO t_jx_data VALUES ('4', '2019年11月全省主要经济指标', null, '2020-03-13 09:48:45', null, null);
@@ -546,15 +546,19 @@ CREATE TABLE `t_topic` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `user_id` int(11) NOT NULL,
-  `user_name` varchar(10) DEFAULT NULL,
-  `user_right` int(11) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `pwd` varchar(255) NOT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
+INSERT INTO t_user VALUES ('1', 'admin', '10000000000', 'pbkdf2:sha256:150000$3dEqp6op$51c49a62fde3213d4ab340b3342b98ff079ddd2b9cbe09ac7934b92282eb2829', '用户管理员');
+INSERT INTO t_user VALUES ('2', 'test1', '10000000000', 'pbkdf2:sha256:150000$ZosIFOiF$64cb59fe7020ca3169ed6c5d7e5f40e9419d9653e5c802de35b3249b779e023c', '管理员');
 
 -- ----------------------------
 -- Table structure for `t_work`

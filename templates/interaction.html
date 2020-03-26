@@ -18,11 +18,10 @@
 <div class="QScenbox">
   <div class="Qlogo fl"><img src="/static/img/Qlogo.png" alt=""></div>
   <div class="Qsearch fr">
-    <input id="ss-k" name="ss-k" type="text" class="fl" value="请输入关键字"
-           onfocus="if (value =='请输入关键字'){value =''}this.style.color='#333' "
-           onblur="if (value ==''){value='请输入关键字'}this.style.color='#333'"
-           onkeyup="javascript:if(event.keyCode==13){siteSearch();}">
-    <span class="Qsou fr" onclick="siteSearch()"> </span>
+    <form action="/search_list/" method="post">
+      <input id="ss-k" name="ss-k" type="text" class="fl" placeholder="请输入关键字">
+      <span class="Qsou fr" type="submit"> </span>
+    </form>
   </div>
 </div>
 <ul class="Qnav">
@@ -34,17 +33,7 @@
   <li id="hdjl201803120059532727"><a href="{{ url_for('home') }}" class="Qa5">互动交流</a></li>
 </ul>
 <script>
-    function siteSearch() {
-        var key = document.getElementById('ss-k').value;
-        if (key == '' || key == '请输入关键字') {
-            alert('请输入查询条件!');
-            return false;
-        }
-        //alert(key);
-        key = encodeURIComponent(key);
-        key = key.replace(/%/g, "@");
-        location = '/key_' + key + '/search.shtml';
-    }
+
 
     function gowza() {
         window.open("http://www.jxgtt.gov.cn/Column.shtml?p5=20000274");

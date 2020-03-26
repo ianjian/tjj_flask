@@ -3,11 +3,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1 ">
   <title>江西省统计局</title>
-  <link href="/static/css/default.css" rel="stylesheet" type="text/css">
-  <script src="/static/js/jquery-1.11.3.min.js"></script>
-  <script src="/static/js/responsiveslides.min.js"></script>
-  <script src="/static/js/jquery.kxbdMarquee.js"></script>
-  <script src="/static/js/echarts.js"></script>
+  <link href="../static/css/default.css" rel="stylesheet" type="text/css">
+  <script src="../static/js/jquery-1.11.3.min.js"></script>
+  <script src="../static/js/responsiveslides.min.js"></script>
+  <script src="../static/js/jquery.kxbdMarquee.js"></script>
+  <script src="../static/js/echarts.js"></script>
   <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
 </head>
 
@@ -16,13 +16,12 @@
 
 
 <div class="QScenbox">
-  <div class="Qlogo fl"><img src="/static/img/Qlogo.png" alt=""></div>
+  <div class="Qlogo fl"><img src="../static/img/Qlogo.png" alt=""></div>
   <div class="Qsearch fr">
-    <input id="ss-k" name="ss-k" type="text" class="fl" value="请输入关键字"
-           onfocus="if (value =='请输入关键字'){value =''}this.style.color='#333' "
-           onblur="if (value ==''){value='请输入关键字'}this.style.color='#333'"
-           onkeyup="javascript:if(event.keyCode==13){siteSearch();}">
-    <span class="Qsou fr" onclick="siteSearch()"> </span>
+    <form action="/search_list/" method="post">
+      <input id="ss-k" name="ss-k" type="text" class="fl" placeholder="请输入关键字">
+      <span class="Qsou fr" type="submit"> </span>
+    </form>
   </div>
 </div>
 <ul class="Qnav">
@@ -33,24 +32,12 @@
   <li id="hdjl201803120059532727"><a href="{{ url_for('home') }}" class="Qa5">互动交流</a></li>
 </ul>
 <script>
-    function siteSearch() {
-        var key = document.getElementById('ss-k').value;
-        if (key == '' || key == '请输入关键字') {
-            alert('请输入查询条件!');
-            return false;
-        }
-        //alert(key);
-        key = encodeURIComponent(key);
-        key = key.replace(/%/g, "@");
-        location = '/key_' + key + '/search.shtml';
-    }
 
     function gowza() {
         window.open("http://www.jxgtt.gov.cn/Column.shtml?p5=20000274");
     }
 </script>
 <!-- 首页内容 -->
-{% block home_view %}{% endblock %}
 <div class="Qcontent">
   <div class="Qfrist">
     <div class="Qfristdiv fl">
@@ -63,14 +50,16 @@
              target="_blank">{{ work12[0].title[:27] + '...' }}</a>
       </h3>
       <ul class="QhotUl">
-        <li style="display: none;"><a href="{{ url_for('news', cate='work', data=work12[0].id) }}"
-                                      target="_blank">{{ work12[0].title }}</a>
+        <li style="display: none;">
+          <a href="{{ url_for('news', cate='work', data=work12[0].id) }}" target="_blank">{{ work12[0].title }}</a>
         </li>
-        <li><a href="{{ url_for('news', cate='work', data=work12[1].id) }}"
-               target="_blank">[ {{ work12[1].title[:23] + '...' }} ]</a>
+        <li>
+          <a href="{{ url_for('news', cate='work', data=work12[1].id) }}"
+             target="_blank">[ {{ work12[1].title[:23] + '...' }} ]</a>
         </li>
-        <li><a href="{{ url_for('news', cate='work', data=work12[2].id) }}"
-               target="_blank">[ {{ work12[2].title[:23] + '...' }}] </a>
+        <li>
+          <a href="{{ url_for('news', cate='work', data=work12[2].id) }}"
+             target="_blank">[ {{ work12[2].title[:23] + '...' }}] </a>
         </li>
       </ul>
       <script>
@@ -312,7 +301,6 @@
 <!-- 首页内容结束 -->
 
 <!-- 政务公开内容 -->
-{% block zwgk_view %}{% endblock %}
 <div class="Qcontent Qtotal hide">
   <div class="WzwgkL clearfix">
     <!-- 领导介绍 -->
@@ -469,9 +457,7 @@
   </div>
 </div>
 <!-- 政务公开内容结束 -->
-
 <!-- 统计数据内容 -->
-{% block tjsu_view %}{% endblock %}
 <div class="Qcontent Qtotal hide">
   <div class="QtotalLeft fl">
 
@@ -493,8 +479,10 @@
         <div class="Qtab">
           <ul class="QnewsUl fl">
             {% for jx in jx_data5 %}
-              <li><span>{{ jx.datetime }}</span><a href="{{ jx.file }}"
-                                                   target="_blank">{{ jx.title[:30] + '...' }}</a>
+              <li>
+                <span>{{ jx.datetime }}</span>
+                <a href="{{ url_for('news', cate='jx_data', data=jx.id) }}"
+                   target="_blank">{{ jx.title[:30] + '...' }}</a>
               </li>
             {% endfor %}
 
@@ -543,9 +531,7 @@
   </div>
 </div>
 <!-- 统计数据内容结束 -->
-
 <!-- 网上办事内容 -->
-{% block wsbs_view %}{% endblock %}
 <div class="Qcontent Qtotal hide">
   <div class="WwsbsL clearfix">
     <div class="Wtjks clearfix">
@@ -860,19 +846,145 @@
   </div>
 </div>
 <!-- 网上办事内容结束 -->
-
 <!-- 互动交流内容 -->
-{% block hdjl_view %}{% endblock %}
+<div class="Qcontent Qtotal hide">
+  <div class="WzxftL clearfix">
+    <!-- 在线访谈 -->
+    <div class="Wzxft fl">
+      <div class="Whead Qbottom">
+        <a href="{{ url_for('interview_list') }}" target="_blank">更多</a>
+        <span class="Wactive">
+          <i style="cursor:pointer;">在线访谈</i><em
+                class="Wlbj"></em><em class="Wrbj"></em>
+        </span>
+      </div>
+      <div class="WzxftList fl">
+        <dl>
 
+          <dt><img src="/resource/tongbu/image/20200121/20200121135032447.jpg" alt=""></dt>
+          <dd>
+            <div class="WftTit"><a
+                    href="{{ url_for('news', cate='interview', data=int9[0].id) }}">{{ int9[0].title }}</a></div>
+            <p>{{ int9[0].content[:150] + '...' }}</p>
+          </dd>
+
+        </dl>
+      </div>
+      <div class="Wwqhg fl">
+        <div class="Whead">
+          <span class="Qguo">往期回顾</span>
+        </div>
+        <ul class="wqhgUl">
+          {% for i9 in int9 %}
+            <li><a href="{{ url_for('news', cate='interview', data=i9.id) }}"
+                   target="_blank">{{ i9.title[: 14] + '...' }}</a>
+            </li>
+          {% endfor %}
+          <li class="nobjLi"></li>
+        </ul>
+      </div>
+    </div>
+    <!-- 在线咨询 -->
+    <div class="Wzxzx fl">
+      <div class="Whead Qbottom">
+        <a href="{{ url_for('consult') }}" target="_blank">更多</a>
+        <span class="Wactive">
+          <i style="cursor:pointer;">在线咨询</i>
+          <em class="Wlbj"></em><em class="Wrbj"></em></span>
+      </div>
+      <div class="WzxzxList fl">
+
+        {% for c in consult4 %}
+          <div class="WzxzxQW">
+            <div class="WzxTime">{{ c.ask_time }}</div>
+            <p class="Wques" title="您好，我在兼职猫网页上看到统计局社情民意调查中心招聘周末兼职，请问信息是否属实？">
+              {{ c.question[:20] + '...' }}
+            </p>
+            <p class="Wansw" title="你好，请咨询江西省统计局社情民意调查中心：079186236154、079186272362">
+              {{ c.answer[:25] + '...' }}
+              <a href="{{ url_for('consult_show', id=c.id) }}" target="_blank">[详细]</a>
+            </p>
+          </div>
+        {% endfor %}
+
+
+      </div>
+    </div>
+  </div>
+  <div class="WzxftR clearfix">
+    <div class="Wtjcs fl">
+      <div class="Whead Qbottom">
+        <a href="{{ url_for('fqa') }}" target="_blank">更多</a>
+        <span class="Wactive">
+          <i style="cursor:pointer;" onclick="{{ url_for('fqa') }}">常见问题</i>
+          <em class="Wlbj"></em>
+          <em class="Wrbj"></em>
+        </span>
+      </div>
+      <div class="QrightHdiv">
+        <ul class="QnewsUl">
+          {% for j in fqa %}
+            <li><span>{{ j.datetime }}</span><a href="{{ url_for('news', cate='fqa', data=j.id) }}"
+                                                target="_blank">{{ j.title[:6] + '...' }}</a></li>
+          {% endfor %}
+
+        </ul>
+      </div>
+    </div>
+    <!-- 领导信箱 -->
+    <div class="WjgzzList fl">
+      <ul>
+        <li class="fl">
+          <a class="ldxxIcon" href="{{ url_for('mail') }}" target="_blank">
+            <p>领导信箱</p>
+          </a>
+        </li>
+        <li class="fr">
+          <a class="zxzxIcon" href="{{ url_for('consult') }}" target="_blank">
+            <p>在线咨询</p>
+          </a>
+        </li>
+        <li class="lastLi fl">
+          <a class="jbxxIcon" href="{{ url_for('report') }}" target="_blank">
+            <p>统计局统计违法举报信箱</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- 网上调查 -->
+    <div class="Wwsdc fl">
+      <div class="Whead Qbottom">
+        <a href="#" target="_blank">更多</a><span class="Wactive">
+        <i style="cursor:pointer;" onclick="window.open('/id_wsdc201803120101254971/column.shtml')">网上调查</i>
+        <em class="Wlbj"></em><em class="Wrbj"></em></span>
+      </div>
+      <div class="myzj_ul">
+        <ul class="myul">
+          {% for t in theme3 %}
+            <li id="{{ t.account }}" class="jxLi">
+              <span style="color: #0c90cc">{{ t.state }}</span>
+              <a href="#" target="_blank">{{ t.title[: 9] + '...' }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
 <!-- 互动交流内容结束 -->
 <!-- 底部 -->
 <div class="Qfooter">
   <!-- 友情链接 -->
-  <div class="Qlink"></div>
+  <div class="Qlink">
+
+  </div>
   <!-- 版权 -->
-  <div class="QfotBot"></div>
+  <div class="QfotBot">
+
+  </div>
 </div>
-<script src="/static/js/easy.navigat.js"></script>
+<script src="../static/js/easy.navigat.js"></script>
 <script>
     $(function () {
         $('.Qnav li').each(function (i) {
