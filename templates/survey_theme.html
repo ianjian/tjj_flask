@@ -1,4 +1,12 @@
-{% extends 'interaction.html' %}
+{% extends 'list_view.html' %}
+{% block left_list %}
+  <ul class="listUl">
+    <div class="Qli"><a href="javascript:void(0);">{{ left_list[0].name }}</a></div>
+    {% for h in left_list[1:] %}
+      <li><a href="{{ url_for(h.href, cate=h.cate) }}" title="#">{{ h.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
 {% block right_content %}
 
   <table width="100%" cellpadding="0" id="surveyTable" cellspacing="0"

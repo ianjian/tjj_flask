@@ -26,9 +26,9 @@ db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 babel = Babel(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
 app.config['FLASK_ADMIN_SWATCH'] = 'Lumen'
@@ -40,7 +40,45 @@ try:
 except OSError:
     pass
 
-class t_user(db.Model):  # 加用户表
+hdjl_left_list = [{'name': '互动交流', 'href': ''},
+                  {'name': '统计局统计违法...', 'href': 'report'},
+                  {'name': '在线咨询', 'href': 'consult'},
+                  {'name': '领导信箱', 'href': 'mail'},
+                  {'name': '在线访谈', 'href': 'interview_list'},
+                  {'name': '网上调查', 'href': 'survey_theme'},
+                  {'name': '常见问题', 'href': 'fqa'}, ]
+
+tjsj_left_list = [{'name': '统计数据', 'href': ''},
+                  {'name': '本省数据', 'href': 'report'},
+                  {'name': '全国数据', 'href': 'consult'},
+                  {'name': '统计制度', 'href': 'consult'},
+                  {'name': '统计公报', 'href': 'mail'}, ]
+
+flfgyjd_left_list = [{'name': '法律法规与解读', 'href': ''},
+                     {'name': '规范性文件', 'href': 'law_comprehension', 'cate': 'file'},
+                     {'name': '相关法律法规', 'href': 'law_comprehension', 'cate': 'law'},
+                     {'name': '政策解读', 'href': 'law_comprehension', 'cate': 'policy'}, ]
+
+tjgk_left_list = [{'name': '统计概况', 'href': ''},
+                  {'name': '领导介绍', 'href': 'leader_intro'},
+                  {'name': '主要职责', 'href': 'main_responsibility'},
+                  {'name': '机构设置', 'href': 'organization_list'}]
+
+dftjdcxmgl_left_list = [{'name': '地方统计调查项目管理', 'href': ''},
+                        {'name': '有关文件', 'href': 'integration', 'cate': 'relatives'},
+                        {'name': '审批程序', 'href': 'integration', 'cate': 'procedure'},
+                        {'name': '表格下载', 'href': 'integration', 'cate': 'table'},
+                        {'name': '审批公告', 'href': 'integration', 'cate': 'notice'},
+                        {'name': '统计制度下载', 'href': 'integration', 'cate': 'sys'},
+                        {'name': '统计报表下载', 'href': 'integration', 'cate': 'report'}, ]
+
+czzj_left_list = [{'name': '财政资金', 'href': ''}]
+ztjj_left_list = [{'name': '专题聚焦', 'href': ''}]
+jsjf_left_list = [{'name': '减税降费', 'href': ''}]
+gzdt_left_list = [{'name': '工作动态', 'href': ''}]
+
+
+class t_user(db.Model):  # 用户表
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     name = db.Column(db.String, )
     phone = db.Column(db.String, )
@@ -62,11 +100,11 @@ class t_user(db.Model):  # 加用户表
     def get_id(self):
         return self.id
 
-    # Required for administrative interface
     def __unicode__(self):
         return self.username
 
-class LoginForm(form.Form):  # 登陆表单
+
+class LoginForm(form.Form):  # 登陆表单、验证
     name = fields.StringField(
         validators=[validators.required()],
         render_kw={
@@ -112,6 +150,7 @@ def init_login():
     def load_user(user_id):
         return db.session.query(t_user).get(user_id)
 
+
 class UserAdmin(ModelView):
     column_labels = {
         'name': u'用户名',
@@ -119,12 +158,12 @@ class UserAdmin(ModelView):
         'pwd': u'密码',
         'role': u'管理角色',
     }
+
     def is_accessible(self):
         return login.current_user.role == u'用户管理员'
 
 
-class MyAdminIndexView(admin.AdminIndexView):
-
+class MyAdminIndexView(admin.AdminIndexView):  # 登录view
     @admin.expose("/")
     def home(self):
         if not login.current_user.is_authenticated:
@@ -519,9 +558,6 @@ def hash_user_password(target, value, oldvalue, initiator):
     return value
 
 
-
-
-
 class fileInput(FileUploadInput):
     FileUploadInput.data_template = ('<div>'
                                      ' <input style="border:0" %(text)s>&nbsp;&nbsp;&nbsp;&nbsp;'
@@ -546,6 +582,8 @@ class FileView(add_ckeditor):
         加文件框
     """
     widget = fileInput
+
+    column_exclude_list = ['content', ]
 
     column_labels = {
         'file': u'文件路径',
@@ -585,71 +623,77 @@ class FileView(add_ckeditor):
 
 
 @app.route('/consult_list/')
-def consult_list():
+def consult_list():  # 在线咨询列表
     consult_list = dn.get_all_consult()
-    return render_template('consult_list.html', consult_list=consult_list)
+    return render_template('mail_list.html', data=consult_list, cate='在线咨询',
+                           left_list=hdjl_left_list, submit_type='consult', show_type='consult_show')
 
 
 @app.route('/mail_list/')
-def mail_list():
+def mail_list():  # 领导信箱列表
     mail_list = dn.get_all_mail()
-    return render_template('mail_list.html', mail_list=mail_list)
+    return render_template('mail_list.html', data=mail_list, cate='领导信箱',
+                           left_list=hdjl_left_list, submit_type='mail', show_type='mail_show')
 
 
 @app.route('/report_list/')
-def report_list():
-    report_list = dn.get_all_report()  # 举报信
-    return render_template('report_letter_list.html', report_list=report_list)
+def report_list():  # 举报信列表
+    report_list = dn.get_all_report()
+    return render_template('mail_list.html', data=report_list, cate='统计违法举报信箱',
+                           left_list=hdjl_left_list, submit_type='report', show_type='report_letter_show')
 
 
 @app.route('/consult_show/<id>')
-def consult_show(id):
+def consult_show(id):  # 在线咨询详细
     con = dn.get_1_consult(id)
-    return render_template('consult_show.html', con=con)
+    return render_template('mail_detail.html', con=con, submit_type='consult', left_list=hdjl_left_list)
 
 
 @app.route('/mail_show/<id>')
-def mail_show(id):
+def mail_show(id):  # 领导信箱详细
     con = dn.get_1_mail(id)
-    return render_template('mail_show.html', con=con)
+    return render_template('mail_detail.html', con=con, submit_type='mail', left_list=hdjl_left_list)
 
 
 @app.route('/report_letter_show/<id>')
-def report_letter_show(id):
+def report_letter_show(id):  # 举报信详细
     con = dn.get_1_report_letter(id)
-    return render_template('report_letter_show.html', con=con)
+    return render_template('mail_detail.html', con=con, submit_type='report', left_list=hdjl_left_list)
 
 
 @app.route('/survey_theme/')
 def survey_theme():
     theme = dn.get_all_theme()
-    return render_template('survey_theme.html', theme=theme)
+    return render_template('survey_theme.html', theme=theme, left_list=hdjl_left_list)
 
 
 @app.route('/data/<cate>')
-def data(cate):
-    if cate == 'jx':
-        return render_template('')
-    elif cate == 'cn':
-        return render_template('')
-    elif cate == 'global':
-        return render_template('')
+def data(cate):  # 统计数据列表
+    if cate == 'jx':  # 本省数据
+        jx_data = dn.get_all_jx_data()
+        return render_template('list.html', data=jx_data, left_list=tjsj_left_list)
+    elif cate == 'cn':  # 全国数据
+        cn_data = dn.get_all_cn_data()
+        return render_template('list.html', data=cn_data, left_list=tjsj_left_list)
+    elif cate == 'global':  # 国际数据
+        global_data = dn.get_all_global_data()
+        return render_template('list.html', data=global_data, left_list=tjsj_left_list)
 
 
 @app.route('/fqa/')
-def fqa():
+def fqa():  # 常见问题
     fqa = dn.get_all_fqa()
-    return render_template('fqa.html', fqa=fqa)
+    return render_template('list.html', data=fqa, left_list=hdjl_left_list)
 
 
 @app.route('/interview_list/')
-def interview_list():
+def interview_list():  # 在线访谈
     interview = dn.get_all_interview()
-    return render_template("interview_list.html", interview=interview)
+    return render_template("list.html", data=interview, left_list=hdjl_left_list)
 
 
 @app.route('/')
-def home():
+def home():  # 主页
     work = dn.get_five_work()
     leader = dn.get_eight_leader()
     fund = dn.get_three_fund()
@@ -659,6 +703,7 @@ def home():
     int9 = dn.get_9_int()
     jx_data5 = dn.get_5_jx_data()
     system5 = dn.get_5_system()
+    system9 = dn.get_9_system()
     consult4 = dn.get_4_consult()
     qua5 = dn.get_5_qua()
     qua_tab5 = dn.get_5_qua_tab()
@@ -676,8 +721,8 @@ def home():
     mana_tab5 = dn.get_5_mana_table()
     mana_real5 = dn.get_5_mana_real()
     mana_noti = dn.get_5_mana_noti()
-    return render_template("home.html", work=work, fund=fund, leader=leader, fqa=fqa, work12=work12, theme3=theme3,
-                           int9=int9, jx_data5=jx_data5, system5=system5, consult4=consult4,
+    return render_template("base_view.html", work=work, fund=fund, leader=leader, fqa=fqa, work12=work12, theme3=theme3,
+                           int9=int9, jx_data5=jx_data5, system5=system5, system9=system9, consult4=consult4,
                            qua5=qua5, qua_tab5=qua_tab5, qua_exam5=qua_exam5, qua_state5=qua_state5,
                            qua_real5=qua_real5, qua_noti=qua_noti,
                            exam5=exam5, exam_tab5=exam_tab5, exam_exam5=exam_exam5, exam_state5=exam_state5,
@@ -687,21 +732,21 @@ def home():
 
 
 @app.route('/law_comprehension/<cate>', methods=['get', 'post'])
-def law_comprehension(cate):
+def law_comprehension(cate):  # 法律法规与解读
     if cate == "file":  # 规范性文件
         file = dn.get_all_file()
-        return render_template("file_list.html", file=file)
+        return render_template("list.html", data=file, left_list=flfgyjd_left_list)
     elif cate == "law":  # 相关法律法规
         law = dn.get_all_law()
-        return render_template("law_list.html", law=law)
+        return render_template("list.html", data=law, left_list=flfgyjd_left_list)
     elif cate == "policy":  # 政策解读
         policy = dn.get_all_policy()
-        return render_template("policy_list.html", policy=policy)
+        return render_template("list.html", data=policy, left_list=flfgyjd_left_list)
 
 
 @app.route("/main_responsibility/")
 def main_responsibility():
-    return render_template("main_responsibility.html")
+    return render_template("main_responsibility.html", left_list=tjgk_left_list)
 
 
 @app.route('/integration/<cate>')
@@ -719,13 +764,13 @@ def integration(cate):  # 一体化服务
         data = dn.get_all_sys()
     elif cate == 'report':  # 统计报表下载
         data = dn.get_all_statistics()
-    return render_template('integration_services.html', data=data)
+    return render_template('list.html', data=data, left_list=dftjdcxmgl_left_list)
 
 
 @app.route("/work_list/")
 def work_list():
     work = dn.get_all_work()
-    return render_template("work_list.html", work=work)
+    return render_template("list.html", data=work, left_list=gzdt_left_list)
 
 
 @app.route("/organization_list/")
@@ -734,52 +779,39 @@ def organization_list():
     cate1 = t_organization.to_json(query1)
     query2 = t_organization.query.filter_by(cate="事业单位")
     cate2 = t_organization.to_json(query2)
-    return render_template("organization_list.html", cate1=cate1, cate2=cate2)
+    return render_template("organization_list.html", cate1=cate1, cate2=cate2, left_list=tjgk_left_list)
 
 
 @app.route("/leader_intro/")
-def leader_intro():
+def leader_intro():  # 领导介绍
     leader = dn.get_leader_intro()
-    return render_template("leader_intro.html", leader=leader)
+    return render_template("leader_intro.html", leader=leader, left_list=tjgk_left_list)
 
 
 @app.route("/fund_list/")
-def fund_list():
+def fund_list():  # 财政资金
     query = t_fund.query.all()
     fund = t_fund.to_json(query)
-    return render_template('fund_list.html', fund=fund)
+    return render_template('list.html', data=fund, left_list=czzj_left_list)
 
 
 @app.route('/consult/')
-def consult():
-    return render_template('consult.html')
+def consult():  # 在线咨询表单
+    return render_template('mail_submit.html', left_list=hdjl_left_list, search_type='consult_list')
 
 
 @app.route('/report/')
-def report():
-    return render_template('report_letter.html')
+def report():  # 举报信表单
+    return render_template('mail_submit.html', left_list=hdjl_left_list, search_type='report_list')
 
 
 @app.route('/mail/')
-def mail():
-    return render_template('mail.html')
+def mail():  # 领导信箱表单
+    return render_template('mail_submit.html', left_list=hdjl_left_list, search_type='mail_list')
 
 
-@app.route('/subMail/', methods=['get', 'post'])
+@app.route('/subMail/', methods=['get', 'post'])  # 提交信箱
 def subMail():
-    mailAccount = request.form["mailAccount"]
-    mailIsEncrypt = request.form["mailIsEncrypt"]
-    mailAsker = request.form["mailAsker"]
-    mailPhone = request.form["mailPhone"]
-    mailEmail = request.form["mailEmail"]
-    mailTheme = request.form["mailTheme"]
-    mailQuestion = request.form["mailQuestion"]
-    dn.add_2_mail(mailAccount, mailIsEncrypt, mailAsker, mailPhone, mailEmail, mailTheme, mailQuestion)
-    return ''
-
-
-@app.route('/subConsult/', methods=['get', 'post'])
-def subConsult():
     account = request.form["account"]
     is_encrypt = request.form["is_encrypt"]
     asker = request.form["asker"]
@@ -787,21 +819,16 @@ def subConsult():
     email = request.form["email"]
     theme = request.form["theme"]
     question = request.form["question"]
-    dn.add_2_consult(account, is_encrypt, asker, phone, email, theme, question)
-    return ''
-
-
-@app.route('/subReportLetter/', methods=['get', 'post'])
-def subReportLetter():
-    account = request.form["account"]
-    is_encrypt = request.form["is_encrypt"]
-    asker = request.form["asker"]
-    phone = request.form["phone"]
-    email = request.form["email"]
-    theme = request.form["theme"]
-    question = request.form["question"]
-    dn.add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question)
-    return ''
+    cate = request.form['submit_type']  # 提交类型
+    if cate == 'mail_list':
+        dn.add_2_mail(account, is_encrypt, asker, phone, email, theme, question)
+        return redirect(url_for('mail_list'))
+    elif cate == 'consult_list':
+        dn.add_2_consult(account, is_encrypt, asker, phone, email, theme, question)
+        return redirect(url_for('consult_list'))
+    elif cate == 'report_list':
+        dn.add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question)
+        return redirect(url_for('report_list'))
 
 
 @app.route('/search_list/', methods=['get', 'post'])
@@ -832,6 +859,18 @@ def search_list():
     return render_template('search_list.html', data=ans_list)
 
 
+@app.route('/topic/')
+def topic():  # 专题聚焦列表
+    topic = dn.get_all_topic()
+    return render_template('list.html', left_list=ztjj_left_list, data=topic)
+
+
+@app.route('/tax/')
+def tax():  # 专题聚焦列表
+    tax = dn.get_all_tax()
+    return render_template('list.html', left_list=ztjj_left_list, data=tax)
+
+
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
 def news(cate, data):
     return_data = {}
@@ -850,6 +889,11 @@ def news(cate, data):
         return_data = dn.get_1_sys(data)
     elif cate == 'jx_data':
         return_data = dn.get_1_jx_data(data)
+    elif cate == 'cn':
+        return_data = dn.get_1_cn_data(data)
+    elif cate == 'global':
+        return_data = dn.get_1_global_data(data)
+    print(return_data)
     return render_template("news.html", data=return_data)
 
 
@@ -867,7 +911,7 @@ admin.add_views(  # 政务公开页面的管理
     FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
     FileView(t_leader, db.session, name=u"领导介绍", category=u"政务公开", endpoint="leader"),
     FileView(t_organization, db.session, name=u"组织结构", category=u"政务公开", endpoint="organazation"),
-    #     add_ckeditor(t_topic, db.session, name=u"专题聚焦", category=u"政务公开", endpoint="topic"),
+    FileView(t_topic, db.session, name=u"专题聚焦", category=u"政务公开", endpoint="topic"),
     FileView(t_fund, db.session, name=u"财政资金", category=u"政务公开", endpoint="fund"),
     FileView(t_law, db.session, name=u"法律法规", category=u"政务公开", endpoint="law"),
     FileView(t_policy, db.session, name=u"政策解读", category=u"政务公开", endpoint="policy"),

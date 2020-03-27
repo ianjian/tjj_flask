@@ -117,6 +117,21 @@ def get_5_system():
     return lst
 
 
+def get_9_system():
+    lst = []
+    query = app.t_system.query.all()[:9]
+    for i in query:
+        temp = {
+            'id': i.id,
+            'title': i.title,
+            'content': i.content,
+            'datetime': str(i.datetime)[:10],
+            # 'file': i.jx_data_file,
+            # 'img': i.jx_data_image,
+        }
+        lst.append(temp)
+    return lst
+
 def get_one_work(id=None):
     lst = []
     query = app.t_work.query.filter_by(id=id)
@@ -133,6 +148,21 @@ def get_five_work():
         lst.append(temp)
     return lst
 
+def get_all_topic():
+    lst = []
+    query = app.t_topic.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }
+        lst.append(temp)
+    return lst
+
+def get_all_tax():
+    lst = []
+    query = app.t_tax.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime, }
+        lst.append(temp)
+    return lst
 
 def get_work_list():
     lst = []
@@ -320,6 +350,32 @@ def get_all_statistics():
         int9.append(temp)
     return int9
 
+def get_all_jx_data():
+    int9 = []
+    query = app.t_jx_data.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'statistic'}
+        int9.append(temp)
+    return int9
+
+def get_all_cn_data():
+    int9 = []
+    query = app.t_cn_data.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'statistic'}
+        int9.append(temp)
+    return int9
+
+def get_all_global_data():
+    int9 = []
+    query = app.t_global_data.query.all()
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content,
+                'datetime': str(i.datetime)[: 10], 'file': i.file, 'cate': 'statistic'}
+        int9.append(temp)
+    return int9
 
 def get_all_file():
     int9 = []
@@ -595,8 +651,24 @@ def get_5_mana_noti():
 
 def get_1_jx_data(id):
     temp = []
-    query = app.t_proj_manage.query.filter_by(id=id)
+    query = app.t_jx_data.query.filter_by(id=id)
     for i in query:
         temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
-                'file': i.file, 'cate': i.cate, }
+                'file': i.file, 'cate': 'jx_data', }
+    return temp
+
+def get_1_cn_data(id):
+    temp = []
+    query = app.t_cn_data.query.filter_by(id=id)
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': 'cn_data', }
+    return temp
+
+def get_1_global_data(id):
+    temp = []
+    query = app.t_global_data.query.filter_by(id=id)
+    for i in query:
+        temp = {'id': i.id, 'title': i.title, 'content': i.content, 'datetime': i.datetime,
+                'file': i.file, 'cate': 'global_data', }
     return temp

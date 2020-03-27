@@ -1,4 +1,12 @@
-{% extends 'interaction.html' %}
+{% extends 'list_view.html' %}
+{% block left_list %}
+  <ul class="listUl">
+    <div class="Qli"><a href="javascript:void(0);">{{ left_list[0].name }}</a></div>
+    {% for h in left_list[1:] %}
+      <li><a href="{{ url_for(h.href, cate=h.cate) }}" title="#">{{ h.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
 {% block right_content %}
     <div class="QcolR fr">
         <!--公开信息搜索 开始 -->
@@ -35,7 +43,7 @@
             </div>
         </div>
         <!--公开信息搜索 结束 -->
-        <a href="{{ url_for('mail') }}" class="btn_bluearrow">我要留言</a>
+        <a href="{{ url_for(submit_type) }}" class="btn_bluearrow">我要留言</a>
         <table width="680" class="List_tab" cellpadding="0" cellspacing="0"
                style="font-size:12px;margin:0 auto;border-left:1px solid #cdcede;">
             <tbody>
@@ -47,11 +55,11 @@
                 <th style="width:100px;border: 1px solid #cdcede;"><strong>办理情况</strong></th>
                 <th style="border: 1px solid #cdcede;"><strong>来信时间</strong></th>
             </tr>
-            {% for c in mail_list %}
+            {% for c in data %}
                 <tr>
-                    <td height="40" align="left">领导信箱</td>
+                    <td height="40" align="left">{{ cate }}</td>
                     <td style="text-align:left; padding-left:8px;"><a
-                            href="{{ url_for('mail_show', id=c.id) }}"
+                            href="{{ url_for(show_type, id=c.id) }}"
                             target="_blank">{{ c.theme }}</a></td>
                     {% if c.answer %}
                         <td align="center">已处理</td>
