@@ -1,8 +1,0 @@
-{% extends 'interaction.html' %}
-{% block right_content %}
-  <ul class="QcolRul">
-  {% for f in fqa %}
-    <li><span>{{ f.datetime }}</span><a href="{{ url_for('news', cate='fqa', data=f.id) }}">{{ f.title }}</a></li>
-  {% endfor %}
-  </ul>
-{% endblock %}
