@@ -2,8 +2,6 @@ from flask import Flask, redirect, url_for, render_template, request
 
 import flask_login as login
 
-from wtforms import form, fields, validators
-from werkzeug.security import generate_password_hash, check_password_hash
 
 import flask_admin as admin
 from flask_admin import helpers
@@ -18,6 +16,9 @@ from sqlalchemy.event import listens_for
 
 import os
 import os.path as op
+import json
+from wtforms import form, fields, validators
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import db_operation as dn
 
@@ -26,8 +27,8 @@ db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 babel = Babel(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
@@ -335,6 +336,12 @@ def del_file(mapper, connection, target):
         except OSError:
             pass
 
+class t_fqa(db.Model):  # 常见问题
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    title = db.Column(db.String(), )
+    content = db.Column(db.Text(), )
+    datetime = db.Column(db.DateTime(), )
+
 
 class t_global_data(db.Model):  # 国际数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -360,7 +367,7 @@ class t_org_qualification(db.Model):  # 涉外机构资格认证
     content = db.Column(db.Text(), )
     file = db.Column(db.String(), )
     datetime = db.Column(db.DateTime(), )
-    cate = db.Column(db.String(), )
+    cate = db.Column(db.String(), )  #
 
 
 @listens_for(t_org_qualification, 'after_delete')
@@ -544,11 +551,7 @@ class t_survey_ans(db.Model):
     ans_ques_id = db.Column(db.Integer(), )
 
 
-class t_fqa(db.Model):  # 常见问题
-    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    title = db.Column(db.String(), )
-    content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+
 
 
 @listens_for(t_user.pwd, "set", retval=True)
@@ -622,24 +625,77 @@ class FileView(add_ckeditor):
         return login.current_user.role == u'管理员'
 
 
+@app.route('/mail_search/<cate>', methods=['get', 'post'])
+def mail_search(cate):
+    searchReferCode = str(request.form['searchReferCode'])  # 仅按编号查询公开信
+    referCode = str(request.form['referCode'])
+    referPhone = str(request.form['referPhone'])
+    if cate == 'consult_search':
+        if searchReferCode != '请输入咨询信息编号':
+            query = t_consult.query.filter_by(is_encrypt=0, account=searchReferCode).first()
+            if query:
+                return redirect(url_for('consult_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        elif referCode != '请输入咨询信息编号':
+            query = t_consult.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
+            if query:
+                return redirect(url_for('consult_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        else:
+            return json.dumps('错误查询！')
+    elif cate == 'mail_search':
+        if searchReferCode != '请输入咨询信息编号':
+            query = t_mail.query.filter_by(is_encrypt=0, account=searchReferCode).first()
+            print(query.id)
+            if query:
+                return redirect(url_for('mail_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        elif referCode != '请输入咨询信息编号':
+            query = t_mail.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
+            if query:
+                return redirect(url_for('mail_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        else:
+            return json.dumps('错误查询！')
+    elif cate == 'report_search':
+        if searchReferCode != '请输入咨询信息编号':
+            query = t_report_letter.query.filter_by(is_encrypt=0, account=searchReferCode).first()
+            if query:
+                return redirect(url_for('report_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        elif referCode != '请输入咨询信息编号':
+            query = t_report_letter.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
+            if query:
+                return redirect(url_for('report_show', id=query.id))
+            else:
+                return json.dumps('错误查询！')
+        else:
+            return json.dumps('错误查询！')
+
+
 @app.route('/consult_list/')
 def consult_list():  # 在线咨询列表
     consult_list = dn.get_all_consult()
-    return render_template('mail_list.html', data=consult_list, cate='在线咨询',
+    return render_template('mail_list.html', data=consult_list, cate='在线咨询', search_type='consult_search',
                            left_list=hdjl_left_list, submit_type='consult', show_type='consult_show')
 
 
 @app.route('/mail_list/')
 def mail_list():  # 领导信箱列表
     mail_list = dn.get_all_mail()
-    return render_template('mail_list.html', data=mail_list, cate='领导信箱',
+    return render_template('mail_list.html', data=mail_list, cate='领导信箱', search_type='mail_search',
                            left_list=hdjl_left_list, submit_type='mail', show_type='mail_show')
 
 
 @app.route('/report_list/')
 def report_list():  # 举报信列表
     report_list = dn.get_all_report()
-    return render_template('mail_list.html', data=report_list, cate='统计违法举报信箱',
+    return render_template('mail_list.html', data=report_list, cate='统计违法举报信箱', search_type='report_search',
                            left_list=hdjl_left_list, submit_type='report', show_type='report_letter_show')
 
 
