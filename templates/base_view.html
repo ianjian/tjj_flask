@@ -482,17 +482,17 @@
     <div class="QtotalRight fr">
       <div class="Qtotaldiv1">
         <div class="QrightHead">
-        <span class="Qspan Qactive"><!-- 统计公报 --><a class="ccc" href="#"
-                                                    target="_blank">统计公报</a></span>
+        <span class="Qspan Qactive">
+          <a class="ccc" href="{{ url_for('jx_statistics') }}" target="_blank">统计公报</a></span>
         </div>
         <ul>
-          <li><a href="/id_jxstjgb201803120108328842/column.shtml" target="_blank">
+          <li><a href="{{ url_for('jx_statistics') }}" target="_blank">
             <img src="/static/img/Qt1.jpg" alt=""></a><!-- 江西省统计公报 -->
           </li>
-          <li><a href="/id_jxspcgb201803120108245294/column.shtml" target="_blank">
+          <li><a href="{{ url_for('jx_survey') }}" target="_blank">
             <img src="/static/img/Qt2.jpg" alt=""></a><!-- 江西省普查公报 -->
           </li>
-          <li><a href="/id_gjtjgb201803120109143181/column.shtml" target="_blank">
+          <li><a href="{{ url_for('cn_statistics') }}" target="_blank">
             <img src="/static/img/Qt4.jpg" alt=""></a><!-- 国家统计公报 -->
           </li>
         </ul>
@@ -610,13 +610,13 @@
         </div>
         <div class="QrightHead">
           <p class="Qp2">
-            <a href="/id_swdcxmsp201803120103425407/column.shtml" target="_blank">全部/</a>
+            <a href="/id_swdcxmsp201803120103425407/column.shtml" target="_blank">全部 /</a>
           </p>
           <p class="Qp2">
             <a href="/id_ygwj201803120132314287/column.shtml" target="_blank">有关文件 /</a>
           </p>
           <p class="Qp2 Qte">
-            <a href="/id_bgxz201803120132063842/column.shtml" target="_blank">表格下载/</a>
+            <a href="/id_bgxz201803120132063842/column.shtml" target="_blank">表格下载 /</a>
           </p>
           <p class="Qp2">
             <a href="/id_wssp201803120132004573/column.shtml" target="_blank">网上审批 /</a>
@@ -711,12 +711,12 @@
                 class="Wlbj"></em><em class="Wrbj"></em></span>
         </div>
         <div class="QrightHead">
-          <p class="Qp2 Qte"><a href="/id_dftjdcxmgl201803120103320056/column.shtml" target="_blank">全部/</a></p>
-          <p class="Qp2"><a href="/id_ygwj201803120133265315/column.shtml" target="_blank"><!-- 有关文件 -->有关文件 /</a>
+          <p class="Qp2 Qte"><a href="{{ url_for('integration', cate='relatives') }}" target="_blank">全部/</a></p>
+          <p class="Qp2"><a href="{{ url_for('integration', cate='relatives') }}" target="_blank"><!-- 有关文件 -->有关文件 /</a>
           </p>
-          <p class="Qp2"><a href="/id_bgxz201803120133118068/column.shtml" target="_blank"><!-- 表格下载 -->表格下载 /</a>
+          <p class="Qp2"><a href="{{ url_for('integration', cate='table') }}" target="_blank"><!-- 表格下载 -->表格下载 /</a>
           </p>
-          <p class="Qp2"><a href="/id_spgg201803120133031108/column.shtml" target="_blank"><!-- 审批公告 -->审批公告</a>
+          <p class="Qp2"><a href="{{ url_for('integration', cate='notice') }}" target="_blank"><!-- 审批公告 -->审批公告</a>
           </p>
         </div>
         <!-- 全部 -->

@@ -1,4 +1,48 @@
 {% extends 'base_view.html' %}
 {% block center_content %}
+  <div class="Qcontent">
+    {#    <div class="Qplace">#}
+    {#      <div class="curPlace">#}
+    {#        <a href="/index.shtml">首页</a>&gt;&gt;<a href="javascript:void(0);">搜索结果</a>#}
+    {#      </div>#}
+    {#    </div>#}
+    <div class="Qcolumn">
 
+      <ul class="QcolRul">
+        {% for d in data %}
+          <li>
+            <span>{{ d.datetime }}</span>
+            <a href="{{ url_for(d.url_for, cate=d.second_cate) }}" title="#">{{ d.title }}</a>
+          </li>
+        {% endfor %}
+        {#        <div class="Qtoggle">#}
+        {#          <div class="strong-ui-pager">#}
+        {#            首页 &nbsp;&nbsp;#}
+        {#            上一页 &nbsp;&nbsp;#}
+        {#            下一页 &nbsp;&nbsp;#}
+        {#            末页&nbsp;#}
+        {#            <span>1/1</span>&nbsp;#}
+        {#            <input id="pager-index" size="2" type="text" onkeypress="javascript:if(event.keyCode==13){pagerGo();}">#}
+        {#            <button type="button" id="pager-go" onclick="pagerGo();">Go</button>#}
+        {#            <script type="text/javascript">#}
+        {#              var curpage = parseInt(1);#}
+        {#              var totalpage = parseInt(1);#}
+        {##}
+        {#              function pagerGo() {#}
+        {#                var nav = document.getElementById("pager-index").value;#}
+        {#                nav = Math.round(nav);#}
+        {#                nav = isNaN(nav) ? 1 : nav;#}
+        {#                nav = (nav <= 1) ? 1 : nav;#}
+        {#                nav = (nav >= totalpage) ? totalpage : nav;#}
+        {#                var url = "/page_##/key_@E6@94@BF@E7@AD@96/search.shtml";#}
+        {#                location = url.replace("##", nav);#}
+        {#              }#}
+        {#            </script>#}
+        {#          </div>#}
+        {#        </div>#}
+
+
+      </ul>
+    </div>
+  </div>
 {% endblock %}
