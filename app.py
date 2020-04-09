@@ -5,36 +5,40 @@ import flask_login as login
 import flask_admin as admin
 from flask_admin import helpers
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.form import FileUploadField
+from flask_admin.form import FileUploadField, Select2Field
 from flask_admin.form import FileUploadInput
 
 from flask_babelex import Babel
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
+import pymysql
 
 import os
 import os.path as op
-import json
 from wtforms import form, fields, validators
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import db_operation as dn
 
-app = Flask(__name__)
+app = Flask(__name__,)
 db = SQLAlchemy(app)
+db_ = pymysql.connect("localhost", "root", "root", "db_tjj_flask")
+cursor = db_.cursor()
 ckeditor = CKEditor(app)
 babel = Babel(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 10
+app.config['SQLALCHEMY_POOL_SIZE'] = 30
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
 app.config['FLASK_ADMIN_SWATCH'] = 'Lumen'
 app.config['BABEL_DEFAULT_LOCALE'] = 'zh_hans_CN'
 
-file_path = op.join(op.dirname(__file__), 'files')
+file_path = op.join(op.dirname(__file__), 'static\\files')
 try:
     os.mkdir(file_path)
 except OSError:
@@ -89,8 +93,22 @@ tjgb_left_list = [{'name': '统计公报', 'href': ''},
                   {'name': '国家统计公报', 'href': 'cn_statistics'}]
 
 
-# class t_auth(db.Model):  # 权限表
-#     pass
+class fileInput(FileUploadInput):
+    FileUploadInput.data_template = ('<div>'
+                                     ' <input style="border:0" %(text)s>&nbsp;&nbsp;&nbsp;&nbsp;'
+                                     ' <input type="checkbox" name="%(marker)s">Delete</input>'
+                                     '</div>'
+                                     '<input %(file)s>')
+
+
+class t_auth(db.Model):  # 权限表
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    auth = db.Column(db.String(255), )
+
+class t_role(db.Model):  # 角色表
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    role = db.Column(db.String(255), )
+
 
 class t_user(db.Model):  # 用户表
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
@@ -173,10 +191,10 @@ class UserAdmin(ModelView):
         'pwd': u'密码',
         'role': u'管理角色',
     }
-
+    column_exclude_list = ['pwd']
     form_args = {
         'role': {
-            'validators': [validators.AnyOf(['flask', 'chocolate'])]
+            'validators': [validators.AnyOf([u'领导', u'用户管理员', u'管理员'])]
         },
     }
 
@@ -218,6 +236,19 @@ class t_work(db.Model):
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='work')
 
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
 
 # 领导介绍
 class t_leader(db.Model):
@@ -225,6 +256,19 @@ class t_leader(db.Model):
     name = db.Column(db.String(255), )
     leader_title = db.Column(db.String(255), )
     intro = db.Column(db.Text(), )
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 # 江西省情
@@ -235,6 +279,19 @@ class t_circumstances(db.Model):
     datetime = db.Column(db.DateTime(), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='circumstance')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 # 组织结构/机构设置
@@ -270,6 +327,19 @@ class t_topic(db.Model):
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='topic')
 
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
 
 class t_fund(db.Model):  # 财政资金
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -298,8 +368,21 @@ class t_law(db.Model):  # 法律法规
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='law')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='law')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_policy(db.Model):  # 政策解读
@@ -307,8 +390,21 @@ class t_policy(db.Model):  # 政策解读
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='policy')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='policy')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_tax(db.Model):  # 减税降费
@@ -316,8 +412,21 @@ class t_tax(db.Model):  # 减税降费
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='tax')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='tax')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_file(db.Model):  # 规范性文件
@@ -326,8 +435,21 @@ class t_file(db.Model):  # 规范性文件
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='file')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='files')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_file, 'after_delete')
@@ -346,8 +468,21 @@ class t_jx_data(db.Model):  # 本省数据
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='jx_data')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='jx')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_jx_data, 'after_delete')
@@ -366,8 +501,21 @@ class t_cn_data(db.Model):  # 全国数据
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='cn_data')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='cn')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_cn_data, 'after_delete')
@@ -384,8 +532,21 @@ class t_fqa(db.Model):  # 常见问题
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='fqa')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='fqa')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_global_data(db.Model):  # 国际数据
@@ -395,8 +556,21 @@ class t_global_data(db.Model):  # 国际数据
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='global_data')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='global')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_global_data, 'after_delete')
@@ -415,8 +589,21 @@ class t_org_qualification(db.Model):  # 涉外机构资格认证
     file = db.Column(db.String(255), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='org_qua')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='qualification')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_org_qualification, 'after_delete')
@@ -435,8 +622,21 @@ class t_proj_exam(db.Model):  # 涉外调查项目审批
     file = db.Column(db.String(255), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='exam')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_proj_exam, 'after_delete')
@@ -455,8 +655,21 @@ class t_proj_manage(db.Model):  # 地方统计调查项目管理
     file = db.Column(db.String(255), )
     datetime = db.Column(db.DateTime(), )
     cate = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='manage')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_proj_manage, 'after_delete')
@@ -474,8 +687,21 @@ class t_system(db.Model):  # 统计制度
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )  # path
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='sys')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_system, 'after_delete')
@@ -493,8 +719,21 @@ class t_jx_statistics(db.Model):  # 江西省统计公报
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='jx_sta')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_jx_statistics, 'after_delete')
@@ -512,8 +751,21 @@ class t_jx_survey(db.Model):  # 江西省普查公报
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='jx_sur')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_jx_survey, 'after_delete')
@@ -531,8 +783,21 @@ class t_cn_statistics(db.Model):  # 国家统计公报
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
     file = db.Column(db.String(255), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='cn_sta')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 @listens_for(t_cn_statistics, 'after_delete')
@@ -549,8 +814,21 @@ class t_interview(db.Model):  # 在线访谈
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     datetime = db.Column(db.DateTime(), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='interview')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_consult(db.Model):  # 在线咨询
@@ -566,6 +844,19 @@ class t_consult(db.Model):  # 在线咨询
     answer = db.Column(db.Text(), )
     ans_time = db.Column(db.Date(), )
 
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
 
 class t_report_letter(db.Model):  # 举报信箱
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -579,6 +870,19 @@ class t_report_letter(db.Model):  # 举报信箱
     ask_time = db.Column(db.Date(), )
     answer = db.Column(db.Text(), )
     ans_time = db.Column(db.Date(), )
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_mail(db.Model):  # 领导信箱
@@ -594,14 +898,38 @@ class t_mail(db.Model):  # 领导信箱
     answer = db.Column(db.Text(), )
     ans_time = db.Column(db.Date(), )
 
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
 
 class t_survey_theme(db.Model):
     theme_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     theme_title = db.Column(db.String(255), )
     theme_start = db.Column(db.Date(), )
     theme_finish = db.Column(db.Date(), )
-    url_for = db.Column(db.String(255), default='work')
-    second_cate = db.Column(db.String(255), )
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
 
 
 class t_survey_ques(db.Model):
@@ -623,14 +951,6 @@ def hash_user_password(target, value, oldvalue, initiator):
     return value
 
 
-class fileInput(FileUploadInput):
-    FileUploadInput.data_template = ('<div>'
-                                     ' <input style="border:0" %(text)s>&nbsp;&nbsp;&nbsp;&nbsp;'
-                                     ' <input type="checkbox" name="%(marker)s">Delete</input>'
-                                     '</div>'
-                                     '<input %(file)s>')
-
-
 class add_ckeditor(ModelView):
     """
         加富文本
@@ -648,7 +968,7 @@ class FileView(add_ckeditor):
     """
     widget = fileInput
 
-    column_exclude_list = ['content', ]
+    column_exclude_list = ['content', 'url_for', 'second_cate']
 
     column_labels = {
         'file': u'文件路径',
@@ -669,26 +989,44 @@ class FileView(add_ckeditor):
         'ans_time': u'回答时间',
         'graph': u'图表',
         'cate': u'分类',
+        'url_for': u'路径',
+        'second_cate': u'二级目录',
     }
 
-    form_overrides = dict(content=CKEditorField, file=FileUploadField)
+    form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
 
     form_args = {
         'file': {
             'base_path': file_path,
             'allow_overwrite': False
         },
-        # 'cate': {
-        #     'validators': [validators.AnyOf(['flask', 'chocolate'])]
-        # },
+        'cate': {
+            'label': u'文件类型',
+            'choices': [
+                ('有关文件', '有关文件'),
+                ('表格下载', '表格下载'),
+                ('网上审批', '网上审批'),
+                ('状态查询', '状态查询'),
+                ('审批公告', '审批公告'),
+            ],
+        },
     }
 
     def is_accessible(self):
-        return login.current_user.role == u'管理员'
+        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+
+
+class mail_admin(FileView):
+    column_exclude_list = ['content', 'url_for', 'second_cate', ]
+
+    form_overrides = dict(content=CKEditorField, file=FileUploadField)
+
+    def is_accessible(self):
+        return login.current_user.role == u'领导'
 
 
 @app.route('/mail_search/<cate>', methods=['get', 'post'])
-def mail_search(cate):
+def mail_search(cate):  # 信件查询的表单提交
     searchReferCode = str(request.form['searchReferCode'])  # 仅按编号查询公开信
     referCode = str(request.form['referCode'])
     referPhone = str(request.form['referPhone'])
@@ -696,17 +1034,17 @@ def mail_search(cate):
         if searchReferCode != '请输入咨询信息编号':
             query = t_consult.query.filter_by(is_encrypt=0, account=searchReferCode).first()
             if query:
-                return redirect(url_for('consult_show', id=query.id))
+                return redirect(url_for('consult_show', data=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('consult_list'))
         elif referCode != '请输入咨询信息编号':
             query = t_consult.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
             if query:
-                return redirect(url_for('consult_show', id=query.id))
+                return redirect(url_for('consult_show', data=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('consult_list'))
         else:
-            return json.dumps('错误查询！')
+            return redirect(url_for('consult_list'))
     elif cate == 'mail_search':
         if searchReferCode != '请输入咨询信息编号':
             query = t_mail.query.filter_by(is_encrypt=0, account=searchReferCode).first()
@@ -714,30 +1052,30 @@ def mail_search(cate):
             if query:
                 return redirect(url_for('mail_show', id=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('mail_list'))
         elif referCode != '请输入咨询信息编号':
             query = t_mail.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
             if query:
                 return redirect(url_for('mail_show', id=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('mail_list'))
         else:
-            return json.dumps('错误查询！')
+            return redirect(url_for('mail_list'))
     elif cate == 'report_search':
         if searchReferCode != '请输入咨询信息编号':
             query = t_report_letter.query.filter_by(is_encrypt=0, account=searchReferCode).first()
             if query:
                 return redirect(url_for('report_show', id=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('report_list'))
         elif referCode != '请输入咨询信息编号':
             query = t_report_letter.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
             if query:
                 return redirect(url_for('report_show', id=query.id))
             else:
-                return json.dumps('错误查询！')
+                return redirect(url_for('report_list'))
         else:
-            return json.dumps('错误查询！')
+            return redirect(url_for('report_list'))
 
 
 @app.route('/consult_list/')
@@ -789,25 +1127,25 @@ def survey_theme():  # 在线调查列表
 def data(cate):  # 统计数据列表
     if cate == 'jx':  # 本省数据
         jx_data = dn.get_all_jx_data()
-        return render_template('list.html', data=jx_data, left_list=tjsj_left_list)
+        return render_template('news_list.html', data=jx_data, left_list=tjsj_left_list, )
     elif cate == 'cn':  # 全国数据
         cn_data = dn.get_all_cn_data()
-        return render_template('list.html', data=cn_data, left_list=tjsj_left_list)
+        return render_template('news_list.html', data=cn_data, left_list=tjsj_left_list, )
     elif cate == 'global':  # 国际数据
         global_data = dn.get_all_global_data()
-        return render_template('list.html', data=global_data, left_list=tjsj_left_list)
+        return render_template('news_list.html', data=global_data, left_list=tjsj_left_list, )
 
 
 @app.route('/fqa/')
 def fqa():  # 常见问题列表
     fqa = dn.get_all_fqa()
-    return render_template('list.html', data=fqa, left_list=hdjl_left_list)
+    return render_template('news_list.html', data=fqa, left_list=hdjl_left_list, )
 
 
 @app.route('/interview_list/')
 def interview_list():  # 在线访谈列表
     interview = dn.get_all_interview()
-    return render_template("list.html", data=interview, left_list=hdjl_left_list)
+    return render_template("news_list.html", data=interview, left_list=hdjl_left_list, )
 
 
 @app.route('/')
@@ -852,32 +1190,32 @@ def home():  # 主页
 @app.route('/jx_statistics/')
 def jx_statistics():  # 江西省统计公报
     data = dn.get_all_jx_statistics
-    return render_template("list.html", data=data, left_list=tjgb_left_list)
+    return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
 @app.route('/jx_survey/')
 def jx_survey():  # 江西省普查公报
     data = dn.get_all_jx_survey
-    return render_template("list.html", data=data, left_list=tjgb_left_list)
+    return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
 @app.route('/cn_statistics/')
 def cn_statistics():  # 国家统计公报
     data = dn.get_all_cn_statistics
-    return render_template("list.html", data=data, left_list=tjgb_left_list)
+    return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
 @app.route('/law_comprehension/<cate>', methods=['get', 'post'])
 def law_comprehension(cate):  # 法律法规与解读列表
     if cate == "file":  # 规范性文件
         file = dn.get_all_file()
-        return render_template("list.html", data=file, left_list=flfgyjd_left_list)
+        return render_template("news_list.html", data=file, left_list=flfgyjd_left_list, )
     elif cate == "law":  # 相关法律法规
         law = dn.get_all_law()
-        return render_template("list.html", data=law, left_list=flfgyjd_left_list)
+        return render_template("news_list.html", data=law, left_list=flfgyjd_left_list, )
     elif cate == "policy":  # 政策解读
         policy = dn.get_all_policy()
-        return render_template("list.html", data=policy, left_list=flfgyjd_left_list)
+        return render_template("news_list.html", data=policy, left_list=flfgyjd_left_list, )
 
 
 @app.route("/main_responsibility/")
@@ -886,7 +1224,7 @@ def main_responsibility():  # 主要职责，静态
 
 
 @app.route('/integration/<cate>')
-def integration(cate):  # 一体化服务列表
+def integration(cate):  # 一体化服务列表  # 地方统计调查项目管理
     data = []
     if cate == 'relatives':  # 有关文件
         data = dn.get_all_relatives()
@@ -900,13 +1238,49 @@ def integration(cate):  # 一体化服务列表
         data = dn.get_all_sys()
     elif cate == 'report':  # 统计报表下载
         data = dn.get_all_statistics()
-    return render_template('list.html', data=data, left_list=dftjdcxmgl_left_list)
+    return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
+
+
+@app.route('/qualification/<cate>')
+def qualification(cate):  # 涉外调查机构资格认证
+    data = []
+    if cate == 'relatives':  # 有关文件
+        data = dn.get_all_relatives()
+    elif cate == 'procedure':  # 网上审批
+        data = dn.get_all_procedure()
+    elif cate == 'table':  # 表格下载
+        data = dn.get_all_table()
+    elif cate == 'state':  # 状态查询
+        data = dn.get_all_notice()
+    elif cate == 'notice':  # 审批公告
+        data = dn.get_all_sys()
+    elif cate == 'all':  # 全部
+        data = dn.get_all_statistics()
+    return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
+
+
+@app.route('/exam/<cate>')
+def exam(cate):  # 涉外调查项目审批
+    data = []
+    if cate == 'relatives':  # 有关文件
+        data = dn.get_all_relatives()
+    elif cate == 'procedure':  # 网上审批
+        data = dn.get_all_procedure()
+    elif cate == 'table':  # 表格下载
+        data = dn.get_all_table()
+    elif cate == 'state':  # 状态查询
+        data = dn.get_all_notice()
+    elif cate == 'notice':  # 审批公告
+        data = dn.get_all_sys()
+    elif cate == 'all':  # 全部
+        data = dn.get_all_statistics()
+    return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
 
 
 @app.route("/work_list/")
 def work_list():  # 工作动态列表
     work = dn.get_all_work()
-    return render_template("list.html", data=work, left_list=gzdt_left_list)
+    return render_template("news_list.html", data=work, left_list=gzdt_left_list, )
 
 
 @app.route("/organization_list/")
@@ -928,7 +1302,7 @@ def leader_intro():  # 领导介绍
 def fund_list():  # 财政资金
     query = t_fund.query.all()
     fund = t_fund.to_json(query)
-    return render_template('list.html', data=fund, left_list=czzj_left_list)
+    return render_template('news_list.html', data=fund, left_list=czzj_left_list, )
 
 
 @app.route('/consult/')
@@ -948,13 +1322,13 @@ def mail():  # 领导信箱表单
 
 @app.route('/subMail/', methods=['get', 'post'])  # 提交操作
 def subMail():
-    account = request.form["account"]
-    is_encrypt = request.form["is_encrypt"]
-    asker = request.form["asker"]
-    phone = request.form["phone"]
-    email = request.form["email"]
-    theme = request.form["theme"]
-    question = request.form["question"]
+    account = request.form["referSortId"]
+    is_encrypt = request.form["referOpen"]
+    asker = request.form["referUser"]
+    phone = request.form["referPhone"]
+    email = request.form["referEmail"]
+    theme = request.form["referTitle"]
+    question = request.form["referContent"]
     cate = request.form['submit_type']  # 提交类型
     if cate == 'mail_list':
         dn.add_2_mail(account, is_encrypt, asker, phone, email, theme, question)
@@ -972,39 +1346,41 @@ def search_list():  # 搜索列表
     search_key = request.form["ss-k"]  # 关键字
     ans_list = []
     if search_key:
-        ans_list.append(t_work.query.filter(t_work.content.like("%" + search_key + "%")))
-        ans_list.append(t_circumstances.query.filter(t_circumstances.content.like("%" + search_key + "%")))
-        ans_list.append(t_topic.query.filter(t_topic.content.like("%" + search_key + "%")))
-        ans_list.append(t_fund.query.filter(t_fund.content.like("%" + search_key + "%")))
-        ans_list.append(t_law.query.filter(t_law.content.like("%" + search_key + "%")))
-        ans_list.append(t_policy.query.filter(t_policy.content.like("%" + search_key + "%")))
-        ans_list.append(t_tax.query.filter(t_tax.content.like("%" + search_key + "%")))
-        ans_list.append(t_file.query.filter(t_file.content.like("%" + search_key + "%")))
-        ans_list.append(t_jx_data.query.filter(t_jx_data.content.like("%" + search_key + "%")))
-        ans_list.append(t_cn_data.query.filter(t_cn_data.content.like("%" + search_key + "%")))
-        ans_list.append(t_global_data.query.filter(t_global_data.content.like("%" + search_key + "%")))
-        ans_list.append(t_org_qualification.query.filter(t_org_qualification.content.like("%" + search_key + "%")))
-        ans_list.append(t_proj_exam.query.filter(t_proj_exam.content.like("%" + search_key + "%")))
-        ans_list.append(t_proj_manage.query.filter(t_proj_manage.content.like("%" + search_key + "%")))
-        ans_list.append(t_system.query.filter(t_system.content.like("%" + search_key + "%")))
-        ans_list.append(t_jx_statistics.query.filter(t_jx_statistics.content.like("%" + search_key + "%")))
-        ans_list.append(t_jx_survey.query.filter(t_jx_survey.content.like("%" + search_key + "%")))
-        ans_list.append(t_cn_statistics.query.filter(t_cn_statistics.content.like("%" + search_key + "%")))
-        ans_list.append(t_interview.query.filter(t_interview.content.like("%" + search_key + "%")))
-        ans_list.append(t_fqa.query.filter(t_fqa.content.like("%" + search_key + "%")))
+        ans_list = dn.get_specific_work(search_key)
+        # ans_list.append(dn.get_specific_work(search_key))
+        # ans_list.append(dn.get_specific_cir(search_key))
+        # ans_list.append(dn.get_specific_topic(search_key))
+        # ans_list.append(dn.get_specific_fund(search_key))
+        # ans_list.append(dn.get_specific_law(search_key))
+        # ans_list.append(dn.get_specific_policy(search_key))
+        # ans_list.append(dn.get_specific_tax(search_key))
+        # ans_list.append(dn.get_specific_file(search_key))
+        # ans_list.append(dn.get_specific_jx_data(search_key))
+        # ans_list.append(dn.get_specific_cn_data(search_key))
+        # ans_list.append(dn.get_specific_global_data(search_key))
+        # ans_list.append(dn.get_specific_qualification(search_key))
+        # ans_list.append(t_proj_exam.query.filter(t_proj_exam.content.like("%" + search_key + "%")))
+        # ans_list.append(t_proj_manage.query.filter(t_proj_manage.content.like("%" + search_key + "%")))
+        # ans_list.append(t_system.query.filter(t_system.content.like("%" + search_key + "%")))
+        # ans_list.append(t_jx_statistics.query.filter(t_jx_statistics.content.like("%" + search_key + "%")))
+        # ans_list.append(t_jx_survey.query.filter(t_jx_survey.content.like("%" + search_key + "%")))
+        # ans_list.append(t_cn_statistics.query.filter(t_cn_statistics.content.like("%" + search_key + "%")))
+        # ans_list.append(t_interview.query.filter(t_interview.content.like("%" + search_key + "%")))
+        # ans_list.append(t_fqa.query.filter(t_fqa.content.like("%" + search_key + "%")))
+        print(ans_list)
     return render_template('search_list.html', data=ans_list)
 
 
 @app.route('/topic/')
 def topic():  # 专题聚焦列表
     topic = dn.get_all_topic()
-    return render_template('list.html', left_list=ztjj_left_list, data=topic)
+    return render_template('news_list.html', left_list=ztjj_left_list, data=topic, )
 
 
 @app.route('/tax/')
 def tax():  # 减税降费列表
     tax = dn.get_all_tax()
-    return render_template('list.html', left_list=ztjj_left_list, data=tax)
+    return render_template('news_list.html', left_list=ztjj_left_list, data=tax, )
 
 
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
@@ -1023,7 +1399,7 @@ def news(cate, data):
         return_data = dn.get_1_interview(data)
     elif cate == 'sys':  # 统计制度
         return_data = dn.get_1_sys(data)
-    elif cate == 'jx_data':  # 江西数据
+    elif cate == 'jx':  # 江西数据
         return_data = dn.get_1_jx_data(data)
     elif cate == 'cn':  # 全国数据
         return_data = dn.get_1_cn_data(data)
@@ -1041,6 +1417,18 @@ def news(cate, data):
         return_data = dn.get_1_jx_sur(data)
     elif cate == 'cn_sta':  # 国家统计公报
         return_data = dn.get_1_cn_sta(data)
+    elif cate == 'files':  # 规范性文件
+        return_data = dn.get_1_file(data)
+    elif cate == 'law':  # 相关法律法规
+        return_data = dn.get_1_law(data)
+    elif cate == 'policy':  # 政策解读
+        return_data = dn.get_1_policy(data)
+    elif cate == 'qualification':  # 涉外调查机构资格认证
+        return_data = dn.get_1_qualification(data)
+    elif cate == 'exam':  # 涉外调查项目审批
+        return_data = dn.get_1_exam(data)
+    elif cate == 'manage':  # 地方统计调查项目管理
+        return_data = dn.get_1_manage(data)
     return render_template("news.html", data=return_data)
 
 
@@ -1054,6 +1442,8 @@ admin = admin.Admin(
     template_mode="bootstrap3"
 )
 admin.add_view(UserAdmin(t_user, db.session, name=u"用户管理"))
+admin.add_view(UserAdmin(t_auth, db.session, name=u"权限管理"))
+admin.add_view(UserAdmin(t_role, db.session, name=u"角色管理"))
 admin.add_views(  # 政务公开页面的管理
     FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
     FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
@@ -1086,7 +1476,7 @@ admin.add_views(  # 互动交流页面的管理
     FileView(t_interview, db.session, name=u"在线访谈", category=u"互动交流", endpoint="interview"),
     FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
     FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
-    FileView(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
+    mail_admin(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
     #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊

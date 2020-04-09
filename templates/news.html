@@ -7,22 +7,21 @@
     <div class="Qarticle">
 
       <div class="Qtitle">
-        <h2>{{ data.title }}</h2>
+        <h2>{{ data[0].title }}</h2>
         <h2></h2>
         <p>
-          {% if data.datetime %}
-            日期：{{ data.datetime }}
+          {% if data[0].datetime %}
+            日期：{{ data[0].datetime }}
           {% endif %}
           &nbsp;&nbsp;&nbsp;&nbsp;稿源：江西省统计局&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
       </div>
       <div class="Qpage" id="contents">
-        {{ data.content }}
-        {% if data.file %}
-          <div><a href="../files/{{ data.file }}" download="{{ data.file }}">{{ data.file }}</a></div>
+        {{ data[0].content }}
+        {% if data[0].file %}
+          <div><a href="/static/files/{{ data[0].file }}" download="/static/files/{{ data[0].file }}">{{ data[0].file }}</a></div>
         {% endif %}
       </div>
-
     </div>
     <div class="Qlast">
       <p class="Qlastp fl">

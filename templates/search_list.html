@@ -1,20 +1,22 @@
 {% extends 'base_view.html' %}
 {% block center_content %}
   <div class="Qcontent">
-    {#    <div class="Qplace">#}
-    {#      <div class="curPlace">#}
+        <div class="Qplace">
+          <div class="curPlace">
     {#        <a href="/index.shtml">首页</a>&gt;&gt;<a href="javascript:void(0);">搜索结果</a>#}
-    {#      </div>#}
-    {#    </div>#}
+          </div>
+        </div>
     <div class="Qcolumn">
 
       <ul class="QcolRul">
-        {% for d in data %}
-          <li>
-            <span>{{ d.datetime }}</span>
-            <a href="{{ url_for(d.url_for, cate=d.second_cate) }}" title="#">{{ d.title }}</a>
-          </li>
-        {% endfor %}
+      {% if data %}
+          {% for d in data %}
+            <li>
+              <span>{{ d.datetime }}</span>
+              <a href="{{ url_for(d.url_for, cate=d.second_cate, data=d.id) }}" title="#">{{ d.title }}</a>
+            </li>
+          {% endfor %}
+      {% endif %}
         {#        <div class="Qtoggle">#}
         {#          <div class="strong-ui-pager">#}
         {#            首页 &nbsp;&nbsp;#}
