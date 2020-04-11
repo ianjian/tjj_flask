@@ -582,19 +582,19 @@ def get_1_manage(id):
     temp = app.t_proj_manage.to_json(query)
     return temp
 
-def get_all_jx_statistics(id):
+def get_all_jx_statistics():
     query = app.t_jx_statistics.query.all()
     temp = app.t_jx_statistics.to_json(query)
     return temp
 
 
-def get_all_jx_survey(id):
+def get_all_jx_survey():
     query = app.t_jx_survey.query.all()
     temp = app.t_jx_survey.to_json(query)
     return temp
 
 
-def get_all_cn_statistics(id):
+def get_all_cn_statistics():
     query = app.t_cn_statistics.query.all()
     temp = app.t_cn_statistics.to_json(query)
     return temp

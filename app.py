@@ -192,9 +192,15 @@ class UserAdmin(ModelView):
         'role': u'管理角色',
     }
     column_exclude_list = ['pwd']
+    form_overrides = dict(role=Select2Field)
     form_args = {
         'role': {
-            'validators': [validators.AnyOf([u'领导', u'用户管理员', u'管理员'])]
+            'label': u'管理角色',
+            'choices': [
+                ('用户管理员', '用户管理员'),
+                ('管理员', '管理员'),
+                ('领导', '领导'),
+            ],
         },
     }
 
@@ -1189,19 +1195,19 @@ def home():  # 主页
 
 @app.route('/jx_statistics/')
 def jx_statistics():  # 江西省统计公报
-    data = dn.get_all_jx_statistics
+    data = dn.get_all_jx_statistics()
     return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
 @app.route('/jx_survey/')
 def jx_survey():  # 江西省普查公报
-    data = dn.get_all_jx_survey
+    data = dn.get_all_jx_survey()
     return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
 @app.route('/cn_statistics/')
 def cn_statistics():  # 国家统计公报
-    data = dn.get_all_cn_statistics
+    data = dn.get_all_cn_statistics()
     return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
