@@ -12,13 +12,13 @@
     <!--公开信息搜索 开始 -->
     <div align="left" style="margin:10px auto 4px;width:680px;height:90px; padding-top:10px; padding-bottom:10px;
     line-height:25px;background-color:#F4F3F7; border:1px solid #cfcecf; font-weight:bold;">
-      <form action="{{ url_for('mail_search', cate=search_type) }}">
+      <form action="{{ url_for('mail_search', cate=search_type) }}" method="post">
         <div style="margin-left:50px;height:32px;font-size:14px;">
           信件查询： &nbsp;
           <input type="text" value="请输入咨询信息编号" style="border:1px solid #cfcecf;height:23px;" id="searchReferCode"
                  name="searchReferCode" onfocus="if(value == '请输入咨询信息编号'){value = ''}"
                  onblur="if(value == ''){value = '请输入咨询信息编号'}">&nbsp;&nbsp;
-          <input name="Submit" type="button" value=" 查询 " onclick="f()" style="border-radius:3px;color:#fff;border:0px;width:
+          <input name="Submit" type="submit" value=" 查询 " style="border-radius:3px;color:#fff;border:0px;width:
 
 63px;height: 25px;margin-top: 3px;background: #3c86eb;"> &nbsp;&nbsp;
           {#          <input onclick="javascript:Reset()" value=" 重置 " id="Reset" type="reset" style="border-radius:3px;color:#fff;border:0px;width:#}
@@ -26,7 +26,7 @@
           {#63px;height: 25px;margin-top: 3px;background: #3c86eb;">#}
         </div>
       </form>
-      <form action="{{ url_for('mail_search', cate=search_type) }}">
+      <form action="{{ url_for('mail_search', cate=search_type) }}" method="post">
         <div style="margin-left:50px;height:32px;font-size:14px; font-weight:bold;">
           信件查询： &nbsp;
           <input type="text" value="请输入咨询信息编号" style="border:1px solid #cfcecf; height:23px;" id="referCode"
@@ -35,7 +35,7 @@
           <input type="text" value="请输入查询密码" style="border:1px solid #cfcecf; height:23px;" id="referPhone"
                  name="referPhone" onfocus="if(value == '请输入查询密码'){value = ''}"
                  onblur="if(value == ''){value = '请输入查询密码'}">&nbsp;&nbsp;
-          <input name="Submit" type="button" value=" 查询 " onclick="f()" style="border-radius:3px;color:#fff;border:0px;width:
+          <input name="Submit" type="submit" value=" 查询 " style="border-radius:3px;color:#fff;border:0px;width:
 
 63px;height: 25px;margin-top: 3px;background: #3c86eb;"> &nbsp;&nbsp;
           {#        <input onclick="javascript:Reset2()" value=" 重置 " id="Reset" type="reset" style="border-radius:3px;color:#fff;border:0px;width:#}

@@ -172,7 +172,70 @@ def get_9_int():
     return lst
 
 
-def get_all_relatives():
+def get_qua_all_relatives():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.filter_by(cate='有关文件')
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+def get_qua_all_procedure():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.filter_by(cate='网上审批')
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+def get_qua_all_table():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.filter_by(cate='表格下载')
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+
+def get_qua_all_state():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.filter_by(cate='状态查询')
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+def get_qua_all_notice():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.filter_by(cate='审批公告')
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+def get_all_qua():  # 涉外调查机构资格认证
+    query = app.t_org_qualification.query.all()
+    lst = app.t_org_qualification.to_json(query)
+    return lst
+
+
+def get_exam_all_relatives():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.filter_by(cate='有关文件')
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+def get_exam_all_procedure():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.filter_by(cate='网上审批')
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+def get_exam_all_table():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.filter_by(cate='表格下载')
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+
+def get_exam_all_state():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.filter_by(cate='状态查询')
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+def get_exam_all_notice():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.filter_by(cate='审批公告')
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+def get_all_exam():  # 涉外调查机构资格认证
+    query = app.t_proj_exam.query.all()
+    lst = app.t_proj_exam.to_json(query)
+    return lst
+
+def get_all_relatives():  # 地方统计调查项目管理
     query = app.t_proj_manage.query.filter_by(cate='有关文件')
     lst = app.t_proj_manage.to_json(query)
     return lst
@@ -193,6 +256,16 @@ def get_all_table():
 def get_all_notice():
     query = app.t_proj_manage.query.filter_by(cate='审批公告')
     lst = app.t_proj_manage.to_json(query)
+    return lst
+
+def get_all_system_download():  # 统计制度下载
+    query = app.t_file_download.query.filter_by(cate='统计制度下载')
+    lst = app.t_file_download.to_json(query)
+    return lst
+
+def get_all_report_download():  # 统计报表下载
+    query = app.t_file_download.query.filter_by(cate='统计报表下载')
+    lst = app.t_file_download.to_json(query)
     return lst
 
 

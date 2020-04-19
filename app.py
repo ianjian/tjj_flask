@@ -23,13 +23,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import db_operation as dn
 
 # 初始化
-app = Flask(__name__,)
+app = Flask(__name__, )
 db = SQLAlchemy(app)
 db_ = pymysql.connect("localhost", "root", "root", "db_tjj_flask")
 cursor = db_.cursor()
 ckeditor = CKEditor(app)
 babel = Babel(app)
-
 
 # 配置定义
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
@@ -41,7 +40,6 @@ app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '123456'
 app.config['FLASK_ADMIN_SWATCH'] = 'Lumen'
 app.config['BABEL_DEFAULT_LOCALE'] = 'zh_hans_CN'
-
 
 # 文件上传路径
 file_path = op.join(op.dirname(__file__), 'static\\files')
@@ -82,22 +80,33 @@ dftjdcxmgl_left_list = [{'name': '地方统计调查项目管理', 'href': ''},
                         {'name': '统计制度下载', 'href': 'integration', 'cate': 'sys'},
                         {'name': '统计报表下载', 'href': 'integration', 'cate': 'report'}, ]
 
-swxmdcsp_left_list = [{'name': '涉外调查项目审批', 'href': ''},
-                      {'name': '有关文件', 'href': 'integration', 'cate': 'relatives'},
-                      {'name': '表格下载', 'href': 'integration', 'cate': 'table'},
-                      {'name': '网上审批', 'href': 'integration', 'cate': 'procedure'},
-                      {'name': '状态查询', 'href': 'integration', 'cate': 'state'},
-                      {'name': '审批公告', 'href': 'integration', 'cate': 'notice'}, ]
+swdcjgzgrz_left_list = [{'name': '涉外调查机构资格认证', 'href': ''},
+                        {'name': '有关文件', 'href': 'qualification', 'cate': 'relatives'},
+                        {'name': '表格下载', 'href': 'qualification', 'cate': 'table'},
+                        {'name': '网上审批', 'href': 'qualification', 'cate': 'procedure'},
+                        {'name': '状态查询', 'href': 'qualification', 'cate': 'state'},
+                        {'name': '审批公告', 'href': 'qualification', 'cate': 'notice'}, ]
+
+swxmdcsp_left_list = [{'name': '涉外项目调查审批', 'href': ''},
+                      {'name': '有关文件', 'href': 'exam', 'cate': 'relatives'},
+                      {'name': '表格下载', 'href': 'exam', 'cate': 'table'},
+                      {'name': '网上审批', 'href': 'exam', 'cate': 'procedure'},
+                      {'name': '状态查询', 'href': 'exam', 'cate': 'state'},
+                      {'name': '审批公告', 'href': 'exam', 'cate': 'notice'}, ]
 
 czzj_left_list = [{'name': '财政资金', 'href': ''}]
 ztjj_left_list = [{'name': '专题聚焦', 'href': ''}]
 jsjf_left_list = [{'name': '减税降费', 'href': ''}]
 gzdt_left_list = [{'name': '工作动态', 'href': ''}]
+wjxz_left_list = [{'name': '文件下载', 'href': ''},
+                  {'name': '统计制度下载', 'href': 'file_download', 'cate': 'sys'},
+                  {'name': '统计报表下载', 'href': 'file_download', 'cate': 'report'}, ]
 
 tjgb_left_list = [{'name': '统计公报', 'href': ''},
+                  {'name': '统计制度', 'href': 'system'},
                   {'name': '江西省统计公报', 'href': 'jx_statistics'},
                   {'name': '江西省普查公报', 'href': 'jx_survey'},
-                  {'name': '国家统计公报', 'href': 'cn_statistics'}]
+                  {'name': '国家统计公报', 'href': 'cn_statistics'}, ]
 
 
 # 重写文件上传框的样式
@@ -112,6 +121,7 @@ class fileInput(FileUploadInput):
 class t_auth(db.Model):  # 权限表
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     auth = db.Column(db.String(255), )
+
 
 class t_role(db.Model):  # 角色表
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
@@ -192,8 +202,6 @@ def init_login():  # 初始化登录flask_login
         return db.session.query(t_user).get(user_id)
 
 
-
-
 class MyAdminIndexView(admin.AdminIndexView):  # 登录view
     @admin.expose("/")
     def home(self):
@@ -268,7 +276,7 @@ class t_circumstances(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='circumstance')
 
@@ -291,7 +299,7 @@ class t_organization(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='organization')
@@ -315,7 +323,7 @@ class t_topic(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='topic')
 
@@ -337,7 +345,7 @@ class t_fund(db.Model):  # 财政资金
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='fund')
 
@@ -359,7 +367,7 @@ class t_law(db.Model):  # 法律法规
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='law')
 
@@ -381,7 +389,7 @@ class t_policy(db.Model):  # 政策解读
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='policy')
 
@@ -403,7 +411,7 @@ class t_tax(db.Model):  # 减税降费
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='tax')
 
@@ -425,7 +433,7 @@ class t_file(db.Model):  # 规范性文件
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='files')
@@ -461,7 +469,7 @@ class t_jx_data(db.Model):  # 本省数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -497,7 +505,7 @@ class t_cn_data(db.Model):  # 全国数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -533,7 +541,7 @@ class t_fqa(db.Model):  # 常见问题
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='fqa')
 
@@ -555,7 +563,7 @@ class t_global_data(db.Model):  # 国际数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -592,7 +600,7 @@ class t_org_qualification(db.Model):  # 涉外机构资格认证
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='qualification')
@@ -628,7 +636,7 @@ class t_proj_exam(db.Model):  # 涉外调查项目审批
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='exam')
@@ -659,12 +667,48 @@ def del_file(mapper, connection, target):
         pass
 
 
+class t_file_download(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    title = db.Column(db.String(255), )
+    content = db.Column(db.Text(), )
+    file = db.Column(db.String(255), )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
+    cate = db.Column(db.String(255), )
+    url_for = db.Column(db.String(255), default='news')
+    second_cate = db.Column(db.String(255), default='download')
+
+    def dobule_to_dict(self):
+        result = {}
+        for key in self.__mapper__.c.keys():
+            if getattr(self, key) is not None:
+                result[key] = str(getattr(self, key))
+            else:
+                result[key] = getattr(self, key)
+        return result
+
+    def to_json(all_vendors):
+        v = [ven.dobule_to_dict() for ven in all_vendors]
+        return v
+
+
+@listens_for(t_file_download, 'after_delete')
+def del_file(mapper, connection, target):
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
+
+
 class t_proj_manage(db.Model):  # 地方统计调查项目管理
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='manage')
@@ -700,7 +744,7 @@ class t_system(db.Model):  # 统计制度
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )  # path
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='sys')
 
@@ -735,7 +779,7 @@ class t_jx_statistics(db.Model):  # 江西省统计公报
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='jx_sta')
 
@@ -769,7 +813,7 @@ class t_jx_survey(db.Model):  # 江西省普查公报
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='jx_sur')
@@ -804,7 +848,7 @@ class t_cn_statistics(db.Model):  # 国家统计公报
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='cn_sta')
@@ -839,7 +883,7 @@ class t_interview(db.Model):  # 在线访谈
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), default=datetime.now() )
+    datetime = db.Column(db.DateTime(), default=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='interview')
 
@@ -969,6 +1013,7 @@ class t_survey_ans(db.Model):
     ans_title = db.Column(db.String(255), )
     ans_ques_id = db.Column(db.Integer(), )
 
+
 # 密码加密
 @listens_for(t_user.pwd, "set", retval=True)
 def hash_user_password(target, value, oldvalue, initiator):
@@ -1042,8 +1087,83 @@ class FileView(add_ckeditor):
         return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
 
 
-class mail_admin(FileView):
+class ManageView(add_ckeditor):  # 地方统计调查项目管理
+    widget = fileInput
 
+    column_exclude_list = ['content', 'url_for', 'second_cate']
+
+    column_labels = {
+        'file': u'文件路径',
+        'id': u'序号',
+        'title': u'标题',
+        'content': u'正文',
+        'datetime': u'发布时间',
+        'graph': u'图表',
+        'cate': u'分类',
+        'url_for': u'路径',
+        'second_cate': u'二级目录',
+    }
+
+    form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
+
+    form_args = {
+        'file': {
+            'base_path': file_path,
+            'allow_overwrite': False
+        },
+        'cate': {
+            'label': u'文件类型',
+            'choices': [
+                ('有关文件', '有关文件'),
+                ('表格下载', '表格下载'),
+                ('审批程序', '审批程序'),
+                ('审批公告', '审批公告'),
+            ],
+        },
+    }
+
+    def is_accessible(self):
+        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+
+
+class DownloadView(add_ckeditor):  # 文件下载管理
+    widget = fileInput
+
+    column_exclude_list = ['content', 'url_for', 'second_cate']
+
+    column_labels = {
+        'file': u'文件路径',
+        'id': u'序号',
+        'title': u'标题',
+        'content': u'正文',
+        'datetime': u'发布时间',
+        'graph': u'图表',
+        'cate': u'分类',
+        'url_for': u'路径',
+        'second_cate': u'二级目录',
+    }
+
+    form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
+
+    form_args = {
+        'file': {
+            'base_path': file_path,
+            'allow_overwrite': False
+        },
+        'cate': {
+            'label': u'文件类型',
+            'choices': [
+                ('统计制度下载', '统计制度下载'),
+                ('统计报表下载', '统计报表下载'),
+            ],
+        },
+    }
+
+    def is_accessible(self):
+        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+
+
+class mail_admin(FileView):
     can_edit = False
     column_exclude_list = ['content', 'url_for', 'second_cate', ]
 
@@ -1081,9 +1201,10 @@ class UserAdmin(ModelView):  # 控制用户权限
 
 @app.route('/mail_search/<cate>', methods=['get', 'post'])
 def mail_search(cate):  # 信件查询的表单提交
-    searchReferCode = str(request.form['searchReferCode'])  # 仅按编号查询公开信
-    referCode = str(request.form['referCode'])
-    referPhone = str(request.form['referPhone'])
+    searchReferCode = str(request.form.get('searchReferCode'))  # 仅按编号查询公开信
+    referCode = str(request.form.get('referCode'))
+    referPhone = str(request.form.get('referPhone'))
+    print(searchReferCode, referCode, referPhone)
     if cate == 'consult_search':
         if searchReferCode != '请输入咨询信息编号':
             query = t_consult.query.filter_by(is_encrypt=0, account=searchReferCode).first()
@@ -1104,13 +1225,13 @@ def mail_search(cate):  # 信件查询的表单提交
             query = t_mail.query.filter_by(is_encrypt=0, account=searchReferCode).first()
             print(query.id)
             if query:
-                return redirect(url_for('mail_show', id=query.id))
+                return redirect(url_for('mail_show', data=query.id))
             else:
                 return redirect(url_for('mail_list'))
         elif referCode != '请输入咨询信息编号':
             query = t_mail.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
             if query:
-                return redirect(url_for('mail_show', id=query.id))
+                return redirect(url_for('mail_show', data=query.id))
             else:
                 return redirect(url_for('mail_list'))
         else:
@@ -1119,13 +1240,13 @@ def mail_search(cate):  # 信件查询的表单提交
         if searchReferCode != '请输入咨询信息编号':
             query = t_report_letter.query.filter_by(is_encrypt=0, account=searchReferCode).first()
             if query:
-                return redirect(url_for('report_show', id=query.id))
+                return redirect(url_for('report_letter_show', data=query.id))
             else:
                 return redirect(url_for('report_list'))
         elif referCode != '请输入咨询信息编号':
             query = t_report_letter.query.filter_by(is_encrypt=1, account=referCode, phone=referPhone).first()
             if query:
-                return redirect(url_for('report_show', id=query.id))
+                return redirect(url_for('report_letter_show', data=query.id))
             else:
                 return redirect(url_for('report_list'))
         else:
@@ -1259,6 +1380,12 @@ def cn_statistics():  # 国家统计公报
     return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
 
 
+@app.route('/system/')
+def system():  # 统计制度
+    data = dn.get_all_sys()
+    return render_template("news_list.html", data=data, left_list=tjgb_left_list, )
+
+
 @app.route('/law_comprehension/<cate>', methods=['get', 'post'])
 def law_comprehension(cate):  # 法律法规与解读列表
     if cate == "file":  # 规范性文件
@@ -1288,47 +1415,53 @@ def integration(cate):  # 一体化服务列表  # 地方统计调查项目管�
         data = dn.get_all_table()
     elif cate == 'notice':  # 审批公告
         data = dn.get_all_notice()
-    elif cate == 'sys':  # 统计制度下载
-        data = dn.get_all_sys()
-    elif cate == 'report':  # 统计报表下载
-        data = dn.get_all_statistics()
     return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
+
+
+@app.route('/file_download/<cate>')
+def file_download(cate):  # 文件下载
+    data = []
+    if cate == 'sys':  # 统计制度下载
+        data = dn.get_all_system_download()
+    elif cate == 'report':  # 统计报表下载
+        data = dn.get_all_report_download()
+    return render_template('news_list.html', data=data, left_list=wjxz_left_list, )
 
 
 @app.route('/qualification/<cate>')
 def qualification(cate):  # 涉外调查机构资格认证
     data = []
     if cate == 'relatives':  # 有关文件
-        data = dn.get_all_relatives()
+        data = dn.get_qua_all_relatives()
     elif cate == 'procedure':  # 网上审批
-        data = dn.get_all_procedure()
+        data = dn.get_qua_all_procedure()
     elif cate == 'table':  # 表格下载
-        data = dn.get_all_table()
+        data = dn.get_qua_all_table()
     elif cate == 'state':  # 状态查询
-        data = dn.get_all_notice()
+        data = dn.get_qua_all_state()
     elif cate == 'notice':  # 审批公告
-        data = dn.get_all_sys()
+        data = dn.get_qua_all_notice()
     elif cate == 'all':  # 全部
-        data = dn.get_all_statistics()
-    return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
+        data = dn.get_all_qua()
+    return render_template('news_list.html', data=data, left_list=swdcjgzgrz_left_list, )
 
 
 @app.route('/exam/<cate>')
 def exam(cate):  # 涉外调查项目审批
     data = []
     if cate == 'relatives':  # 有关文件
-        data = dn.get_all_relatives()
+        data = dn.get_exam_all_relatives()
     elif cate == 'procedure':  # 网上审批
-        data = dn.get_all_procedure()
+        data = dn.get_exam_all_procedure()
     elif cate == 'table':  # 表格下载
-        data = dn.get_all_table()
+        data = dn.get_exam_all_table()
     elif cate == 'state':  # 状态查询
-        data = dn.get_all_notice()
+        data = dn.get_exam_all_state()
     elif cate == 'notice':  # 审批公告
-        data = dn.get_all_sys()
+        data = dn.get_exam_all_notice()
     elif cate == 'all':  # 全部
-        data = dn.get_all_statistics()
-    return render_template('news_list.html', data=data, left_list=dftjdcxmgl_left_list, )
+        data = dn.get_all_exam()
+    return render_template('news_list.html', data=data, left_list=swxmdcsp_left_list, )
 
 
 @app.route("/work_list/")
@@ -1467,12 +1600,15 @@ def news(cate, data):  # 新闻详情页面
 
 
 init_login()  # 登录初始化
+
+
 def get_role():
     query = t_role.query.all()
     role = []
     role.append((q.role, q.role) for q in query)
     print(role)
     return role
+
 
 admin = admin.Admin(  # 后台初始化
     app,
@@ -1509,7 +1645,8 @@ admin.add_views(  # 统计数据页面的管理
 admin.add_views(  # 网上办事页面的管理
     FileView(t_org_qualification, db.session, name=u"涉外调查机构资格认证", category=u"网上办事", endpoint="org_qualificaton"),
     FileView(t_proj_exam, db.session, name=u"涉外调查项目审批", category=u"网上办事", endpoint="proj_exam"),
-    FileView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
+    ManageView(t_proj_manage, db.session, name=u"地方统计调查项目管理", category=u"网上办事", endpoint="proj_manage"),
+    DownloadView(t_file_download, db.session, name=u"文件下载", category=u"网上办事", endpoint="download"),
 )
 
 admin.add_views(  # 互动交流页面的管理
@@ -1517,6 +1654,7 @@ admin.add_views(  # 互动交流页面的管理
     FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
     FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
     mail_admin(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
+    mail_admin(t_report_letter, db.session, name=u"举报违法信箱", category=u"互动交流", endpoint="report_letter"),
     #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊

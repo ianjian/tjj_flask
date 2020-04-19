@@ -236,8 +236,7 @@
           <ul class="QDdivul">
             <li id="Qd1"><a href="{{ url_for('integration', cate='procedure') }}" target="_blank"><!-- 办事程序 -->审批程序</a>
             </li>
-            <li id="Qd2"><a href="http://www.jxstj.gov.cn/id_tjzd201803120105027398/column.shtml"
-                            target="_blank">文件下载</a></li>
+            <li id="Qd2"><a href="{{ url_for('file_download',  cate='sys') }}" target="_blank">文件下载</a></li>
             <li id="Qd3"><a href="{{ url_for('integration', cate='table') }}" target="_blank"><!-- 表格下载 -->表格下载</a>
             </li>
             <li id="Qd4"><a href="{{ url_for('integration', cate='notice') }}" target="_blank"><!-- 审批公告 -->审批公告</a>
@@ -457,7 +456,7 @@
       <div class="totalBox" style="margin-top: 19px;">
         <div class="QrightHead Qbottom">
         <span class="Qspan Qactive">
-          <a class="ccc" href="{{ url_for('integration', cate='sys') }}" target="_blank">统计制度</a></span>
+          <a class="ccc" href="{{ url_for('system') }}" target="_blank">统计制度</a></span>
         </div>
 
         <ul class="QnewsUl fl">
@@ -786,10 +785,10 @@
                 审批公告</p>
               </a>
             </li>
-            <li><a class="tjzdxzIcon" href="{{ url_for('integration', cate='sys') }}" target="_blank"><p>
+            <li><a class="tjzdxzIcon" href="{{ url_for('file_download', cate='sys') }}" target="_blank"><p>
                 统计制度下载</p></a>
             </li>
-            <li><a class="tjbbxzIcon" href="{{ url_for('integration', cate='report') }}" target="_blank"><p>
+            <li><a class="tjbbxzIcon" href="{{ url_for('file_download', cate='report') }}" target="_blank"><p>
                 统计报表下载</p></a>
             </li>
             <li class="nobjLi"></li>
