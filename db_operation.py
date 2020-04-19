@@ -8,60 +8,6 @@ def get_specific_work(key):
     lst = app.t_work.to_json(cir)
     return lst
 
-def get_specific_cir(key):
-    cir = app.t_circumstances.query.filter(app.t_circumstances.title.like("%" + key + "%"))
-    lst = app.t_circumstances.to_json(cir)
-    return lst
-
-def get_specific_topic(key):
-    cir = app.t_circumstances.query.filter(app.t_circumstances.title.like("%" + key + "%"))
-    lst = app.t_circumstances.to_json(cir)
-    return lst
-
-def get_specific_fund(key):
-    cir = app.t_topic.query.filter(app.t_topic.title.like("%" + key + "%"))
-    lst = app.t_topic.to_json(cir)
-    return lst
-
-def get_specific_law(key):
-    cir = app.t_law.query.filter(app.t_law.title.like("%" + key + "%"))
-    lst = app.t_law.to_json(cir)
-    return lst
-
-def get_specific_policy(key):
-    cir = app.t_policy.query.filter(app.t_policy.title.like("%" + key + "%"))
-    lst = app.t_policy.to_json(cir)
-    return lst
-
-def get_specific_tax(key):
-    cir = app.t_tax.query.filter(app.t_tax.title.like("%" + key + "%"))
-    lst = app.t_tax.to_json(cir)
-    return lst
-
-def get_specific_file(key):
-    cir = app.t_file.query.filter(app.t_file.title.like("%" + key + "%"))
-    lst = app.t_file.to_json(cir)
-    return lst
-
-def get_specific_jx_data(key):
-    cir = app.t_jx_data.query.filter(app.t_jx_data.title.like("%" + key + "%"))
-    lst = app.t_jx_data.to_json(cir)
-    return lst
-
-def get_specific_cn_data(key):
-    cir = app.t_cn_data.query.filter(app.t_cn_data.title.like("%" + key + "%"))
-    lst = app.t_cn_data.to_json(cir)
-    return lst
-
-def get_specific_global_data(key):
-    cir = app.t_global_data.query.filter(app.t_global_data.title.like("%" + key + "%"))
-    lst = app.t_global_data.to_json(cir)
-    return lst
-
-def get_specific_qualification(key):
-    cir = app.t_org_qualification.query.filter(app.t_org_qualification.title.like("%" + key + "%"))
-    lst = app.t_org_qualification.to_json(cir)
-    return lst
 
 def get_circumstances(title):
     cir = app.t_circumstances.query.filter_by(title=title)  # list
@@ -264,7 +210,7 @@ def get_1_sys(id):
 
 def add_2_mail(account, is_encrypt, asker, phone, email, theme, question):
     add = app.t_mail(
-        account=account[3:],
+        account=account,
         is_encrypt=is_encrypt,
         asker=asker,
         phone=phone,
@@ -357,7 +303,7 @@ def get_1_interview(data):
 
 def add_2_consult(account, is_encrypt, asker, phone, email, theme, question):
     add = app.t_consult(
-        account=account[3:],
+        account=account,
         is_encrypt=is_encrypt,
         asker=asker,
         phone=phone,
@@ -372,7 +318,7 @@ def add_2_consult(account, is_encrypt, asker, phone, email, theme, question):
 
 def add_2_report_letter(account, is_encrypt, asker, phone, email, theme, question):
     add = app.t_report_letter(
-        account=account[3:],
+        account=account,
         is_encrypt=is_encrypt,
         asker=asker,
         phone=phone,

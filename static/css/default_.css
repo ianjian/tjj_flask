@@ -180,7 +180,7 @@ a:hover {
     display: inline-block;
     font-size: 20px;
     font-weight: bolder;
-    color: #7b1e1b;
+    color: #092e7b;
 }
 
 .Qnav li .Qa1 {
@@ -368,7 +368,7 @@ a:hover {
 }
 
 .centered-btns_tabs .centered-btns_here a {
-    background: #41eaf4;
+    background: #f46e65;
 }
 
 /* 下标点样式end */
@@ -416,7 +416,7 @@ a:hover {
     font-weight: normal;
     position: absolute;
     right: 0;
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .Qthrid {
@@ -442,7 +442,7 @@ a:hover {
 }
 
 .QrightHead p.Qte a {
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .QrightHdiv .Qtab {
@@ -578,7 +578,7 @@ a:hover {
     height: 18px;
     padding-top: 68px;
     font-weight: bold;
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 #jga1 {
@@ -635,7 +635,7 @@ a:hover {
 }
 
 .QserUl li a {
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .QTdiv {
@@ -928,7 +928,7 @@ select::-ms-expand {
     padding: 0 16px 0 25px;
     font-size: 16px;
     font-weight: bold;
-    color: #7b1e1b;
+    color: #2b61b5;
     background: #f6f6f6 url(../img/Qt10.jpg) no-repeat center;
     overflow: hidden;
 }
@@ -937,7 +937,7 @@ select::-ms-expand {
     float: right;
     font-size: 14px;
     font-weight: normal;
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .Qtotaldiv3 .QtotalList {
@@ -957,7 +957,7 @@ select::-ms-expand {
 
 .Qplace .curPlace {
     float: left;
-    border-bottom: 1px solid #7b1e1b;
+    border-bottom: 1px solid #2b61b5;
 }
 
 .Qplace a {
@@ -992,13 +992,13 @@ select::-ms-expand {
 }
 
 .QcolL a {
-    color: #7b1e1b;
+    color: #2b61b5;
     font-size: 16px;
     font-weight: bold;
 }
 
 .QcolL .Qli {
-    background: #7b1e1b;
+    background: #2b61b5;
     margin-bottom: 0;
 }
 
@@ -1056,7 +1056,7 @@ select::-ms-expand {
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-    color: #7b1e1b;
+    color: #2b61b5;
     line-height: 34px;
 }
 
@@ -1287,7 +1287,7 @@ select::-ms-expand {
     float: left;
     width: 58px;
     text-indent: 16px;
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .WldjsList li span {
@@ -1306,7 +1306,7 @@ select::-ms-expand {
     width: 127px;
     height: 60px;
     line-height: 60px;
-    background: #b33028;
+    background: #53a4dd;
     margin-top: 8px;
 }
 
@@ -1400,7 +1400,7 @@ select::-ms-expand {
 .Whead span, .Whead .Qguo {
     float: left;
     padding: 0 30px;
-    color: #7b1e1b;
+    color: #2b61b5;
     font-size: 16px;
     background: #e2edff;
     cursor: pointer;
@@ -1409,12 +1409,12 @@ select::-ms-expand {
 .Whead a {
     float: right;
     font-size: 14px;
-    color: #7b1e1b;
+    color: #2b61b5;
 }
 
 .Whead .Wactive {
     position: relative;
-    background: #7b1e1b;
+    background: #2b61b5;
     color: #fff;
 }
 
@@ -1701,7 +1701,7 @@ select::-ms-expand {
 }
 
 .Wansw a {
-    color: #41eaf4;
+    color: #ff0000;
 }
 
 /**网上调查**/
@@ -1734,7 +1734,7 @@ select::-ms-expand {
 }
 
 .myul .jxLi span {
-    color: #b33028;
+    color: #53a4dd;
 }
 
 /**在线访谈结束**/
@@ -1867,7 +1867,7 @@ select::-ms-expand {
     background: #fff;
     right: -139px;
     border: 1px solid #cecece;
-    border-top: 1px solid #7b1e1b;
+    border-top: 1px solid #225da3;
 }
 
 .erweima {
@@ -1902,7 +1902,7 @@ select::-ms-expand {
 /**网上调查、咨询反馈**/
 
 .btn_bluearrow, .btn_bluearrow2 {
-    background: #b33028;
+    background: #0084c9;
     color: #fff;
     border-radius: 3px;
     border: 1px solid #e3e3e3;
@@ -1930,7 +1930,7 @@ select::-ms-expand {
 
 .Wwsdc_list .referlist th {
     font-weight: bold;
-    color: #dd2c2e;
+    color: #3c86eb;
     border: 1px solid #bfd2d9;
     background: #f2f6f7;
     border-top: none;
@@ -1939,7 +1939,7 @@ select::-ms-expand {
 .Wwsdc_list table {
     width: 702px;
     margin: 10px auto 0;
-    border: 1px solid #dd2c2e;
+    border: 1px solid #64a8fc;
     border-collapse: collapse;
 }
 
@@ -1957,17 +1957,17 @@ select::-ms-expand {
     padding: 0px 11px;
     font-size: 14px;
     font-family: "Microsoft YaHei";
-    color: #7b1e1b;
+    color: #094488;
 }
 
 .Wwsdc_list table.referlist td.title2 a {
     font-size: 14px;
     font-family: "Microsoft YaHei";
-    color: #7b1e1b;
+    color: #094488;
 }
 
 .Wwsdc_list table.referlist td.title2 a:hover {
-    color: #41eaf4;
+    color: #F00;
 }
 
 .nytzhj {
@@ -2033,7 +2033,7 @@ select::-ms-expand {
 
 .ly a {
     font-size: 14px;
-    color: #dd2c2e;
+    color: #0c90cc;
     font-weight: bold;
 }
 
@@ -2053,7 +2053,7 @@ select::-ms-expand {
 
 .ma_14zi2 {
     font-size: 16px;
-    color: #41eaf4;
+    color: #cd0100;
     text-decoration: none;
     font-weight: bold;
 }
@@ -2124,13 +2124,13 @@ select::-ms-expand {
 
 .ma_14zi7 a:hover {
     font-size: 13px;
-    color: #6b71ff;
+    color: #960202;
     text-decoration: none;
     font-weight: bold;
 }
 
 .STYLE2 {
-    color: #41eaf4;
+    color: #FF0000;
     vertical-align: -2px;
 }
 
@@ -2139,7 +2139,7 @@ select::-ms-expand {
 }
 
 .STYLE1 {
-    color: #7b1e1b
+    color: #0074d2
 }
 
 #side {
@@ -2170,8 +2170,8 @@ select::-ms-expand {
     *line-height: 16px;
     width: 40px;
     vertical-align: middle;
-    background: #7b1e1b;
-    border: 1px solid #7b1e1b;
+    background: #2b61b5;
+    border: 1px solid #2b61b5;
     cursor: pointer;
     color: #fff;
     font-family: Arial;

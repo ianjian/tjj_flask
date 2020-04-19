@@ -13,6 +13,7 @@ from flask_ckeditor import CKEditor, CKEditorField
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
 import pymysql
+from datetime import datetime
 
 import os
 import os.path as op
@@ -21,6 +22,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import db_operation as dn
 
+# 初始化
 app = Flask(__name__,)
 db = SQLAlchemy(app)
 db_ = pymysql.connect("localhost", "root", "root", "db_tjj_flask")
@@ -28,6 +30,8 @@ cursor = db_.cursor()
 ckeditor = CKEditor(app)
 babel = Babel(app)
 
+
+# 配置定义
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost:3306/db_tjj_flask'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:linkage@54321@localhost:3306/db_tjj_flask'
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 10
@@ -38,12 +42,15 @@ app.config['SECRET_KEY'] = '123456'
 app.config['FLASK_ADMIN_SWATCH'] = 'Lumen'
 app.config['BABEL_DEFAULT_LOCALE'] = 'zh_hans_CN'
 
+
+# 文件上传路径
 file_path = op.join(op.dirname(__file__), 'static\\files')
 try:
     os.mkdir(file_path)
 except OSError:
     pass
 
+# 列表页的左边栏
 hdjl_left_list = [{'name': '互动交流', 'href': ''},
                   {'name': '统计局统计违法...', 'href': 'report'},
                   {'name': '在线咨询', 'href': 'consult'},
@@ -93,6 +100,7 @@ tjgb_left_list = [{'name': '统计公报', 'href': ''},
                   {'name': '国家统计公报', 'href': 'cn_statistics'}]
 
 
+# 重写文件上传框的样式
 class fileInput(FileUploadInput):
     FileUploadInput.data_template = ('<div>'
                                      ' <input style="border:0" %(text)s>&nbsp;&nbsp;&nbsp;&nbsp;'
@@ -137,7 +145,7 @@ class t_user(db.Model):  # 用户表
         return self.username
 
 
-class LoginForm(form.Form):  # 登陆表单、验证
+class LoginForm(form.Form):  # 登陆表单定义、验证
     name = fields.StringField(
         validators=[validators.required()],
         render_kw={
@@ -161,7 +169,7 @@ class LoginForm(form.Form):  # 登陆表单、验证
         user = self.get_user()
         print(user.password)
 
-        if user is None:
+        if user is None:  # 错误提示
             raise validators.ValidationError('Invalid user')
 
         if user.phone != self.phone.data:
@@ -175,7 +183,7 @@ class LoginForm(form.Form):  # 登陆表单、验证
         return db.session.query(t_user).filter_by(name=self.name.data).first()
 
 
-def init_login():
+def init_login():  # 初始化登录flask_login
     login_manager = login.LoginManager()
     login_manager.init_app(app)
 
@@ -184,28 +192,6 @@ def init_login():
         return db.session.query(t_user).get(user_id)
 
 
-class UserAdmin(ModelView):
-    column_labels = {
-        'name': u'用户名',
-        'phone': u'手机号',
-        'pwd': u'密码',
-        'role': u'管理角色',
-    }
-    column_exclude_list = ['pwd']
-    form_overrides = dict(role=Select2Field)
-    form_args = {
-        'role': {
-            'label': u'管理角色',
-            'choices': [
-                ('用户管理员', '用户管理员'),
-                ('管理员', '管理员'),
-                ('领导', '领导'),
-            ],
-        },
-    }
-
-    def is_accessible(self):
-        return login.current_user.role == u'用户管理员'
 
 
 class MyAdminIndexView(admin.AdminIndexView):  # 登录view
@@ -226,7 +212,7 @@ class MyAdminIndexView(admin.AdminIndexView):  # 登录view
             login.login_user(user)
         if login.current_user.is_authenticated:  # 验证成功
             return redirect(url_for(".home"))
-        return super(MyAdminIndexView, self).index()
+        return redirect(url_for(".login_view"))
 
     @admin.expose('/logout/')
     def logout_view(self):
@@ -234,11 +220,11 @@ class MyAdminIndexView(admin.AdminIndexView):  # 登录view
         return redirect(url_for('.home'))
 
 
-class t_work(db.Model):
+class t_work(db.Model):  # 工作动态
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now(), onupdate=datetime.now())
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='work')
 
@@ -251,7 +237,7 @@ class t_work(db.Model):
                 result[key] = getattr(self, key)
         return result
 
-    def to_json(all_vendors):
+    def to_json(all_vendors):  # 对象转字典
         v = [ven.dobule_to_dict() for ven in all_vendors]
         return v
 
@@ -282,7 +268,7 @@ class t_circumstances(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='circumstance')
 
@@ -305,7 +291,7 @@ class t_organization(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='organization')
@@ -329,7 +315,7 @@ class t_topic(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='topic')
 
@@ -351,7 +337,7 @@ class t_fund(db.Model):  # 财政资金
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='fund')
 
@@ -373,7 +359,7 @@ class t_law(db.Model):  # 法律法规
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='law')
 
@@ -395,7 +381,7 @@ class t_policy(db.Model):  # 政策解读
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='policy')
 
@@ -417,7 +403,7 @@ class t_tax(db.Model):  # 减税降费
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='tax')
 
@@ -439,7 +425,7 @@ class t_file(db.Model):  # 规范性文件
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='files')
@@ -458,20 +444,24 @@ class t_file(db.Model):  # 规范性文件
         return v
 
 
+# 删除时监听
 @listens_for(t_file, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_jx_data(db.Model):  # 本省数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -493,18 +483,21 @@ class t_jx_data(db.Model):  # 本省数据
 
 @listens_for(t_jx_data, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_cn_data(db.Model):  # 全国数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -526,18 +519,21 @@ class t_cn_data(db.Model):  # 全国数据
 
 @listens_for(t_cn_data, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_fqa(db.Model):  # 常见问题
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='fqa')
 
@@ -559,7 +555,7 @@ class t_global_data(db.Model):  # 国际数据
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     graph = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
@@ -581,11 +577,14 @@ class t_global_data(db.Model):  # 国际数据
 
 @listens_for(t_global_data, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_org_qualification(db.Model):  # 涉外机构资格认证
@@ -593,7 +592,7 @@ class t_org_qualification(db.Model):  # 涉外机构资格认证
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='qualification')
@@ -614,11 +613,14 @@ class t_org_qualification(db.Model):  # 涉外机构资格认证
 
 @listens_for(t_org_qualification, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_proj_exam(db.Model):  # 涉外调查项目审批
@@ -626,7 +628,7 @@ class t_proj_exam(db.Model):  # 涉外调查项目审批
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='exam')
@@ -647,11 +649,14 @@ class t_proj_exam(db.Model):  # 涉外调查项目审批
 
 @listens_for(t_proj_exam, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_proj_manage(db.Model):  # 地方统计调查项目管理
@@ -659,7 +664,7 @@ class t_proj_manage(db.Model):  # 地方统计调查项目管理
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     cate = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='manage')
@@ -680,11 +685,14 @@ class t_proj_manage(db.Model):  # 地方统计调查项目管理
 
 @listens_for(t_proj_manage, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_system(db.Model):  # 统计制度
@@ -692,7 +700,7 @@ class t_system(db.Model):  # 统计制度
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )  # path
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='sys')
 
@@ -712,11 +720,14 @@ class t_system(db.Model):  # 统计制度
 
 @listens_for(t_system, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_jx_statistics(db.Model):  # 江西省统计公报
@@ -724,7 +735,7 @@ class t_jx_statistics(db.Model):  # 江西省统计公报
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
     file = db.Column(db.String(255), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='jx_sta')
 
@@ -744,18 +755,21 @@ class t_jx_statistics(db.Model):  # 江西省统计公报
 
 @listens_for(t_jx_statistics, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_jx_survey(db.Model):  # 江西省普查公报
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='jx_sur')
@@ -776,18 +790,21 @@ class t_jx_survey(db.Model):  # 江西省普查公报
 
 @listens_for(t_jx_survey, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_cn_statistics(db.Model):  # 国家统计公报
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     file = db.Column(db.String(255), )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='cn_sta')
@@ -808,18 +825,21 @@ class t_cn_statistics(db.Model):  # 国家统计公报
 
 @listens_for(t_cn_statistics, 'after_delete')
 def del_file(mapper, connection, target):
-    if target.path:
-        try:
-            os.remove(op.join(file_path, target.path))
-        except OSError:
-            pass
+    try:
+        if target.path:
+            try:
+                os.remove(op.join(file_path, target.path))
+            except OSError:
+                pass
+    except AttributeError:
+        pass
 
 
 class t_interview(db.Model):  # 在线访谈
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     title = db.Column(db.String(255), )
     content = db.Column(db.Text(), )
-    datetime = db.Column(db.DateTime(), )
+    datetime = db.Column(db.DateTime(), default=datetime.now() )
     url_for = db.Column(db.String(255), default='news')
     second_cate = db.Column(db.String(255), default='interview')
 
@@ -949,7 +969,7 @@ class t_survey_ans(db.Model):
     ans_title = db.Column(db.String(255), )
     ans_ques_id = db.Column(db.Integer(), )
 
-
+# 密码加密
 @listens_for(t_user.pwd, "set", retval=True)
 def hash_user_password(target, value, oldvalue, initiator):
     if value != oldvalue:
@@ -1023,12 +1043,40 @@ class FileView(add_ckeditor):
 
 
 class mail_admin(FileView):
+
+    can_edit = False
     column_exclude_list = ['content', 'url_for', 'second_cate', ]
 
     form_overrides = dict(content=CKEditorField, file=FileUploadField)
 
     def is_accessible(self):
-        return login.current_user.role == u'领导'
+        self.can_edit = True if login.current_user.role == u'领导' else False
+        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+
+
+class UserAdmin(ModelView):  # 控制用户权限
+    column_labels = {  # 修改字段名
+        'name': u'用户名',
+        'phone': u'手机号',
+        'pwd': u'密码',
+        'role': u'管理角色',
+    }
+
+    column_exclude_list = ['pwd']  # 隐藏列表
+    form_overrides = dict(role=Select2Field)  # 重写编辑时的表单样式
+    form_args = {  # 参数
+        'role': {
+            'label': u'管理角色',
+            'choices': [
+                ('用户管理员', '用户管理员'),
+                ('管理员', '管理员'),
+                ('领导', '领导'),
+            ],
+        },
+    }
+
+    def is_accessible(self):  # 权限控制
+        return login.current_user.role == u'用户管理员'
 
 
 @app.route('/mail_search/<cate>', methods=['get', 'post'])
@@ -1328,7 +1376,7 @@ def mail():  # 领导信箱表单
 
 @app.route('/subMail/', methods=['get', 'post'])  # 提交操作
 def subMail():
-    account = request.form["referSortId"]
+    account = request.form["referMark"]
     is_encrypt = request.form["referOpen"]
     asker = request.form["referUser"]
     phone = request.form["referPhone"]
@@ -1337,6 +1385,7 @@ def subMail():
     question = request.form["referContent"]
     cate = request.form['submit_type']  # 提交类型
     if cate == 'mail_list':
+        print(account)
         dn.add_2_mail(account, is_encrypt, asker, phone, email, theme, question)
         return redirect(url_for('mail_list'))
     elif cate == 'consult_list':
@@ -1353,27 +1402,6 @@ def search_list():  # 搜索列表
     ans_list = []
     if search_key:
         ans_list = dn.get_specific_work(search_key)
-        # ans_list.append(dn.get_specific_work(search_key))
-        # ans_list.append(dn.get_specific_cir(search_key))
-        # ans_list.append(dn.get_specific_topic(search_key))
-        # ans_list.append(dn.get_specific_fund(search_key))
-        # ans_list.append(dn.get_specific_law(search_key))
-        # ans_list.append(dn.get_specific_policy(search_key))
-        # ans_list.append(dn.get_specific_tax(search_key))
-        # ans_list.append(dn.get_specific_file(search_key))
-        # ans_list.append(dn.get_specific_jx_data(search_key))
-        # ans_list.append(dn.get_specific_cn_data(search_key))
-        # ans_list.append(dn.get_specific_global_data(search_key))
-        # ans_list.append(dn.get_specific_qualification(search_key))
-        # ans_list.append(t_proj_exam.query.filter(t_proj_exam.content.like("%" + search_key + "%")))
-        # ans_list.append(t_proj_manage.query.filter(t_proj_manage.content.like("%" + search_key + "%")))
-        # ans_list.append(t_system.query.filter(t_system.content.like("%" + search_key + "%")))
-        # ans_list.append(t_jx_statistics.query.filter(t_jx_statistics.content.like("%" + search_key + "%")))
-        # ans_list.append(t_jx_survey.query.filter(t_jx_survey.content.like("%" + search_key + "%")))
-        # ans_list.append(t_cn_statistics.query.filter(t_cn_statistics.content.like("%" + search_key + "%")))
-        # ans_list.append(t_interview.query.filter(t_interview.content.like("%" + search_key + "%")))
-        # ans_list.append(t_fqa.query.filter(t_fqa.content.like("%" + search_key + "%")))
-        print(ans_list)
     return render_template('search_list.html', data=ans_list)
 
 
@@ -1390,7 +1418,7 @@ def tax():  # 减税降费列表
 
 
 @app.route('/news/<cate>/<data>', methods=['get', 'post'])
-def news(cate, data):
+def news(cate, data):  # 新闻详情页面
     return_data = {}
     print(cate, data)
     if cate == "circumstance":  # 江西省情
@@ -1438,16 +1466,22 @@ def news(cate, data):
     return render_template("news.html", data=return_data)
 
 
-db.create_all()
-init_login()
-admin = admin.Admin(
+init_login()  # 登录初始化
+def get_role():
+    query = t_role.query.all()
+    role = []
+    role.append((q.role, q.role) for q in query)
+    print(role)
+    return role
+
+admin = admin.Admin(  # 后台初始化
     app,
     name=u"统计局管理系统",
     index_view=MyAdminIndexView(),
     base_template='my_master.html',
     template_mode="bootstrap3"
 )
-admin.add_view(UserAdmin(t_user, db.session, name=u"用户管理"))
+admin.add_view(UserAdmin(t_user, db.session, name=u"用户管理"))  # 控制数据表权限
 admin.add_view(UserAdmin(t_auth, db.session, name=u"权限管理"))
 admin.add_view(UserAdmin(t_role, db.session, name=u"角色管理"))
 admin.add_views(  # 政务公开页面的管理
