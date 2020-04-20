@@ -268,6 +268,11 @@ def get_all_report_download():  # 统计报表下载
     lst = app.t_file_download.to_json(query)
     return lst
 
+def get_1_download(data):  # 统计报表下载
+    query = app.t_file_download.query.filter_by(id=data)
+    lst = app.t_file_download.to_json(query)
+    return lst
+
 
 def get_all_sys():
     query = app.t_system.query.all()

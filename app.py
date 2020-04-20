@@ -1597,6 +1597,8 @@ def news(cate, data):  # 新闻详情页面
         return_data = dn.get_1_exam(data)
     elif cate == 'manage':  # 地方统计调查项目管理
         return_data = dn.get_1_manage(data)
+    elif cate == 'download':  # 文件下载
+        return_data = dn.get_1_download(data)
     return render_template("news.html", data=return_data)
 
 
