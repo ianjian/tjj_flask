@@ -1425,6 +1425,7 @@ def file_download(cate):  # 文件下载
         data = dn.get_all_system_download()
     elif cate == 'report':  # 统计报表下载
         data = dn.get_all_report_download()
+    print(data[0])
     return render_template('news_list.html', data=data, left_list=wjxz_left_list, )
 
 
@@ -1617,9 +1618,11 @@ admin = admin.Admin(  # 后台初始化
     base_template='my_master.html',
     template_mode="bootstrap3"
 )
-admin.add_view(UserAdmin(t_user, db.session, name=u"用户管理"))  # 控制数据表权限
-admin.add_view(UserAdmin(t_auth, db.session, name=u"权限管理"))
-admin.add_view(UserAdmin(t_role, db.session, name=u"角色管理"))
+admin.add_views(  # 控制数据表权限
+    UserAdmin(t_user, db.session, name=u"用户管理", category=u"系统管理", endpoint="user"),
+    UserAdmin(t_auth, db.session, name=u"权限管理", category=u"系统管理", endpoint="auth"),
+    UserAdmin(t_role, db.session, name=u"角色管理", category=u"系统管理", endpoint="role"),
+)
 admin.add_views(  # 政务公开页面的管理
     FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
     FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
@@ -1654,7 +1657,7 @@ admin.add_views(  # 互动交流页面的管理
     FileView(t_consult, db.session, name=u"在线咨询", category=u"互动交流", endpoint="consult"),
     FileView(t_fqa, db.session, name=u"常见问题", category=u"互动交流", endpoint="fqa"),
     mail_admin(t_mail, db.session, name=u"领导信箱", category=u"互动交流", endpoint="mail"),
-    mail_admin(t_report_letter, db.session, name=u"举报违法信箱", category=u"互动交流", endpoint="report_letter"),
+    FileView(t_report_letter, db.session, name=u"举报违法信箱", category=u"互动交流", endpoint="report_letter"),
     #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
