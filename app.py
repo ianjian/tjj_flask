@@ -18,6 +18,7 @@ from datetime import datetime
 import os
 import os.path as op
 from wtforms import form, fields, validators
+from wtforms.validators import DataRequired, ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import db_operation as dn
@@ -1032,15 +1033,15 @@ class add_ckeditor(ModelView):
     create_template = 'edit.html'
     edit_template = 'edit.html'
 
-
 class FileView(add_ckeditor):
     """
         加文件框
     """
     widget = fileInput
-
+    can_edit = False
+    can_create = False
+    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
-
     column_labels = {
         'file': u'文件路径',
         'id': u'序号',
@@ -1062,11 +1063,15 @@ class FileView(add_ckeditor):
         'cate': u'分类',
         'url_for': u'路径',
         'second_cate': u'二级目录',
+        'name': u'领导姓名',
+        'intro': u'领导简介',
     }
 
     form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
 
     form_args = {
+        'title': {'validators': [DataRequired]},
+        'content': {'validators': [DataRequired]},
         'file': {
             'base_path': file_path,
             'allow_overwrite': False
@@ -1084,14 +1089,17 @@ class FileView(add_ckeditor):
     }
 
     def is_accessible(self):
-        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
-
+        if login.current_user.role == u'管理员' or login.current_user.role == u'领导':
+            self.can_edit = True
+            self.can_delete = True
+            self.can_create = True
+        return True
 
 class ManageView(add_ckeditor):  # 地方统计调查项目管理
     widget = fileInput
-
+    can_edit = False
+    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
-
     column_labels = {
         'file': u'文件路径',
         'id': u'序号',
@@ -1103,9 +1111,7 @@ class ManageView(add_ckeditor):  # 地方统计调查项目管理
         'url_for': u'路径',
         'second_cate': u'二级目录',
     }
-
     form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
-
     form_args = {
         'file': {
             'base_path': file_path,
@@ -1123,12 +1129,16 @@ class ManageView(add_ckeditor):  # 地方统计调查项目管理
     }
 
     def is_accessible(self):
-        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+        if login.current_user.role == u'领导' or login.current_user.role == u'管理员':
+            self.can_edit = True
+            self.can_delete = True
+        return True
 
 
 class DownloadView(add_ckeditor):  # 文件下载管理
     widget = fileInput
-
+    can_edit = False
+    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
 
     column_labels = {
@@ -1160,18 +1170,35 @@ class DownloadView(add_ckeditor):  # 文件下载管理
     }
 
     def is_accessible(self):
-        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+        if login.current_user.role == u'领导' or login.current_user.role == u'管理员':
+            self.can_edit = True
+            self.can_delete = True
+        return True
 
 
-class mail_admin(FileView):
+class mail_admin(add_ckeditor):
     can_edit = False
+    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate', ]
-
+    column_labels = {
+        'account': u'查询编号',
+        'is_encrypt': u'是否加密',
+        'asker': u'提问者',
+        'phone': u'预留手机号',
+        'email': u'预留邮箱',
+        'theme': u'提问主题',
+        'question': u'提问正文',
+        'ask_time': u'提问时间',
+        'answer': u'回答',
+        'ans_time': u'回答时间',
+    }
     form_overrides = dict(content=CKEditorField, file=FileUploadField)
 
     def is_accessible(self):
-        self.can_edit = True if login.current_user.role == u'领导' else False
-        return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
+        if login.current_user.role == u'领导':
+            self.can_edit = True
+            self.can_delete = True
+        return True
 
 
 class UserAdmin(ModelView):  # 控制用户权限
@@ -1185,6 +1212,9 @@ class UserAdmin(ModelView):  # 控制用户权限
     column_exclude_list = ['pwd']  # 隐藏列表
     form_overrides = dict(role=Select2Field)  # 重写编辑时的表单样式
     form_args = {  # 参数
+        'name': {'validators': [DataRequired]},
+        'phone': {'validators': [DataRequired]},
+        'pwd': {'validators': [DataRequired]},
         'role': {
             'label': u'管理角色',
             'choices': [
@@ -1605,14 +1635,6 @@ def news(cate, data):  # 新闻详情页面
 init_login()  # 登录初始化
 
 
-def get_role():
-    query = t_role.query.all()
-    role = []
-    role.append((q.role, q.role) for q in query)
-    print(role)
-    return role
-
-
 admin = admin.Admin(  # 后台初始化
     app,
     name=u"统计局管理系统",
@@ -1620,11 +1642,7 @@ admin = admin.Admin(  # 后台初始化
     base_template='my_master.html',
     template_mode="bootstrap3"
 )
-admin.add_views(  # 控制数据表权限
-    UserAdmin(t_user, db.session, name=u"用户管理", category=u"系统管理", endpoint="user"),
-    UserAdmin(t_auth, db.session, name=u"权限管理", category=u"系统管理", endpoint="auth"),
-    UserAdmin(t_role, db.session, name=u"角色管理", category=u"系统管理", endpoint="role"),
-)
+
 admin.add_views(  # 政务公开页面的管理
     FileView(t_work, db.session, name=u"工作动态", category=u"政务公开", endpoint="work"),
     FileView(t_circumstances, db.session, name=u"江西省情", category=u"政务公开", endpoint="circumstances"),
@@ -1663,6 +1681,11 @@ admin.add_views(  # 互动交流页面的管理
     #     add_ckeditor(t_survey_theme, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ques, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
     #     add_ckeditor(t_survey_ans, db.session, name=u"网上调查", category=u"互动交流", endpoint="tax"),  # 棘手啊
+)
+admin.add_views(  # 控制数据表权限
+    UserAdmin(t_user, db.session, name=u"用户管理", category=u"系统管理", endpoint="user"),
+    UserAdmin(t_auth, db.session, name=u"权限管理", category=u"系统管理", endpoint="auth"),
+    UserAdmin(t_role, db.session, name=u"角色管理", category=u"系统管理", endpoint="role"),
 )
 
 if __name__ == '__main__':
