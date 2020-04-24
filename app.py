@@ -14,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
 import pymysql
 from datetime import datetime
+import warnings
 
 import os
 import os.path as op
@@ -121,7 +122,9 @@ class fileInput(FileUploadInput):
 
 class t_auth(db.Model):  # 权限表
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
-    auth = db.Column(db.String(255), )
+    auth = db.Column(db.String(255), )  # 权限名称
+    remark = db.Column(db.String(255), )  # 权限描述
+    role = db.Column(db.String(255), )  # 分配角色
 
 
 class t_role(db.Model):  # 角色表
@@ -1089,7 +1092,8 @@ class FileView(add_ckeditor):
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'管理员' or login.current_user.role == u'领导':
+        if login.current_user.role == u'管理员':  # 只有管理员可见
+            warnings.warn("File View")
             self.can_edit = True
             self.can_delete = True
             self.can_create = True
@@ -1098,6 +1102,7 @@ class FileView(add_ckeditor):
 class ManageView(add_ckeditor):  # 地方统计调查项目管理
     widget = fileInput
     can_edit = False
+    can_create = False
     can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
     column_labels = {
@@ -1129,15 +1134,18 @@ class ManageView(add_ckeditor):  # 地方统计调查项目管理
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'领导' or login.current_user.role == u'管理员':
+        if login.current_user.role == u'管理员':
+            warnings.warn("admin cannot edit.")
             self.can_edit = True
             self.can_delete = True
+            self.can_create = True
         return True
 
 
 class DownloadView(add_ckeditor):  # 文件下载管理
     widget = fileInput
     can_edit = False
+    can_create = False
     can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
 
@@ -1170,14 +1178,17 @@ class DownloadView(add_ckeditor):  # 文件下载管理
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'领导' or login.current_user.role == u'管理员':
+        if login.current_user.role == u'管理员':
+            warnings.warn("admin cannot edit.")
             self.can_edit = True
             self.can_delete = True
+            self.can_create = True
         return True
 
 
 class mail_admin(add_ckeditor):
     can_edit = False
+    can_create = False
     can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate', ]
     column_labels = {
@@ -1196,6 +1207,7 @@ class mail_admin(add_ckeditor):
 
     def is_accessible(self):
         if login.current_user.role == u'领导':
+            warnings.warn("mail admin")
             self.can_edit = True
             self.can_delete = True
         return True
@@ -1207,8 +1219,12 @@ class UserAdmin(ModelView):  # 控制用户权限
         'phone': u'手机号',
         'pwd': u'密码',
         'role': u'管理角色',
+        'auth': u'权限名称',
+        'remark': u'权限描述',
     }
-
+    can_edit = False
+    can_create = False
+    can_delete = False
     column_exclude_list = ['pwd']  # 隐藏列表
     form_overrides = dict(role=Select2Field)  # 重写编辑时的表单样式
     form_args = {  # 参数
@@ -1226,7 +1242,12 @@ class UserAdmin(ModelView):  # 控制用户权限
     }
 
     def is_accessible(self):  # 权限控制
-        return login.current_user.role == u'用户管理员'
+        if login.current_user.role == u'用户管理员':  # 只有用户管理员可以修改
+            warnings.warn("Useradmin")
+            self.can_edit = True
+            self.can_delete = True
+            self.can_create = True
+        return True
 
 
 @app.route('/mail_search/<cate>', methods=['get', 'post'])
