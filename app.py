@@ -1062,11 +1062,11 @@ class FileView(add_ckeditor):
     form_overrides = dict(content=CKEditorField, file=FileUploadField, cate=Select2Field)
 
     form_args = {
-        'title': {'validators': [DataRequired]},
-        'content': {'validators': [DataRequired]},
+        'title': {'validators': [DataRequired()]},
+        'content': {'validators': [DataRequired()]},
         'file': {
             'base_path': file_path,
-            'allow_overwrite': False
+            'allow_overwrite': True
         },
         'cate': {
             'label': u'文件类型',
@@ -1184,7 +1184,6 @@ class mail_admin(add_ckeditor):
     form_overrides = dict(content=CKEditorField, file=FileUploadField)
 
     def is_accessible(self):
-        self.can_create = True if login.current_user.role == u'领导' else False
         self.can_delete = True if login.current_user.role == u'领导' else False
         self.can_edit = True if login.current_user.role == u'领导' else False
         # return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
@@ -1205,9 +1204,9 @@ class UserAdmin(ModelView):  # 控制用户权限
     column_exclude_list = ['pwd']  # 隐藏列表
     form_overrides = dict(role=Select2Field)  # 重写编辑时的表单样式
     form_args = {  # 参数
-        'name': {'validators': [DataRequired]},
-        'phone': {'validators': [DataRequired]},
-        'pwd': {'validators': [DataRequired]},
+        'name': {'validators': [DataRequired()]},
+        'phone': {'validators': [DataRequired()]},
+        'pwd': {'validators': [DataRequired()]},
         'role': {
             'label': u'管理角色',
             'choices': [
