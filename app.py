@@ -1,26 +1,23 @@
-from flask import Flask, redirect, url_for, render_template, request
-
-import flask_login as login
+import os
+import os.path as op
+import warnings
+from datetime import datetime
 
 import flask_admin as admin
+import flask_login as login
+import pymysql
+from flask import Flask, redirect, url_for, render_template, request
 from flask_admin import helpers
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import FileUploadField, Select2Field
 from flask_admin.form import FileUploadInput
-
 from flask_babelex import Babel
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
-import pymysql
-from datetime import datetime
-import warnings
-
-import os
-import os.path as op
+from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import form, fields, validators
 from wtforms.validators import DataRequired, ValidationError
-from werkzeug.security import generate_password_hash, check_password_hash
 
 import db_operation as dn
 
@@ -156,12 +153,12 @@ class t_user(db.Model):  # 用户表
         return self.id
 
     def __unicode__(self):
-        return self.username
+        return self.name
 
 
 class LoginForm(form.Form):  # 登陆表单定义、验证
     name = fields.StringField(
-        validators=[validators.required()],
+        validators=[validators.required(), ],
         render_kw={
             "placeholder": u"姓名",
         },
@@ -179,19 +176,14 @@ class LoginForm(form.Form):  # 登陆表单定义、验证
         },
     )
 
-    def validate_login(self, field):
+    def validate_login(self):
         user = self.get_user()
-        print(user.password)
-
-        if user is None:  # 错误提示
-            raise validators.ValidationError('Invalid user')
 
         if user.phone != self.phone.data:
-            raise validators.ValidationError('Invalid phone number')
+            raise ValidationError('Invalid phone number')
 
-        # we're comparing the plaintext pw with the the hash from the db
-        if not check_password_hash(user.password, self.password.data):
-            raise validators.ValidationError('Invalid password')
+        if not check_password_hash(user.pwd, self.password.data):
+            raise ValidationError('Invalid password')
 
     def get_user(self):
         return db.session.query(t_user).filter_by(name=self.name.data).first()
@@ -210,21 +202,20 @@ class MyAdminIndexView(admin.AdminIndexView):  # 登录view
     @admin.expose("/")
     def home(self):
         if not login.current_user.is_authenticated:
-            print('not login.current_user.is_authenticated')
             return redirect(url_for(".login_view"))
         return super(MyAdminIndexView, self).index()
 
     @admin.expose("/login/", methods=("GET", "POST"))  # 登录表单
     def login_view(self):
         form = LoginForm(request.form)
-        if request.method == 'GET':
-            return render_template('admin/login.html', form=form)
         if helpers.validate_form_on_submit(form):  # 验证
+            # form.validate_login()  # 验证
             user = form.get_user()
             login.login_user(user)
+
         if login.current_user.is_authenticated:  # 验证成功
             return redirect(url_for(".home"))
-        return redirect(url_for(".login_view"))
+        return render_template('admin/login.html', form=form)
 
     @admin.expose('/logout/')
     def logout_view(self):
@@ -1036,14 +1027,12 @@ class add_ckeditor(ModelView):
     create_template = 'edit.html'
     edit_template = 'edit.html'
 
+
 class FileView(add_ckeditor):
     """
         加文件框
     """
     widget = fileInput
-    can_edit = False
-    can_create = False
-    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
     column_labels = {
         'file': u'文件路径',
@@ -1092,18 +1081,14 @@ class FileView(add_ckeditor):
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'管理员':  # 只有管理员可见
-            warnings.warn("File View")
-            self.can_edit = True
-            self.can_delete = True
-            self.can_create = True
+        self.can_edit = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_delete = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_create = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
         return True
+
 
 class ManageView(add_ckeditor):  # 地方统计调查项目管理
     widget = fileInput
-    can_edit = False
-    can_create = False
-    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
     column_labels = {
         'file': u'文件路径',
@@ -1134,19 +1119,14 @@ class ManageView(add_ckeditor):  # 地方统计调查项目管理
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'管理员':
-            warnings.warn("admin cannot edit.")
-            self.can_edit = True
-            self.can_delete = True
-            self.can_create = True
+        self.can_edit = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_delete = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_create = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
         return True
 
 
 class DownloadView(add_ckeditor):  # 文件下载管理
     widget = fileInput
-    can_edit = False
-    can_create = False
-    can_delete = False
     column_exclude_list = ['content', 'url_for', 'second_cate']
 
     column_labels = {
@@ -1178,18 +1158,16 @@ class DownloadView(add_ckeditor):  # 文件下载管理
     }
 
     def is_accessible(self):
-        if login.current_user.role == u'管理员':
-            warnings.warn("admin cannot edit.")
-            self.can_edit = True
-            self.can_delete = True
-            self.can_create = True
+        self.can_edit = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_delete = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        self.can_create = False if login.current_user.role == u'领导' or login.current_user.role == u'用户管理员' else True
+        # return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
         return True
-
 
 class mail_admin(add_ckeditor):
     can_edit = False
-    can_create = False
     can_delete = False
+    can_create = False
     column_exclude_list = ['content', 'url_for', 'second_cate', ]
     column_labels = {
         'account': u'查询编号',
@@ -1206,14 +1184,16 @@ class mail_admin(add_ckeditor):
     form_overrides = dict(content=CKEditorField, file=FileUploadField)
 
     def is_accessible(self):
-        if login.current_user.role == u'领导':
-            warnings.warn("mail admin")
-            self.can_edit = True
-            self.can_delete = True
+        self.can_create = True if login.current_user.role == u'领导' else False
+        self.can_delete = True if login.current_user.role == u'领导' else False
+        self.can_edit = True if login.current_user.role == u'领导' else False
+        # return login.current_user.role == u'管理员' or login.current_user.role == u'领导'
         return True
 
-
 class UserAdmin(ModelView):  # 控制用户权限
+    can_delete = False
+    can_edit = False
+    can_create = False
     column_labels = {  # 修改字段名
         'name': u'用户名',
         'phone': u'手机号',
@@ -1222,9 +1202,6 @@ class UserAdmin(ModelView):  # 控制用户权限
         'auth': u'权限名称',
         'remark': u'权限描述',
     }
-    can_edit = False
-    can_create = False
-    can_delete = False
     column_exclude_list = ['pwd']  # 隐藏列表
     form_overrides = dict(role=Select2Field)  # 重写编辑时的表单样式
     form_args = {  # 参数
@@ -1242,11 +1219,9 @@ class UserAdmin(ModelView):  # 控制用户权限
     }
 
     def is_accessible(self):  # 权限控制
-        if login.current_user.role == u'用户管理员':  # 只有用户管理员可以修改
-            warnings.warn("Useradmin")
-            self.can_edit = True
-            self.can_delete = True
-            self.can_create = True
+        self.can_delete = True if login.current_user.role == u'用户管理员' else False
+        self.can_edit = True if login.current_user.role == u'用户管理员' else False
+        self.can_create = True if login.current_user.role == u'用户管理员' else False
         return True
 
 
@@ -1274,7 +1249,6 @@ def mail_search(cate):  # 信件查询的表单提交
     elif cate == 'mail_search':
         if searchReferCode != '请输入咨询信息编号':
             query = t_mail.query.filter_by(is_encrypt=0, account=searchReferCode).first()
-            print(query.id)
             if query:
                 return redirect(url_for('mail_show', data=query.id))
             else:
@@ -1654,7 +1628,6 @@ def news(cate, data):  # 新闻详情页面
 
 
 init_login()  # 登录初始化
-
 
 admin = admin.Admin(  # 后台初始化
     app,
