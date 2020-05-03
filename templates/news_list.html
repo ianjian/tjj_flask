@@ -12,7 +12,7 @@
     {% for f in data %}
       <li>
         <span>{{ f.datetime }}</span>
-        <a href="{{ url_for('news', cate=f.second_cate, data=f.id) }}">{{ f.title[: 30] + '...' }}</a>
+        <a href="{{ url_for('news', cate=f.second_cate, data=f.id) }}">{{ f.title[: 30]  }}</a>
       </li>
     {% endfor %}
   </ul>

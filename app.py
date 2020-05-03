@@ -57,9 +57,9 @@ hdjl_left_list = [{'name': '互动交流', 'href': ''},
                   {'name': '常见问题', 'href': 'fqa'}, ]
 
 tjsj_left_list = [{'name': '统计数据', 'href': ''},
-                  {'name': '本省数据', 'href': 'report'},
-                  {'name': '全国数据', 'href': 'consult'},
-                  {'name': '统计制度', 'href': 'consult'}, ]
+                  {'name': '本省数据', 'href': 'data', 'cate': 'jx'},
+                  {'name': '全国数据', 'href': 'data', 'cate': 'cn'},
+                  {'name': '统计制度', 'href': 'data', 'cate': 'global'}, ]
 
 flfgyjd_left_list = [{'name': '法律法规与解读', 'href': ''},
                      {'name': '规范性文件', 'href': 'law_comprehension', 'cate': 'file'},

@@ -52,7 +52,7 @@
       </div>
       <div class="Qhotnews fr">
         <h3><a href="{{ url_for('news', cate='work', data=work12[0].id) }}"
-               target="_blank">{{ work12[0].title[:27] + '...' }}</a>
+               target="_blank">{{ work12[0].title[:27]  }}</a>
         </h3>
         <ul class="QhotUl">
           <li style="display: none;">
@@ -60,11 +60,11 @@
           </li>
           <li>
             <a href="{{ url_for('news', cate='work', data=work12[1].id) }}"
-               target="_blank">[ {{ work12[1].title[:23] + '...' }} ]</a>
+               target="_blank">[ {{ work12[1].title[:23]  }} ]</a>
           </li>
           <li>
             <a href="{{ url_for('news', cate='work', data=work12[2].id) }}"
-               target="_blank">[ {{ work12[2].title[:23] + '...' }}] </a>
+               target="_blank">[ {{ work12[2].title[:23]  }}] </a>
           </li>
         </ul>
         <script>
@@ -163,7 +163,7 @@
               <li>
                 <span>{{ i.datetime }}</span>
                 <a href="{{ url_for('news', cate='work', data=i.id) }}"
-                   target="_blank">{{ i.title[: 10] + '...' }}</a>
+                   target="_blank">{{ i.title[: 10]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -185,7 +185,7 @@
             <ul class="QnewsBold fl" style="width: 100%;">
               {% for t in int9 %}
                 <li><span>{{ t.datetime }}</span><a href="{{ url_for('news', cate='interview', data=t.id) }}"
-                                                    target="_blank">{{ t.title[:23] + '...' }}</a>
+                                                    target="_blank">{{ t.title[:23]  }}</a>
               {% endfor %}
 
             </ul>
@@ -208,7 +208,7 @@
             {% for s9 in system9 %}
               <li>
                 <span>{{ s9.datetime }}</span>
-                <a href="{{ url_for('news', cate='sys', data=s9.id) }}" target="_blank">{{ s9.title[:23] + '...' }}</a>
+                <a href="{{ url_for('news', cate='sys', data=s9.id) }}" target="_blank">{{ s9.title[:23]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -330,7 +330,7 @@
           {% for w in work %}
             <ul class="QnewsUl">
               <li><span>{{ w.datetime }}</span><a href="{{ url_for('news', cate='work', data=w.id) }}"
-                                                  target="_blank">{{ w.title[: 30] + '...' }}</a></li>
+                                                  target="_blank">{{ w.title[: 30]  }}</a></li>
             </ul>
           {% endfor %}
         </div>
@@ -358,7 +358,7 @@
           <ul class="QzwUl fl" style="width: 583px;">
             {% for f in fund %}
               <li style="width: 583px;"><a href="{{ url_for('news', cate='fund', data=f.id) }}"
-                                           target="_blank">{{ f.title[: 30] + '...' }}</a>
+                                           target="_blank">{{ f.title[: 30]  }}</a>
               </li>
             {% endfor %}
 
@@ -443,7 +443,7 @@
                 <li>
                   <span>{{ jx.datetime }}</span>
                   <a href="{{ url_for('news', cate='jx', data=jx.id) }}"
-                     target="_blank">{{ jx.title[:30] + '...' }}</a>
+                     target="_blank">{{ jx.title[:30]  }}</a>
                 </li>
               {% endfor %}
 
@@ -462,7 +462,7 @@
         <ul class="QnewsUl fl">
           {% for s in system5 %}
             <li><span>{{ s.datetime }}</span><a href="{{ url_for('news', cate='sys', data=s.id) }}"
-                                                target="_blank">{{ s.title[:30] + '...' }}</a>
+                                                target="_blank">{{ s.title[:30]  }}</a>
             </li>
           {% endfor %}
 
@@ -524,7 +524,7 @@
               <li>
                 <span>{{ q5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=q5.id) }}"
-                   target="_blank">{{ q5.title[:28] + '...' }}</a>
+                   target="_blank">{{ q5.title[:28]  }}</a>
               </li>
             {% endfor %}
 
@@ -537,7 +537,7 @@
               <li>
                 <span>{{ qr5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=qr5.id) }}"
-                   target="_blank">{{ qr5.title[:28] + '...' }}</a>
+                   target="_blank">{{ qr5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -549,7 +549,7 @@
               <li>
                 <span>{{ qt5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=qt5.id) }}"
-                   target="_blank">{{ qt5.title[:28] + '...' }}</a>
+                   target="_blank">{{ qt5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -561,7 +561,7 @@
               <li>
                 <span>{{ qe5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=qe5.id) }}"
-                   target="_blank">{{ qe5.title[:28] + '...' }}</a>
+                   target="_blank">{{ qe5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -573,7 +573,7 @@
               <li>
                 <span>{{ qs5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=qs5.id) }}"
-                   target="_blank">{{ qs5.title[:28] + '...' }}</a>
+                   target="_blank">{{ qs5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -585,7 +585,7 @@
               <li>
                 <span>{{ qn5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=qn5.id) }}"
-                   target="_blank">{{ qn5.title[:28] + '...' }}</a>
+                   target="_blank">{{ qn5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -627,7 +627,7 @@
               <li>
                 <span>{{ e5.datetime }}</span>
                 <a href="{{ url_for('news', cate='exam', data=e5.id) }}"
-                   target="_blank">{{ e5.title[:28] + '...' }}</a>
+                   target="_blank">{{ e5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -639,7 +639,7 @@
               <li>
                 <span>{{ er5.datetime }}</span>
                 <a href="{{ url_for('news', cate='exam', data=er5.id) }}"
-                   target="_blank">{{ er5.title[:28] + '...' }}</a>
+                   target="_blank">{{ er5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -651,7 +651,7 @@
               <li>
                 <span>{{ et5.datetime }}</span>
                 <a href="{{ url_for('news', cate='exam', data=et5.id) }}"
-                   target="_blank">{{ et5.title[:28] + '...' }}</a>
+                   target="_blank">{{ et5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -663,7 +663,7 @@
               <li>
                 <span>{{ ee5.datetime }}</span>
                 <a href="{{ url_for('news', cate='qualification', data=ee5.id) }}"
-                   target="_blank">{{ ee5.title[:28] + '...' }}</a>
+                   target="_blank">{{ ee5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -675,7 +675,7 @@
               <li>
                 <span>{{ es5.datetime }}</span>
                 <a href="{{ url_for('news', cate='exam', data=es5.id) }}"
-                   target="_blank">{{ es5.title[:28] + '...' }}</a>
+                   target="_blank">{{ es5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -687,7 +687,7 @@
               <li>
                 <span>{{ en5.datetime }}</span>
                 <a href="{{ url_for('news', cate='exam', data=en5.id) }}"
-                   target="_blank">{{ en5.title[:28] + '...' }}</a>
+                   target="_blank">{{ en5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -717,7 +717,7 @@
               <li>
                 <span>{{ m5.datetime }}</span>
                 <a href="{{ url_for('news', cate='manage', data=m5.id) }}"
-                   target="_blank">{{ m5.title[:28] + '...' }}</a>
+                   target="_blank">{{ m5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -729,7 +729,7 @@
               <li>
                 <span>{{ mt5.datetime }}</span>
                 <a href="{{ url_for('news', cate='manage', data=mt5.id) }}"
-                   target="_blank">{{ mt5.title[:28] + '...' }}</a>
+                   target="_blank">{{ mt5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -741,7 +741,7 @@
               <li>
                 <span>{{ mr5.datetime }}</span>
                 <a href="{{ url_for('news', cate='manage', data=mr5.id) }}"
-                   target="_blank">{{ mr5.title[:28] + '...' }}</a>
+                   target="_blank">{{ mr5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -753,7 +753,7 @@
               <li>
                 <span>{{ mn5.datetime }}</span>
                 <a href="{{ url_for('news', cate='manage', data=mn5.id) }}"
-                   target="_blank">{{ mn5.title[:28] + '...' }}</a>
+                   target="_blank">{{ mn5.title[:28]  }}</a>
               </li>
             {% endfor %}
           </ul>
@@ -814,7 +814,7 @@
             <dd>
               <div class="WftTit"><a
                       href="{{ url_for('news', cate='interview', data=int9[0].id) }}" target="_blank">{{ int9[0].title }}</a></div>
-              <p>{{ int9[0].content[:150] + '...' }}</p>
+              <p>{{ int9[0].content[:150] | safe }}</p>
             </dd>
           </dl>
         </div>
@@ -825,7 +825,7 @@
           <ul class="wqhgUl">
             {% for i9 in int9 %}
               <li><a href="{{ url_for('news', cate='interview', data=i9.id) }}"
-                     target="_blank">{{ i9.title[: 14] + '...' }}</a></li>
+                     target="_blank">{{ i9.title[: 14] }}</a></li>
             {% endfor %}
             <li class="nobjLi"></li>
           </ul>
@@ -843,8 +843,8 @@
           {% for c in consult4 %}
             <div class="WzxzxQW">
               <div class="WzxTime">{{ c.ask_time }}</div>
-              <p class="Wques" title="">{{ c.question[:20] + '...' }}</p>
-              <p class="Wansw" title="">{{ c.answer[:25] + '...' }}
+              <p class="Wques" title="">{{ c.question[:20]  }}</p>
+              <p class="Wansw" title="">{{ c.answer[:25] if c.answer else '' }}
                 <a href="{{ url_for('consult_show', data=c.id) }}" target="_blank">[详细]</a>
               </p>
             </div>
@@ -866,7 +866,7 @@
           <ul class="QnewsUl">
             {% for j in fqa %}
               <li><span>{{ j.datetime }}</span><a href="{{ url_for('news', cate='fqa', data=j.id) }}"
-                                                  target="_blank">{{ j.title[:6] + '...' }}</a></li>
+                                                  target="_blank">{{ j.title[:6]  }}</a></li>
             {% endfor %}
 
           </ul>
@@ -904,7 +904,7 @@
             {% for t in theme3 %}
               <li id="{{ t.account }}" class="jxLi">
                 <span style="color: #0c90cc">{{ t.state }}</span>
-                <a href="#" target="_blank">{{ t.title[: 9] + '...' }}</a>
+                <a href="#" target="_blank">{{ t.title[: 9]  }}</a>
               </li>
             {% endfor %}
           </ul>
